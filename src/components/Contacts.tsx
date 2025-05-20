@@ -108,8 +108,7 @@ const Contact = () => {
         setSubmitStatus('idle');
       }, 5000);
       
-    } catch (error) {
-      setSubmitStatus('error');
+    
     } finally {
       setIsSubmitting(false);
     }
