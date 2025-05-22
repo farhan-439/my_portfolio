@@ -38,7 +38,7 @@ const Navbar = () => {
     scrolled ? 'py-3 bg-white/80 backdrop-blur-lg shadow-md' : 'py-5 bg-transparent'
   }`;
 
-  const linkClasses = `text-gray-800 hover:text-primary-600 font-medium transition-colors px-4 py-2 rounded-md ${
+  const linkClasses = `text-gray-800 hover:text-blue-600 font-medium transition-colors px-4 py-2 rounded-md ${
     scrolled ? 'text-sm' : 'text-base'
   }`;
 
@@ -46,8 +46,8 @@ const Navbar = () => {
     <header className={navbarClasses}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <a href="#home" className="text-2xl font-bold text-primary-600">
-            Alex<span className="text-gray-900">Dev</span>
+          <a href="#home" className="text-2xl font-bold text-blue-600">
+            Farhan<span className="text-gray-900">Mashrur</span>
           </a>
 
           {/* Desktop Navigation */}
@@ -61,7 +61,7 @@ const Navbar = () => {
               href="/resume.pdf" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="ml-4 bg-primary-600 text-white hover:bg-primary-700 font-medium transition-colors px-4 py-2 rounded-md"
+              className="ml-4 bg-blue-600 text-white hover:bg-blue-700 font-medium transition-colors px-4 py-2 rounded-md"
             >
               Resume
             </a>
@@ -70,7 +70,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             type="button"
-            className="md:hidden text-gray-700 hover:text-primary-600 focus:outline-none"
+            className="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none"
             onClick={toggleMenu}
           >
             {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -93,7 +93,7 @@ const Navbar = () => {
             <a
               key={link.name}
               href={link.href}
-              className="block py-3 font-medium text-gray-700 hover:text-primary-600 border-b border-gray-100"
+              className="block py-3 font-medium text-gray-700 hover:text-blue-600 border-b border-gray-100"
               onClick={() => setIsOpen(false)}
             >
               {link.name}
@@ -103,7 +103,7 @@ const Navbar = () => {
             href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="block py-3 mt-2 text-center bg-primary-600 text-white hover:bg-primary-700 font-medium rounded-md"
+            className="block py-3 mt-2 text-center bg-blue-600 text-white hover:bg-blue-700 font-medium rounded-md"
             onClick={() => setIsOpen(false)}
           >
             Resume

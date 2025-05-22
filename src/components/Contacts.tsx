@@ -1,7 +1,7 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiMail, FiMapPin, FiPhone, FiSend, FiAlertCircle, FiCheck } from 'react-icons/fi';
+import { FiMail, FiMapPin, FiPhone, FiSend, FiAlertCircle, FiCheck, FiLinkedin, FiGithub } from 'react-icons/fi';
 
 type FormData = {
   name: string;
@@ -108,7 +108,8 @@ const Contact = () => {
         setSubmitStatus('idle');
       }, 5000);
       
-    
+    } catch (error) {
+      setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
     }
@@ -127,15 +128,15 @@ const Contact = () => {
   return (
     <section id="contact" className="py-20 bg-white relative overflow-hidden">
       {/* Background decorations */}
-      <div className="absolute top-0 left-0 w-1/4 h-1/4 bg-primary-50 rounded-br-full opacity-70"></div>
-      <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-blue-50 rounded-tl-full opacity-70"></div>
+      <div className="absolute top-0 left-0 w-1/4 h-1/4 bg-blue-50 rounded-br-full opacity-70"></div>
+      <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-indigo-50 rounded-tl-full opacity-70"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="section-heading">Get In Touch</h2>
-          <div className="h-1 w-20 bg-primary-500 mx-auto rounded-full"></div>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Get In Touch</h2>
+          <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full"></div>
           <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-            Have a project in mind or want to collaborate? Feel free to reach out!
+            Interested in collaborating or have a project in mind? Let's connect!
           </p>
         </div>
         
@@ -146,10 +147,10 @@ const Contact = () => {
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
           >
-            <div className="p-6 bg-gradient-to-br from-primary-500 to-primary-600 text-white rounded-2xl shadow-lg h-full">
+            <div className="p-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl shadow-lg h-full">
               <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
               <p className="mb-10 opacity-90">
-                Fill out the form and I will get back to you within 24 hours.
+                I'm always open to discussing new opportunities, interesting projects, or just having a chat about technology and innovation.
               </p>
               
               <div className="space-y-6">
@@ -159,7 +160,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold opacity-80 mb-1">Phone</h4>
-                    <p>+1 (123) 456-7890</p>
+                    <p>607-327-7665</p>
                   </div>
                 </div>
                 
@@ -169,7 +170,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold opacity-80 mb-1">Email</h4>
-                    <p>alex@example.com</p>
+                    <p>fm454@cornell.edu</p>
                   </div>
                 </div>
                 
@@ -179,7 +180,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold opacity-80 mb-1">Location</h4>
-                    <p>San Francisco, California</p>
+                    <p>Ithaca, New York</p>
                     <p>United States</p>
                   </div>
                 </div>
@@ -188,20 +189,35 @@ const Contact = () => {
               <div className="mt-14">
                 <h4 className="text-lg font-semibold mb-4">Connect with me</h4>
                 <div className="flex space-x-4">
-                  {['github', 'twitter', 'linkedin', 'instagram'].map((social) => (
-                    <a 
-                      key={social}
-                      href={`https://${social}.com`} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors"
-                      aria-label={`${social} profile`}
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                      </svg>
-                    </a>
-                  ))}
+                  <a 
+                    href="https://github.com/farhanmashrur" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors"
+                    aria-label="GitHub profile"
+                  >
+                    <FiGithub className="w-5 h-5" />
+                  </a>
+                  <a 
+                    href="https://www.linkedin.com/in/farhanmashrur" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors"
+                    aria-label="LinkedIn profile"
+                  >
+                    <FiLinkedin className="w-5 h-5" />
+                  </a>
+                  <a 
+                    href="https://joblink.one" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors"
+                    aria-label="JobLink website"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  </a>
                 </div>
               </div>
             </div>
@@ -213,7 +229,7 @@ const Contact = () => {
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
           >
-            <div className="glass p-6 rounded-2xl">
+            <div className="bg-white bg-opacity-80 backdrop-blur-lg border border-white border-opacity-20 shadow-lg p-6 rounded-2xl">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Me a Message</h3>
               
               {submitStatus === 'success' && (
@@ -245,7 +261,7 @@ const Contact = () => {
                       placeholder="John Doe"
                       className={`w-full p-3 border ${
                         errors.name ? 'border-red-400' : 'border-gray-300'
-                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     />
                     {errors.name && (
                       <p className="mt-1 text-sm text-red-600">{errors.name}</p>
@@ -265,7 +281,7 @@ const Contact = () => {
                       placeholder="john@example.com"
                       className={`w-full p-3 border ${
                         errors.email ? 'border-red-400' : 'border-gray-300'
-                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     />
                     {errors.email && (
                       <p className="mt-1 text-sm text-red-600">{errors.email}</p>
@@ -283,10 +299,10 @@ const Contact = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Project Inquiry"
+                    placeholder="Project Collaboration"
                     className={`w-full p-3 border ${
                       errors.subject ? 'border-red-400' : 'border-gray-300'
-                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   />
                   {errors.subject && (
                     <p className="mt-1 text-sm text-red-600">{errors.subject}</p>
@@ -306,7 +322,7 @@ const Contact = () => {
                     placeholder="Your message here..."
                     className={`w-full p-3 border ${
                       errors.message ? 'border-red-400' : 'border-gray-300'
-                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   />
                   {errors.message && (
                     <p className="mt-1 text-sm text-red-600">{errors.message}</p>
@@ -316,7 +332,7 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn btn-primary w-full"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-md font-medium transition-all bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
