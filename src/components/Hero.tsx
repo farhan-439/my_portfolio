@@ -1,176 +1,244 @@
-import React, { useState, useEffect } from 'react';
-import profile from '../assets/profile.jpg'; // Replace with your profile image path
+import React, { useRef, useEffect, useState } from 'react';
 
-const CleanHero: React.FC = () => {
+const AppleStyleHero: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number | null>(null);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [scrollY, setScrollY] = useState<number>(0);
+
+  // Network state
+  const nodesRef = useRef<Array<{
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    connected: boolean;
+  }>>([]);
+  const linesRef = useRef<Array<{
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+    opacity: number;
+    growing: boolean;
+  }>>([]);
+  const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    setIsLoaded(true);
-    
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Initialize nodes
+    const nodeCount = 50;
+    const nodes = nodesRef.current;
+    nodes.length = 0;
+
+    for (let i = 0; i < nodeCount; i++) {
+      nodes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        connected: false
+      });
+    }
+
+    // Mouse tracking
+    const handleMouseMove = (event: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current.x = event.clientX - rect.left;
+      mouseRef.current.y = event.clientY - rect.top;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Animation loop
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Update nodes
+      nodes.forEach(node => {
+        // Move nodes
+        node.x += node.vx;
+        node.y += node.vy;
+
+        // Boundary bounce
+        if (node.x <= 0 || node.x >= canvas.width) node.vx *= -1;
+        if (node.y <= 0 || node.y >= canvas.height) node.vy *= -1;
+
+        // Keep in bounds
+        node.x = Math.max(0, Math.min(canvas.width, node.x));
+        node.y = Math.max(0, Math.min(canvas.height, node.y));
+      });
+
+      // Check connections and draw lines
+      const lines = linesRef.current;
+      const connectionDistance = 150;
+      const mouseDistance = 200;
+
+      // Clear old lines
+      lines.length = 0;
+
+      // Node-to-node connections
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < connectionDistance) {
+            const opacity = 1 - (distance / connectionDistance);
+            lines.push({
+              x1: nodes[i].x,
+              y1: nodes[i].y,
+              x2: nodes[j].x,
+              y2: nodes[j].y,
+              opacity: opacity * 0.3,
+              growing: false
+            });
+          }
+        }
+
+        // Mouse-to-node connections
+        const mouseDx = nodes[i].x - mouseRef.current.x;
+        const mouseDy = nodes[i].y - mouseRef.current.y;
+        const mouseDistanceToNode = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
+
+        if (mouseDistanceToNode < mouseDistance) {
+          const opacity = 1 - (mouseDistanceToNode / mouseDistance);
+          lines.push({
+            x1: nodes[i].x,
+            y1: nodes[i].y,
+            x2: mouseRef.current.x,
+            y2: mouseRef.current.y,
+            opacity: opacity * 0.8,
+            growing: true
+          });
+        }
+      }
+
+      // Draw lines
+      lines.forEach(line => {
+        ctx.beginPath();
+        ctx.moveTo(line.x1, line.y1);
+        ctx.lineTo(line.x2, line.y2);
+        
+        if (line.growing) {
+          ctx.strokeStyle = `rgba(59, 130, 246, ${line.opacity})`; // Blue for mouse connections
+          ctx.lineWidth = 2;
+        } else {
+          ctx.strokeStyle = `rgba(100, 116, 139, ${line.opacity})`; // Gray for node connections
+          ctx.lineWidth = 1;
+        }
+        
+        ctx.stroke();
+      });
+
+      // Draw nodes
+      nodes.forEach(node => {
+        // Check if node is near mouse
+        const mouseDx = node.x - mouseRef.current.x;
+        const mouseDy = node.y - mouseRef.current.y;
+        const mouseDistanceToNode = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
+        const isNearMouse = mouseDistanceToNode < 100;
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, isNearMouse ? 4 : 2, 0, Math.PI * 2);
+        ctx.fillStyle = isNearMouse ? 'rgba(59, 130, 246, 0.8)' : 'rgba(100, 116, 139, 0.6)';
+        ctx.fill();
+      });
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animate();
+    setIsLoaded(true);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
   }, []);
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div 
-          className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-200/30 rounded-full blur-3xl animate-pulse"
-          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
-        />
-        <div 
-          className="absolute top-3/4 right-1/4 w-96 h-96 bg-indigo-200/20 rounded-full blur-3xl animate-pulse"
-          style={{ 
-            transform: `translateY(${scrollY * -0.15}px)`,
-            animationDelay: '2s' 
-          }}
-        />
-        <div 
-          className="absolute top-1/2 left-3/4 w-48 h-48 bg-purple-200/25 rounded-full blur-3xl animate-pulse"
-          style={{ 
-            transform: `translateY(${scrollY * 0.1}px)`,
-            animationDelay: '4s' 
-          }}
-        />
-      </div>
-
-      {/* Main Content */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            
-            {/* Left Column - Content */}
-            <div className="text-center lg:text-left space-y-8">
-              {/* Status Badge */}
-              <div 
-                className="inline-flex items-center px-4 py-2 bg-white/40 backdrop-blur-sm rounded-full border border-gray-200/50 shadow-sm"
-                style={{ 
-                  opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
-                  transition: 'all 0.8s ease-out 0.2s'
-                }}
-              >
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-                <span className="text-sm font-medium text-gray-700">Available for Full-Time • May 2027</span>
-              </div>
-
-              {/* Name */}
-              <div 
-                className="space-y-2"
-                style={{ 
-                  opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? 'translateY(0)' : 'translateY(30px)',
-                  transition: 'all 0.8s ease-out 0.4s'
-                }}
-              >
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-thin text-gray-900 tracking-tight leading-tight">
-                  Farhan
-                </h1>
-                <h2 className="text-5xl md:text-7xl lg:text-8xl font-thin text-gray-900 tracking-tight leading-tight">
-                  Mashrur
-                </h2>
-              </div>
-
-              {/* Subtitle */}
-              <div 
-                className="space-y-3"
-                style={{ 
-                  opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? 'translateY(0)' : 'translateY(30px)',
-                  transition: 'all 0.8s ease-out 0.6s'
-                }}
-              >
-                <p className="text-xl md:text-2xl font-light text-gray-700">
-                  Computer Science & Economics
-                </p>
-                <p className="text-lg md:text-xl font-light text-gray-600">
-                  Cornell University • Full-Stack Engineer • AI/ML
-                </p>
-              </div>
-
-              {/* CTA Buttons */}
-              <div 
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4"
-                style={{ 
-                  opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? 'translateY(0)' : 'translateY(30px)',
-                  transition: 'all 0.8s ease-out 0.8s'
-                }}
-              >
-                <button className="bg-gray-900 text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                  View Projects
-                </button>
-                <button className="border-2 border-gray-900 text-gray-900 px-8 py-4 rounded-full font-medium text-lg hover:bg-gray-900 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl">
-                  Get In Touch
-                </button>
-              </div>
-
-              {/* Skills */}
-              <div 
-                className="pt-8"
-                style={{ 
-                  opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? 'translateY(0)' : 'translateY(30px)',
-                  transition: 'all 0.8s ease-out 1s'
-                }}
-              >
-                <div className="flex flex-wrap justify-center lg:justify-start gap-3 text-sm font-medium text-gray-700">
-                  {['React', 'Python', 'AI/ML', 'TypeScript', 'PostgreSQL', 'Flask'].map((skill, index) => (
-                    <span 
-                      key={skill}
-                      className="px-4 py-2 bg-white/40 backdrop-blur-sm rounded-full border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
-                      style={{ 
-                        animationDelay: `${1.2 + index * 0.1}s`,
-                        animation: 'fadeInScale 0.6s ease-out forwards',
-                        opacity: 0,
-                        transform: 'scale(0.8)'
-                      }}
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
+    <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      {/* Interactive Canvas Background */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 z-10"
+        style={{ opacity: isLoaded ? 1 : 0, transition: 'opacity 1s ease-in-out' }}
+      />
+      
+      {/* Content Overlay */}
+      <div className="relative z-20 h-full flex items-center justify-center">
+        <div className="text-center px-6 max-w-4xl mx-auto">
+          <div className="space-y-8">
+            {/* Pre-title */}
+            <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-gray-200/30">
+              <div className="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+              <span className="text-sm font-medium text-gray-700">Available for Full-Time • May 2027</span>
             </div>
 
-            {/* Right Column - Photo */}
-            <div className="flex justify-center lg:justify-end">
-              <div 
-                className="relative"
-                style={{ 
-                  opacity: isLoaded ? 1 : 0,
-                  transform: isLoaded ? 'translateX(0) scale(1)' : 'translateX(50px) scale(0.9)',
-                  transition: 'all 1s ease-out 0.6s'
-                }}
-              >
-                {/* Photo Container */}
-                <div className="relative w-80 h-80 md:w-96 md:h-96 lg:w-[420px] lg:h-[420px]">
-                  {/* Decorative background elements */}
-                  <div className="absolute -inset-4 bg-gradient-to-br from-blue-200/30 to-indigo-300/30 rounded-full blur-2xl animate-pulse"></div>
-                  <div className="absolute -inset-2 bg-gradient-to-tr from-purple-200/40 to-blue-200/40 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-                  
-                  {/* Main photo container */}
-                  <div className="relative w-full h-full bg-white/60 backdrop-blur-sm rounded-full border-4 border-white/80 shadow-2xl overflow-hidden group transition-all duration-500">
-                    {/* Placeholder for photo */}
+            {/* Main Title */}
+            <div className="space-y-4">
+              <h1 className="text-6xl md:text-8xl font-thin text-gray-900 tracking-tight">
+                Farhan
+              </h1>
+              <h2 className="text-6xl md:text-8xl font-thin text-gray-900 tracking-tight">
+                Mashrur
+              </h2>
+            </div>
 
-              
-                     <img 
-                      src={profile} 
-                      alt="Farhan Mashrur"
-                      className="w-full h-full object-cover"
-                    /> 
-                  </div>
+            {/* Subtitle */}
+            <div className="space-y-2">
+              <p className="text-xl md:text-2xl font-light text-gray-700">
+                Computer Science & Economics
+              </p>
+              <p className="text-lg md:text-xl font-light text-gray-600">
+                Cornell University • Full-Stack Engineer • AI/ML
+              </p>
+            </div>
 
-                  {/* Floating accent elements */}
-                  <div className="absolute -top-6 -right-6 w-12 h-12 bg-blue-500/20 rounded-full blur-sm animate-bounce" style={{ animationDelay: '0.5s' }}></div>
-                  <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-indigo-500/20 rounded-full blur-sm animate-bounce" style={{ animationDelay: '1.5s' }}></div>
-                </div>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+              <button className="bg-gray-900 text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
+                View Projects
+              </button>
+              <button className="border-2 border-gray-900 text-gray-900 px-8 py-4 rounded-full font-medium text-lg hover:bg-gray-900 hover:text-white transition-all duration-300">
+                Get In Touch
+              </button>
+            </div>
+
+            {/* Skills Highlight */}
+            <div className="pt-12">
+              <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-gray-700">
+                {['React', 'Python', 'AI/ML', 'TypeScript', 'PostgreSQL', 'Flask'].map((skill, index) => (
+                  <span 
+                    key={skill}
+                    className="px-4 py-2 bg-white/30 backdrop-blur-sm rounded-full border border-gray-200/50"
+                    style={{ 
+                      animationDelay: `${index * 0.1}s`,
+                      animation: 'fadeInUp 0.8s ease-out forwards',
+                      opacity: 0,
+                      transform: 'translateY(20px)'
+                    }}
+                  >
+                    {skill}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -178,27 +246,20 @@ const CleanHero: React.FC = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
-        style={{ 
-          opacity: isLoaded ? 1 : 0,
-          transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'all 0.8s ease-out 1.4s'
-        }}
-      >
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm text-gray-600 font-light">Scroll to explore</span>
-          <div className="w-6 h-10 border-2 border-gray-400/60 rounded-full flex justify-center backdrop-blur-sm">
+          <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-gray-500 rounded-full mt-2 animate-bounce"></div>
           </div>
         </div>
       </div>
 
       <style>{`
-        @keyframes fadeInScale {
+        @keyframes fadeInUp {
           to {
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(0);
           }
         }
       `}</style>
@@ -206,4 +267,4 @@ const CleanHero: React.FC = () => {
   );
 };
 
-export default CleanHero;
+export default AppleStyleHero;
