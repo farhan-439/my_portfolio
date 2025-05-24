@@ -141,10 +141,14 @@ const AppleStyleHero: React.FC = () => {
 
       // Update nodes
       nodes.forEach(node => {
-        // Natural movement with reduced velocity over time
+        // Ensure minimum movement - add small random drift
+        if (Math.abs(node.vx) < 0.1) node.vx += (Math.random() - 0.5) * 0.05;
+        if (Math.abs(node.vy) < 0.1) node.vy += (Math.random() - 0.5) * 0.05;
+
+        // Natural movement with very light damping to keep nodes moving
         if (!isClickedRef.current) {
-          node.vx *= 0.995; // Slight damping
-          node.vy *= 0.995;
+          node.vx *= 0.998; // Reduced damping to maintain movement
+          node.vy *= 0.998;
         }
 
         // Move nodes
