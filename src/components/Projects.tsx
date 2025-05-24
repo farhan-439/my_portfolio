@@ -1,81 +1,78 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiExternalLink, FiGithub, FiTag, FiAward } from 'react-icons/fi';
+import { FiExternalLink, FiGithub, FiTag } from 'react-icons/fi';
 
-// Project data based on your resume
+// Project data
 const projects = [
   {
     id: 1,
-    title: "JobLink - AI Job Tracker",
-    description: "Co-founded startup building AI-powered job tracker with Gmail integration. Features NLP pipeline with 97.82% precision for extracting company, role, and status data. Includes OAuth Gmail sync, REST APIs, and smart reminders.",
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-    tags: ["React", "TypeScript", "Flask", "PostgreSQL", "NLP", "spaCy", "OAuth"],
-    liveUrl: "https://joblink.one",
-    repoUrl: "https://github.com/farhanmashrur/joblink",
-    category: "startup",
-    featured: true,
+    title: "E-Commerce Dashboard",
+    description: "A comprehensive dashboard for e-commerce stores with analytics, inventory management, and order tracking features.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGRhc2hib2FyZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+    tags: ["React", "TypeScript", "Tailwind CSS", "Redux"],
+    liveUrl: "https://example.com",
+    repoUrl: "https://github.com",
+    category: "web",
   },
   {
     id: 2,
-    title: "Poultry Disease Detection",
-    description: "🏆 1st Place at Cornell Hackathon. Built AI system detecting infections 3 days pre-onset from 12,000 spectrograms with 94% accuracy. Features 5-layer CNN and MobileNetV3 for real-time inference on Raspberry Pi 4.",
-    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-    tags: ["TensorFlow", "PyTorch", "CNN", "MobileNetV3", "Raspberry Pi"],
+    title: "Weather Application",
+    description: "A beautiful weather app with 7-day forecasts, location-based weather, and dynamic backgrounds based on conditions.",
+    image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8d2VhdGhlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+    tags: ["React", "OpenWeather API", "CSS Modules"],
     liveUrl: "https://example.com",
-    repoUrl: "https://github.com/farhanmashrur/poultry-detection",
-    category: "ai",
-    featured: true,
+    repoUrl: "https://github.com",
+    category: "web",
   },
   {
     id: 3,
-    title: "Real-Time Office Seating System",
-    description: "Deployed across 5 floors for 400+ employees at BRAC Bkash. Integrated 7 Spring Boot microservices with AWS DynamoDB and S3, handling 100K+ seat queries daily with interactive multi-floor layouts.",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-    tags: ["Spring Boot", "AWS", "DynamoDB", "S3", "Microservices"],
+    title: "Task Management App",
+    description: "A productivity app with kanban board, reminders, and collaborative features for team task management.",
+    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHRhc2slMjBtYW5hZ2VtZW50fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+    tags: ["React", "Firebase", "Material UI"],
     liveUrl: "https://example.com",
-    repoUrl: "https://github.com/farhanmashrur/office-seating",
+    repoUrl: "https://github.com",
     category: "web",
   },
   {
     id: 4,
-    title: "TableTalk - Review Analysis Platform",
-    description: "Co-led team of 7 building full-stack app scraping 1K+ Google Maps reviews. Applied Gaussian Mixture Models with PCA and OpenAI-based sentiment pipeline analyzing 50K+ reviews with 92% F1 score.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-    tags: ["Flask", "SQL", "Selenium", "OpenAI", "PCA", "Gaussian Mixture Models"],
+    title: "Fitness Tracker",
+    description: "Mobile app for tracking workouts, nutrition, and progress with custom workout plans and analytics.",
+    image: "https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGZpdG5lc3MlMjB0cmFja2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+    tags: ["React Native", "TypeScript", "Redux"],
     liveUrl: "https://example.com",
-    repoUrl: "https://github.com/farhanmashrur/tabletalk",
-    category: "ai",
+    repoUrl: "https://github.com",
+    category: "mobile",
   },
   {
     id: 5,
-    title: "OCaml Trader",
-    description: "Functional trading simulator handling 1000+ trades on live feeds spanning 500 equities. Features real-time P/L dashboard with <50ms latency using Lwt and <0.1% transaction error rate.",
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-    tags: ["OCaml", "Lwt", "Financial APIs", "Real-time"],
+    title: "Personal Blog",
+    description: "A static blog site with markdown support, dark mode, and categories built with Next.js and MDX.",
+    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGJsb2d8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+    tags: ["Next.js", "MDX", "Tailwind CSS"],
     liveUrl: "https://example.com",
-    repoUrl: "https://github.com/farhanmashrur/ocaml-trader",
-    category: "fintech",
+    repoUrl: "https://github.com",
+    category: "web",
   },
   {
     id: 6,
-    title: "Stock Sentiment Platform",
-    description: "Built at Cornell Fintech Club. Features search, portfolio tracking, and real-time indicators for 500+ tickers. Improved engagement by 15% through user feedback from 40+ testers.",
-    image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-    tags: ["React", "Node.js", "Financial APIs", "Real-time Data"],
+    title: "Recipe Finder",
+    description: "App that allows users to search for recipes based on ingredients they have, with filtering options and step-by-step instructions.",
+    image: "https://images.unsplash.com/photo-1556911220-bda9f7f4ec2b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cmVjaXBlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+    tags: ["Vue.js", "Vuex", "Spoonacular API"],
     liveUrl: "https://example.com",
-    repoUrl: "https://github.com/farhanmashrur/stock-sentiment",
-    category: "fintech",
+    repoUrl: "https://github.com",
+    category: "web",
   },
 ];
 
 // Define filter categories
 const categories = [
   { id: "all", name: "All Projects" },
-  { id: "startup", name: "Startup" },
-  { id: "ai", name: "AI/ML" },
   { id: "web", name: "Web Development" },
-  { id: "fintech", name: "FinTech" },
+  { id: "mobile", name: "Mobile Apps" },
+  { id: "design", name: "UI/UX Design" },
 ];
 
 const Projects = () => {
@@ -107,10 +104,10 @@ const Projects = () => {
     <section id="projects" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">My Projects</h2>
-          <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full"></div>
+          <h2 className="section-heading">My Projects</h2>
+          <div className="h-1 w-20 bg-primary-500 mx-auto rounded-full"></div>
           <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-            From startup co-founding to hackathon wins, here's some of my recent work
+            Check out some of my recent work
           </p>
         </div>
 
@@ -123,7 +120,7 @@ const Projects = () => {
                 onClick={() => setActiveCategory(category.id)}
                 className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
                   activeCategory === category.id
-                    ? "bg-blue-500 text-white shadow-md"
+                    ? "bg-primary-500 text-white shadow-md"
                     : "bg-transparent text-gray-700 hover:bg-gray-200"
                 }`}
               >
@@ -133,161 +130,80 @@ const Projects = () => {
           </div>
         </div>
 
-        {/* Featured projects first */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">Featured Projects</h3>
-          <motion.div
-            ref={ref}
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-          >
-            {filteredProjects.filter(project => project.featured).map((project) => (
-              <motion.div
-                key={project.id}
-                variants={cardVariants}
-                className="bg-white bg-opacity-80 backdrop-blur-lg border border-white border-opacity-20 shadow-lg overflow-hidden rounded-xl transition-all hover:shadow-xl hover:-translate-y-1"
-              >
-                <div className="h-48 overflow-hidden relative">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-all hover:scale-105"
-                  />
-                  {project.featured && (
-                    <div className="absolute top-4 left-4 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center">
-                      <FiAward className="w-3 h-3 mr-1" />
-                      Featured
-                    </div>
-                  )}
+        {/* Projects grid */}
+        <motion.div
+          ref={ref}
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {filteredProjects.map((project) => (
+            <motion.div
+              key={project.id}
+              variants={cardVariants}
+              className="glass overflow-hidden rounded-xl shadow-lg transition-all hover:shadow-xl hover:-translate-y-1"
+            >
+              <div className="h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-all hover:scale-105"
+                />
+              </div>
+
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {project.title}
+                </h3>
+                <p className="text-gray-600 mb-4">{project.description}</p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800"
+                    >
+                      <FiTag className="w-3 h-3 mr-1" />
+                      {tag}
+                    </span>
+                  ))}
                 </div>
 
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 text-sm leading-relaxed">{project.description}</p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tags.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
-                      >
-                        <FiTag className="w-3 h-3 mr-1" />
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex justify-between">
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"
-                    >
-                      Live Demo
-                      <FiExternalLink className="ml-1" />
-                    </a>
-                    <a
-                      href={project.repoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900"
-                    >
-                      Source Code
-                      <FiGithub className="ml-1" />
-                    </a>
-                  </div>
+                {/* Links */}
+                <div className="flex justify-between">
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-800"
+                  >
+                    Live Demo
+                    <FiExternalLink className="ml-1" />
+                  </a>
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900"
+                  >
+                    Source Code
+                    <FiGithub className="ml-1" />
+                  </a>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* Other projects */}
-        <div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">Other Projects</h3>
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredProjects.filter(project => !project.featured).map((project) => (
-              <motion.div
-                key={project.id}
-                variants={cardVariants}
-                className="bg-white bg-opacity-80 backdrop-blur-lg border border-white border-opacity-20 shadow-lg overflow-hidden rounded-xl transition-all hover:shadow-xl hover:-translate-y-1"
-              >
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-all hover:scale-105"
-                  />
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 text-sm">{project.description}</p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tags.slice(0, 3).map((tag, index) => (
-                      <span
-                        key={index}
-                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
-                      >
-                        <FiTag className="w-3 h-3 mr-1" />
-                        {tag}
-                      </span>
-                    ))}
-                    {project.tags.length > 3 && (
-                      <span className="text-xs text-gray-500">+{project.tags.length - 3} more</span>
-                    )}
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex justify-between">
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"
-                    >
-                      Live Demo
-                      <FiExternalLink className="ml-1" />
-                    </a>
-                    <a
-                      href={project.repoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900"
-                    >
-                      Source Code
-                      <FiGithub className="ml-1" />
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
 
         {/* Show more button */}
         <div className="text-center mt-12">
           <a
-            href="https://github.com/farhanmashrur"
+            href="https://github.com/yourusername"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-md font-medium transition-all border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="btn btn-outline"
           >
             View More on GitHub
             <FiGithub className="ml-2" />
