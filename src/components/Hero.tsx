@@ -39,7 +39,7 @@ const AppleStyleHero: React.FC = () => {
     window.addEventListener('resize', resizeCanvas);
 
     // Initialize nodes
-    const nodeCount = 50;
+    const nodeCount = 90;
     const nodes = nodesRef.current;
     nodes.length = 0;
 
@@ -47,8 +47,8 @@ const AppleStyleHero: React.FC = () => {
       nodes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
         connected: false
       });
     }
@@ -82,8 +82,8 @@ const AppleStyleHero: React.FC = () => {
 
       // Check connections and draw lines
       const lines = linesRef.current;
-      const connectionDistance = 150;
-      const mouseDistance = 200;
+      const connectionDistance = 120;
+      const mouseDistance = 180;
 
       // Clear old lines
       lines.length = 0;
