@@ -23,120 +23,297 @@ const AboutSection: React.FC = () => {
   }, []);
 
   return (
-    <section 
+    <div
       ref={sectionRef}
-      className="relative h-screen bg-gradient-to-br from-white via-slate-50 to-gray-100 flex items-center"
+      className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                           radial-gradient(circle at 75% 75%, rgba(99, 102, 241, 0.1) 0%, transparent 50%)`
-        }} />
-      </div>
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div 
-            className={`inline-flex items-center px-4 py-2 bg-white/40 backdrop-blur-sm rounded-full border border-gray-200/50 mb-6 transition-all duration-1000 ${
+      {/* Content Container */}
+      <div className="relative z-20 container mx-auto px-6 max-w-7xl h-full flex flex-col justify-center">
+        
+        {/* Header Section */}
+        <div className="text-center mb-6">
+          {/* Pre-title */}
+          <div
+            className={`inline-flex items-center px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full border border-gray-200/30 transition-all duration-1000 mb-3 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            <div className="w-2 h-2 bg-blue-500 rounded-full mr-3 animate-pulse"></div>
-            <span className="text-sm font-medium text-gray-700">Get to know me</span>
+            <div className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
+            <span className="text-xs font-medium text-gray-700">Get to know me</span>
           </div>
-          
-          <h2 
-            className={`text-5xl md:text-7xl font-thin text-gray-900 tracking-tight transition-all duration-1000 delay-200 ${
+
+          {/* Main Title */}
+          <div
+            className={`transition-all duration-1000 delay-200 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            About
-          </h2>
+            <h2 className="text-3xl md:text-4xl font-thin text-gray-900 tracking-tight mb-1">
+              About
+            </h2>
+            <p className="text-sm text-gray-600 max-w-xl mx-auto">
+              Building technology that creates real impact through CS & business
+            </p>
+          </div>
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-5 gap-12 items-center">
-          {/* Left Column - Image */}
-          <div 
-            className={`lg:col-span-2 transition-all duration-1000 delay-300 ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
-            }`}
-          >
-            <div className="relative max-w-sm mx-auto">
-              {/* Floating background elements */}
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-blue-200/30 rounded-full blur-xl"></div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-indigo-200/30 rounded-full blur-xl"></div>
-              
-              {/* Main image container */}
-              <div className="relative bg-white/60 backdrop-blur-sm rounded-3xl p-4 border border-gray-200/50 shadow-xl">
-                <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-                  <img 
-                    src={profile}
-                    alt="Farhan Mashrur"
-                    className="w-full h-full object-cover"
-                  />
+        <div
+          className={`grid lg:grid-cols-12 gap-4 flex-1 transition-all duration-1000 delay-400 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
+          {/* Left Column - Profile & Personal Info */}
+          <div className="lg:col-span-4 space-y-3">
+            {/* Profile Image */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3 border border-gray-200/30">
+              <div className="aspect-[4/5] rounded-lg overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 mb-2">
+                <img
+                  src={profile}
+                  alt="Farhan Mashrur"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-center">
+                <h3 className="text-lg font-semibold text-gray-900 mb-0.5">Farhan Mashrur</h3>
+                <p className="text-blue-600 font-medium text-xs">Co-Founder & Full-Stack Engineer</p>
+              </div>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3 border border-gray-200/30">
+              <h4 className="text-base font-semibold text-gray-900 mb-3">At a Glance</h4>
+              <div className="space-y-1.5">
+                <div className="flex justify-between items-center py-0.5">
+                  <span className="text-gray-600 text-xs">Location</span>
+                  <span className="text-gray-800 font-semibold text-xs">Ithaca, NY</span>
+                </div>
+                <div className="flex justify-between items-center py-0.5 border-t border-gray-200/30">
+                  <span className="text-gray-600 text-xs">GPA</span>
+                  <span className="text-gray-800 font-semibold text-xs">3.85/4.0</span>
+                </div>
+                <div className="flex justify-between items-center py-0.5 border-t border-gray-200/30">
+                  <span className="text-gray-600 text-xs">Graduation</span>
+                  <span className="text-gray-800 font-semibold text-xs">May 2027</span>
+                </div>
+                <div className="flex justify-between items-center py-0.5 border-t border-gray-200/30">
+                  <span className="text-gray-600 text-xs">Students Taught</span>
+                  <span className="text-gray-800 font-semibold text-xs">750+</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Personal Bio */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3 border border-gray-200/30">
+              <h4 className="text-base font-semibold text-gray-900 mb-2">About Me</h4>
+              <p className="text-gray-700 text-xs leading-relaxed">
+                Passionate about building technology that creates real impact. From co-founding
+                an AI startup to teaching 750+ students at Cornell, I work at the intersection of
+                computer science and business to solve meaningful problems.
+              </p>
+            </div>
+          </div>
+
+          {/* Middle Column - Experience & Education */}
+          <div className="lg:col-span-4 space-y-3">
+            {/* Education */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3 border border-gray-200/30">
+              <h4 className="text-base font-semibold text-gray-900 mb-3">Education</h4>
+              <div className="space-y-2">
+                <div className="pb-2 border-b border-gray-200/30">
+                  <h5 className="text-sm font-semibold text-gray-800">Cornell University</h5>
+                  <p className="text-blue-600 font-medium text-xs">BS Computer Science & Economics</p>
+                  <p className="text-xs text-gray-600">May 2027 • GPA: 3.85/4.0</p>
+                </div>
+                
+                <div>
+                  <h6 className="text-xs font-semibold text-gray-800 mb-1.5">Core Coursework</h6>
+                  <div className="grid grid-cols-3 gap-1">
+                    {['ML', 'Systems', 'Algorithms', 'Statistics', 'Linear Alg', 'Functional'].map((course) => (
+                      <span key={course} className="px-1.5 py-0.5 bg-white/40 rounded text-xs text-gray-700 border border-gray-200/40 text-center">
+                        {course}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Current Experience */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3 border border-gray-200/30">
+              <h4 className="text-base font-semibold text-gray-900 mb-3">Experience</h4>
+              <div className="space-y-2">
+                <div className="pb-1.5 border-b border-gray-200/30">
+                  <div className="flex justify-between items-start mb-0.5">
+                    <h5 className="text-xs font-semibold text-gray-800">Co-Founder & Engineer</h5>
+                    <span className="text-xs text-gray-600">Feb 2025</span>
+                  </div>
+                  <p className="text-blue-600 font-semibold text-xs mb-0.5">JobLink (Startup)</p>
+                  <p className="text-xs text-gray-700">AI job-tracker, 97.8% precision • React, Flask, PostgreSQL</p>
+                </div>
+
+                <div className="pb-1.5 border-b border-gray-200/30">
+                  <div className="flex justify-between items-start mb-0.5">
+                    <h5 className="text-xs font-semibold text-gray-800">Teaching Assistant</h5>
+                    <span className="text-xs text-gray-600">Jan 2025</span>
+                  </div>
+                  <p className="text-blue-600 font-semibold text-xs mb-0.5">Cornell CS 1340</p>
+                  <p className="text-xs text-gray-700">Prof. Jon Kleinberg • 750+ students</p>
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-start mb-0.5">
+                    <h5 className="text-xs font-semibold text-gray-800">VP of Technology</h5>
+                    <span className="text-xs text-gray-600">Aug 2024</span>
+                  </div>
+                  <p className="text-blue-600 font-semibold text-xs mb-0.5">Cornell Data Strategy</p>
+                  <p className="text-xs text-gray-700">Leading 25+ devs • $1.6M+ business value</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Achievements */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3 border border-gray-200/30">
+              <h4 className="text-base font-semibold text-gray-900 mb-3">Achievements</h4>
+              <div className="space-y-2">
+                <div className="flex items-start space-x-2">
+                  <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-1"></div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-800">1st Place, Cornell Hackathon</p>
+                    <p className="text-xs text-gray-600">Poultry Disease AI • 94% accuracy</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start space-x-2">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-1"></div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-800">97.8% NLP Precision</p>
+                    <p className="text-xs text-gray-600">JobLink AI extraction system</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start space-x-2">
+                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1"></div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-800">100K+ Daily Queries</p>
+                    <p className="text-xs text-gray-600">BRAC Bkash seating system</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column - Content */}
-          <div 
-            className={`lg:col-span-3 space-y-6 transition-all duration-1000 delay-500 ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
-            }`}
-          >
-            {/* Introduction */}
-            <div className="space-y-4">
-              <h3 className="text-2xl md:text-3xl font-light text-gray-900">
-                Building technology that creates impact
-              </h3>
-              
-              <p className="text-lg text-gray-700 leading-relaxed">
-                I'm a Computer Science and Economics double major at Cornell University with a 3.85 GPA. 
-                Currently co-founding JobLink (AI job-tracker with 97.8% precision), teaching CS 1340 to 750+ students 
-                under Professor Jon Kleinberg, and serving as VP of Technology at Cornell Data Strategy where I've 
-                led teams generating $1.6M+ in business value. My experience spans from building real-time systems 
-                at BRAC Bkash handling 100K+ daily queries to winning hackathons with AI solutions achieving 94% accuracy.
-              </p>
-            </div>
-
-            {/* Skills & Education */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50">
-                <h4 className="font-semibold text-gray-900 mb-3">Education</h4>
-                <div className="space-y-1 text-sm text-gray-700">
-                  <p className="font-medium">Cornell University • GPA: 3.85</p>
-                  <p>Computer Science & Economics</p>
-                  <p className="text-xs">ML, Systems, Algorithms, Statistics</p>
-                </div>
-              </div>
-              
-              <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50">
-                <h4 className="font-semibold text-gray-900 mb-3">Technical Skills</h4>
-                <div className="space-y-1 text-sm text-gray-700">
-                  <p><span className="font-medium">Languages:</span> Java, Python, C/C++, JavaScript, TypeScript, OCaml, Assembly</p>
-                  <p><span className="font-medium">Frameworks:</span> React, NextJS, Flask, Spring Boot, Node.js</p>
-                  <p><span className="font-medium">AI/ML:</span> TensorFlow, PyTorch, Scikit-learn, Pandas, NumPy</p>
-                  <p><span className="font-medium">Database:</span> PostgreSQL, MySQL, SQLite, Firebase, DynamoDB</p>
-                  <p><span className="font-medium">Tools:</span> AWS, Git, Figma, Microsoft Office</p>
-                </div>
+          {/* Right Column - Technical Skills */}
+          <div className="lg:col-span-4 space-y-3">
+            {/* Programming Languages */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3 border border-gray-200/30">
+              <h4 className="text-base font-semibold text-gray-900 mb-3">Programming</h4>
+              <div className="grid grid-cols-2 gap-1">
+                {['Java', 'Python', 'JavaScript', 'TypeScript', 'C/C++', 'OCaml', 'Assembly', 'HTML/CSS'].map((lang) => (
+                  <div key={lang} className="flex items-center space-x-1.5 p-1 bg-white/30 rounded">
+                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                    <span className="text-xs font-medium text-gray-700">{lang}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Current Status */}
-            <div className="pt-2">
-              <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full border border-green-200">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-                <span className="text-sm font-medium">Available for Full-Time • May 2027</span>
+            {/* Technologies & Frameworks */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3 border border-gray-200/30">
+              <h4 className="text-base font-semibold text-gray-900 mb-3">Technologies</h4>
+              <div className="space-y-2">
+                <div>
+                  <h6 className="text-xs font-semibold text-gray-800 mb-1.5">Frontend</h6>
+                  <div className="flex flex-wrap gap-1">
+                    {['React', 'NextJS', 'Vite.js', 'Node.js'].map((tech) => (
+                      <span key={tech} className="px-1.5 py-0.5 bg-blue-100/60 text-blue-800 rounded text-xs font-medium border border-blue-200/60">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h6 className="text-xs font-semibold text-gray-800 mb-1.5">Backend</h6>
+                  <div className="flex flex-wrap gap-1">
+                    {['Flask', 'Spring Boot', 'PostgreSQL', 'MySQL', 'DynamoDB'].map((tech) => (
+                      <span key={tech} className="px-1.5 py-0.5 bg-green-100/60 text-green-800 rounded text-xs font-medium border border-green-200/60">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h6 className="text-xs font-semibold text-gray-800 mb-1.5">AI/ML & Tools</h6>
+                  <div className="flex flex-wrap gap-1">
+                    {['TensorFlow', 'PyTorch', 'Pandas', 'AWS', 'Git', 'Figma'].map((tech) => (
+                      <span key={tech} className="px-1.5 py-0.5 bg-purple-100/60 text-purple-800 rounded text-xs font-medium border border-purple-200/60">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Academic Honors */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3 border border-gray-200/30">
+              <h4 className="text-base font-semibold text-gray-900 mb-3">Academic Honors</h4>
+              <div className="space-y-2">
+                <div className="flex items-start space-x-2">
+                  <div className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-1"></div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-800">2x Bronze Medalist</p>
+                    <p className="text-xs text-gray-600">Economics Olympiad</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <div className="w-1.5 h-1.5 bg-red-600 rounded-full mt-1"></div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-800">Nationalist</p>
+                    <p className="text-xs text-gray-600">Bangladesh Math Olympiad</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <div className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-1"></div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-800">Dean's List</p>
+                    <p className="text-xs text-gray-600">Cornell University</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <div className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-1"></div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-800">Merit Scholarship</p>
+                    <p className="text-xs text-gray-600">Academic Excellence</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>        {/* Bottom Status Section */}
+        <div
+          className={`text-center mt-4 transition-all duration-1000 delay-600 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
+          <div className="inline-flex items-center px-4 py-2 bg-green-500/20 backdrop-blur-sm rounded-full border border-green-200/50">
+            <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+            <span className="text-xs font-semibold text-gray-700">Available for Full-Time • May 2027</span>
           </div>
         </div>
       </div>
-    </section>
+
+      <style>{`
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+    </div>
   );
 };
 
