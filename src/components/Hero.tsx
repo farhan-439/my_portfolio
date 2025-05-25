@@ -317,11 +317,11 @@ const AppleStyleHero: React.FC = () => {
             </div>
 
             {/* Main Title */}
-            <div className="space-y-4">
-              <h1 className="text-6xl md:text-8xl font-thin text-gray-900 tracking-tight">
+            <div className="space-y-4 ">
+              <h1 className="w-fit mx-auto text-6xl md:text-8xl font-thin text-gray-900 tracking-tight bg-slate-50/20 backdrop-blur-sm ">
                 Farhan
               </h1>
-              <h2 className="text-6xl md:text-8xl font-thin text-gray-900 tracking-tight">
+              <h2 className="w-fit mx-auto text-6xl md:text-8xl font-thin text-gray-900 bg-slate-50/20 backdrop-blur-sm tracking-tight">
                 Mashrur
               </h2>
             </div>
