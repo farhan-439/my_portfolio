@@ -328,7 +328,7 @@ const AppleStyleHero: React.FC = () => {
 
             {/* Subtitle */}
             <div className="space-y-2">
-              <p className="text-xl md:text-2xl font-light text-gray-700">
+              <p className="text-xl md:text-2xl font-medium text-gray-700">
                 Computer Science & Economics
               </p>
               <p className="text-lg md:text-xl font-light text-gray-600">
@@ -373,9 +373,7 @@ const AppleStyleHero: React.FC = () => {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
         <div className="flex flex-col items-center space-y-2">
           <span className="text-sm text-gray-600 font-light">Scroll to explore • Hold still to attract nodes • Click to repel</span>
-          <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-gray-500 rounded-full mt-2 animate-bounce"></div>
-          </div>
+
         </div>
       </div>
 
