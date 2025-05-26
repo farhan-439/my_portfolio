@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import MobileHero from './components/MobileHero';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
@@ -10,14 +11,29 @@ import Footer from './components/Footer';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    
     // Simulate loading to ensure assets are ready
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
   if (isLoading) {
@@ -40,7 +56,8 @@ function App() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <Hero />
+          {/* Conditionally render Hero based on screen size */}
+          {isMobile ? <MobileHero /> : <Hero />}
           <About />
           <Skills />
           <Projects />
