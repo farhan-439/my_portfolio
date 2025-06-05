@@ -1,3 +1,4 @@
+// src/components/ThemeProvider.tsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 type Theme = 'light' | 'dark';
@@ -18,9 +19,12 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [theme, setTheme] = useState<Theme>('dark');
 
   useEffect(() => {
-    // Remove old, add new
-    document.documentElement.classList.remove(theme === 'dark' ? 'light' : 'dark');
-    document.documentElement.classList.add(theme);
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
   }, [theme]);
 
   const toggleTheme = () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));

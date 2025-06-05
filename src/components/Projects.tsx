@@ -2,8 +2,6 @@ import React from 'react';
 
 /**
  * Replace these placeholder objects with your actual project data.
- * Each project can have: title, description, techStack (comma-separated), 
- * thumbnail (import or URL), githubLink, liveDemoLink, and optionally videoURL.
  */
 interface Project {
   title: string;
@@ -21,7 +19,7 @@ const projects: Project[] = [
     description:
       'A full-stack engine that parses resumes and job descriptions to produce a compatibility score (95%+ precision). Built with React, Flask, and Docker.',
     techStack: 'React, Flask, Docker, NLP',
-    thumbnail: '/src/assets/project1.png', // put your own thumbnail in /assets
+    thumbnail: '/src/assets/project1.png',
     githubLink: 'https://github.com/your-username/resume-scorer',
     liveDemoLink: 'https://resumescorer.example.com',
     videoURL: 'https://example.com/video1.mp4',
@@ -50,7 +48,7 @@ const projects: Project[] = [
 const Projects: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto py-20 px-4">
-      <h2 className="text-3xl font-semibold text-white text-center mb-8">
+      <h2 className="text-3xl font-semibold text-black dark:text-white text-center mb-8">
         Projects
       </h2>
 
@@ -58,10 +56,10 @@ const Projects: React.FC = () => {
         {projects.map((proj) => (
           <div
             key={proj.title}
-            className="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:shadow-cyan-500 transition-shadow duration-300"
+            className="bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-cyan-500 transition-shadow duration-300"
           >
-            {/* Thumbnail or short GIF clip */}
-            <div className="h-44 bg-black flex items-center justify-center overflow-hidden">
+            {/* Thumbnail or GIF clip */}
+            <div className="h-44 bg-white dark:bg-black flex items-center justify-center overflow-hidden">
               <img
                 src={proj.thumbnail}
                 alt={`${proj.title} thumbnail`}
@@ -70,12 +68,16 @@ const Projects: React.FC = () => {
             </div>
 
             <div className="p-4">
-              <h3 className="text-xl text-white font-semibold mb-2">
+              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">
                 {proj.title}
               </h3>
-              <p className="text-gray-300 text-sm mb-3">{proj.description}</p>
-              <p className="text-gray-400 text-xs mb-3">
-                <span className="font-medium text-gray-200">Stack: </span>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
+                {proj.description}
+              </p>
+              <p className="text-gray-600 dark:text-gray-400 text-xs mb-3">
+                <span className="font-medium text-gray-800 dark:text-gray-200">
+                  Stack:{' '}
+                </span>
                 {proj.techStack}
               </p>
 
@@ -84,7 +86,7 @@ const Projects: React.FC = () => {
                   href={proj.githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white hover:text-cyan-400 transition-colors"
+                  className="text-black dark:text-white hover:text-cyan-500 transition-colors"
                 >
                   {/* GitHub Icon */}
                   <svg
@@ -120,7 +122,7 @@ const Projects: React.FC = () => {
                     href={proj.liveDemoLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white hover:text-cyan-400 transition-colors"
+                    className="text-black dark:text-white hover:text-cyan-500 transition-colors"
                   >
                     {/* External Link Icon */}
                     <svg
@@ -146,7 +148,7 @@ const Projects: React.FC = () => {
                     href={proj.videoURL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white hover:text-cyan-400 transition-colors"
+                    className="text-black dark:text-white hover:text-cyan-500 transition-colors"
                   >
                     {/* Play Icon */}
                     <svg

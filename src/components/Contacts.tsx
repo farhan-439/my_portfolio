@@ -10,7 +10,7 @@ const Contacts: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: wire up to your email backend or service (e.g. Formspree, Netlify Forms, etc.)
+    // TODO: hook up to your email service (Formspree, Netlify Forms, etc.)
     console.log('Form submitted:', formData);
     setSubmitted(true);
     setFormData({ name: '', email: '', message: '' });
@@ -18,17 +18,17 @@ const Contacts: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto py-20 px-4">
-      <h2 className="text-3xl font-semibold text-white text-center mb-8">
+      <h2 className="text-3xl font-semibold text-black dark:text-white text-center mb-8">
         Get In Touch
       </h2>
 
       <div className="flex flex-col md:flex-row gap-12">
         {/* Left: Contact Info */}
         <div className="md:w-1/2 flex flex-col space-y-6">
-          <p className="text-gray-300">
+          <p className="text-gray-600 dark:text-gray-300">
             Whether it’s a project collaboration, a quick question, or just to say hey—drop me a line.
           </p>
-          <div className="flex items-center space-x-2 text-white">
+          <div className="flex items-center space-x-2 text-black dark:text-white">
             {/* Email Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -44,11 +44,11 @@ const Contacts: React.FC = () => {
                 d="M16 12H8m0 0l4 4m-4-4l4-4"
               />
             </svg>
-            <a href="mailto:fpm33@cornell.edu" className="hover:text-cyan-400">
+            <a href="mailto:fpm33@cornell.edu" className="hover:text-cyan-500">
               fpm33@cornell.edu
             </a>
           </div>
-          <div className="flex items-center space-x-2 text-white">
+          <div className="flex items-center space-x-2 text-black dark:text-white">
             {/* LinkedIn Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -67,14 +67,13 @@ const Contacts: React.FC = () => {
                          1.75zm13 10.291h-3v-4.5c0-1.104-.896-2-2-2s-2 
                          .896-2 2v4.5h-3v-9h3v1.25c.977-1.4 
                          2.835-1.5 3.963-.5 1.128 1 1.037 
-                         2.75 1.037 4.25v4h-.001zm0 
-                         0"/>
+                         2.75 1.037 4.25v4h-.001z" />
             </svg>
             <a
               href="https://www.linkedin.com/in/farhanmashrur"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-cyan-400"
+              className="hover:text-cyan-500"
             >
               linkedin.com/in/farhanmashrur
             </a>
@@ -84,15 +83,15 @@ const Contacts: React.FC = () => {
         {/* Right: Contact Form */}
         <div className="md:w-1/2">
           {submitted ? (
-            <div className="bg-gray-800 p-6 rounded-lg text-center">
-              <p className="text-cyan-400 font-medium">
+            <div className="bg-gray-200 dark:bg-gray-800 p-6 rounded-lg text-center">
+              <p className="text-cyan-500 font-medium">
                 Thanks! Your message has been sent.
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-gray-300 mb-1">
+                <label htmlFor="name" className="block text-gray-600 dark:text-gray-300 mb-1">
                   Name
                 </label>
                 <input
@@ -102,12 +101,15 @@ const Contacts: React.FC = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full bg-gray-900 text-white px-3 py-2 rounded focus:outline-none focus:border-cyan-500 border border-gray-700"
+                  className="
+                    w-full bg-gray-100 dark:bg-gray-900 text-black dark:text-white
+                    px-3 py-2 rounded focus:outline-none focus:border-cyan-500 border border-gray-300 dark:border-gray-700
+                  "
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-gray-300 mb-1">
+                <label htmlFor="email" className="block text-gray-600 dark:text-gray-300 mb-1">
                   Email
                 </label>
                 <input
@@ -117,12 +119,15 @@ const Contacts: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full bg-gray-900 text-white px-3 py-2 rounded focus:outline-none focus:border-cyan-500 border border-gray-700"
+                  className="
+                    w-full bg-gray-100 dark:bg-gray-900 text-black dark:text-white
+                    px-3 py-2 rounded focus:outline-none focus:border-cyan-500 border border-gray-300 dark:border-gray-700
+                  "
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-gray-300 mb-1">
+                <label htmlFor="message" className="block text-gray-600 dark:text-gray-300 mb-1">
                   Message
                 </label>
                 <textarea
@@ -132,13 +137,16 @@ const Contacts: React.FC = () => {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="w-full bg-gray-900 text-white px-3 py-2 rounded focus:outline-none focus:border-cyan-500 border border-gray-700"
+                  className="
+                    w-full bg-gray-100 dark:bg-gray-900 text-black dark:text-white
+                    px-3 py-2 rounded focus:outline-none focus:border-cyan-500 border border-gray-300 dark:border-gray-700
+                  "
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-medium rounded transition"
+                className="w-full py-2 bg-cyan-500 hover:bg-cyan-400 text-black dark:text-white font-medium rounded transition"
               >
                 Send Message
               </button>

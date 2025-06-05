@@ -1,3 +1,4 @@
+// src/components/Navbar.tsx
 import React, { useState } from 'react';
 import { useTheme } from './ThemeProvider';
 
@@ -5,18 +6,31 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
-  const links: { label: string; href: string }[] = [
+  const links = [
     { label: 'About', href: '#about' },
     { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#projects' },
+    { label: 'Timeline', href: '#timeline' },
     { label: 'Contact', href: '#contacts' },
   ];
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-50 backdrop-blur-md transition-colors duration-300">
+    <header
+      /** 
+       * Default (light): bg-white text-black  
+       * Dark mode: bg-black text-white 
+       **/
+      className="
+        fixed top-0 left-0 w-full z-50 
+        bg-white bg-opacity-80 text-black backdrop-blur-md transition-colors duration-300
+        dark:bg-black dark:bg-opacity-50 dark:text-white
+      "
+    >
       <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
         {/* Logo / Name */}
-        <a href="/" className="text-xl font-semibold text-white hover:text-cyan-400">
+        <a
+          href="/"
+          className="text-xl font-semibold hover:text-cyan-500 transition-colors duration-200"
+        >
           Farhan Mashrur
         </a>
 
@@ -26,7 +40,7 @@ const Navbar: React.FC = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-white hover:text-cyan-400 transition-colors duration-200"
+              className="hover:text-cyan-500 transition-colors duration-200"
             >
               {link.label}
             </a>
@@ -35,14 +49,18 @@ const Navbar: React.FC = () => {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="ml-4 p-2 rounded hover:bg-gray-800 transition-colors duration-200"
+            className="
+              ml-4 p-2 rounded-md 
+              hover:bg-gray-200 hover:dark:bg-gray-800 
+              transition-colors duration-200
+            "
             aria-label="Toggle Theme"
           >
             {theme === 'dark' ? (
-              /* Sun Icon */
+              /* Sun Icon (light mode) */
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-yellow-300"
+                className="h-5 w-5 text-yellow-400"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -59,10 +77,10 @@ const Navbar: React.FC = () => {
                 />
               </svg>
             ) : (
-              /* Moon Icon */
+              /* Moon Icon (dark mode) */
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-gray-200"
+                className="h-5 w-5 text-gray-700"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -85,7 +103,7 @@ const Navbar: React.FC = () => {
           {isOpen ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-white"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -95,7 +113,7 @@ const Navbar: React.FC = () => {
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-white"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -106,14 +124,13 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
-        <nav className="md:hidden bg-black px-4 pb-4">
+        <nav className="md:hidden bg-white px-4 py-2 dark:bg-black">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="block py-2 text-white hover:text-cyan-400 transition-colors"
+              className="block py-2 hover:text-cyan-500 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               {link.label}
@@ -124,7 +141,7 @@ const Navbar: React.FC = () => {
               toggleTheme();
               setIsOpen(false);
             }}
-            className="mt-2 flex items-center space-x-2 text-white hover:text-cyan-400 transition-colors"
+            className="mt-2 flex items-center space-x-2 hover:text-cyan-500 transition-colors"
           >
             {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
           </button>
