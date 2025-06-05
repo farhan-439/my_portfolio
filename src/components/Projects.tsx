@@ -1,216 +1,170 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { FiExternalLink, FiGithub, FiTag } from 'react-icons/fi';
+import React from 'react';
 
-// Project data
-const projects = [
+/**
+ * Replace these placeholder objects with your actual project data.
+ * Each project can have: title, description, techStack (comma-separated), 
+ * thumbnail (import or URL), githubLink, liveDemoLink, and optionally videoURL.
+ */
+interface Project {
+  title: string;
+  description: string;
+  techStack: string;
+  thumbnail: string;
+  githubLink: string;
+  liveDemoLink?: string;
+  videoURL?: string;
+}
+
+const projects: Project[] = [
   {
-    id: 1,
-    title: "E-Commerce Dashboard",
-    description: "A comprehensive dashboard for e-commerce stores with analytics, inventory management, and order tracking features.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGRhc2hib2FyZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
-    tags: ["React", "TypeScript", "Tailwind CSS", "Redux"],
-    liveUrl: "https://example.com",
-    repoUrl: "https://github.com",
-    category: "web",
+    title: 'AI-Powered Resume Scorer',
+    description:
+      'A full-stack engine that parses resumes and job descriptions to produce a compatibility score (95%+ precision). Built with React, Flask, and Docker.',
+    techStack: 'React, Flask, Docker, NLP',
+    thumbnail: '/src/assets/project1.png', // put your own thumbnail in /assets
+    githubLink: 'https://github.com/your-username/resume-scorer',
+    liveDemoLink: 'https://resumescorer.example.com',
+    videoURL: 'https://example.com/video1.mp4',
   },
   {
-    id: 2,
-    title: "Weather Application",
-    description: "A beautiful weather app with 7-day forecasts, location-based weather, and dynamic backgrounds based on conditions.",
-    image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8d2VhdGhlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
-    tags: ["React", "OpenWeather API", "CSS Modules"],
-    liveUrl: "https://example.com",
-    repoUrl: "https://github.com",
-    category: "web",
+    title: 'Restaurant Review Scraper',
+    description:
+      'Automated scraper & sentiment analyzer for Yelp reviews using Python, BeautifulSoup, and a custom ML model.',
+    techStack: 'Python, BeautifulSoup, TensorFlow, AWS Lambda',
+    thumbnail: '/src/assets/project2.png',
+    githubLink: 'https://github.com/your-username/review-scraper',
+    videoURL: 'https://example.com/video2.mp4',
   },
   {
-    id: 3,
-    title: "Task Management App",
-    description: "A productivity app with kanban board, reminders, and collaborative features for team task management.",
-    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHRhc2slMjBtYW5hZ2VtZW50fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-    tags: ["React", "Firebase", "Material UI"],
-    liveUrl: "https://example.com",
-    repoUrl: "https://github.com",
-    category: "web",
+    title: 'Real-Time Office Seating System',
+    description:
+      'Spring Boot microservices integrated with AWS DynamoDB & S3 powering a seating dashboard for 400+ employees.',
+    techStack: 'Java, Spring Boot, AWS DynamoDB, AWS S3',
+    thumbnail: '/src/assets/project3.png',
+    githubLink: 'https://github.com/your-username/office-seating',
+    liveDemoLink: 'https://officemap.example.com',
   },
-  {
-    id: 4,
-    title: "Fitness Tracker",
-    description: "Mobile app for tracking workouts, nutrition, and progress with custom workout plans and analytics.",
-    image: "https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGZpdG5lc3MlMjB0cmFja2VyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-    tags: ["React Native", "TypeScript", "Redux"],
-    liveUrl: "https://example.com",
-    repoUrl: "https://github.com",
-    category: "mobile",
-  },
-  {
-    id: 5,
-    title: "Personal Blog",
-    description: "A static blog site with markdown support, dark mode, and categories built with Next.js and MDX.",
-    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGJsb2d8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-    tags: ["Next.js", "MDX", "Tailwind CSS"],
-    liveUrl: "https://example.com",
-    repoUrl: "https://github.com",
-    category: "web",
-  },
-  {
-    id: 6,
-    title: "Recipe Finder",
-    description: "App that allows users to search for recipes based on ingredients they have, with filtering options and step-by-step instructions.",
-    image: "https://images.unsplash.com/photo-1556911220-bda9f7f4ec2b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cmVjaXBlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-    tags: ["Vue.js", "Vuex", "Spoonacular API"],
-    liveUrl: "https://example.com",
-    repoUrl: "https://github.com",
-    category: "web",
-  },
+  // …add more projects as needed
 ];
 
-// Define filter categories
-const categories = [
-  { id: "all", name: "All Projects" },
-  { id: "web", name: "Web Development" },
-  { id: "mobile", name: "Mobile Apps" },
-  { id: "design", name: "UI/UX Design" },
-];
-
-const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
-
-  const filteredProjects = projects.filter(
-    (project) => activeCategory === "all" || project.category === activeCategory
-  );
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
+const Projects: React.FC = () => {
   return (
-    <section id="projects" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="section-heading">My Projects</h2>
-          <div className="h-1 w-20 bg-primary-500 mx-auto rounded-full"></div>
-          <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-            Check out some of my recent work
-          </p>
-        </div>
+    <div className="max-w-6xl mx-auto py-20 px-4">
+      <h2 className="text-3xl font-semibold text-white text-center mb-8">
+        Projects
+      </h2>
 
-        {/* Project filters */}
-        <div className="flex justify-center mb-12">
-          <div className="inline-flex flex-wrap justify-center p-1 bg-gray-100 rounded-lg gap-1">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-                  activeCategory === category.id
-                    ? "bg-primary-500 text-white shadow-md"
-                    : "bg-transparent text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Projects grid */}
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {filteredProjects.map((project) => (
-            <motion.div
-              key={project.id}
-              variants={cardVariants}
-              className="glass overflow-hidden rounded-xl shadow-lg transition-all hover:shadow-xl hover:-translate-y-1"
-            >
-              <div className="h-48 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-all hover:scale-105"
-                />
-              </div>
-
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 mb-4">{project.description}</p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800"
-                    >
-                      <FiTag className="w-3 h-3 mr-1" />
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Links */}
-                <div className="flex justify-between">
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-800"
-                  >
-                    Live Demo
-                    <FiExternalLink className="ml-1" />
-                  </a>
-                  <a
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900"
-                  >
-                    Source Code
-                    <FiGithub className="ml-1" />
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Show more button */}
-        <div className="text-center mt-12">
-          <a
-            href="https://github.com/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-outline"
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {projects.map((proj) => (
+          <div
+            key={proj.title}
+            className="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:shadow-cyan-500 transition-shadow duration-300"
           >
-            View More on GitHub
-            <FiGithub className="ml-2" />
-          </a>
-        </div>
+            {/* Thumbnail or short GIF clip */}
+            <div className="h-44 bg-black flex items-center justify-center overflow-hidden">
+              <img
+                src={proj.thumbnail}
+                alt={`${proj.title} thumbnail`}
+                className="object-cover w-full h-full"
+              />
+            </div>
+
+            <div className="p-4">
+              <h3 className="text-xl text-white font-semibold mb-2">
+                {proj.title}
+              </h3>
+              <p className="text-gray-300 text-sm mb-3">{proj.description}</p>
+              <p className="text-gray-400 text-xs mb-3">
+                <span className="font-medium text-gray-200">Stack: </span>
+                {proj.techStack}
+              </p>
+
+              <div className="flex space-x-3">
+                <a
+                  href={proj.githubLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-cyan-400 transition-colors"
+                >
+                  {/* GitHub Icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12 2C6.477 2 2 6.484 2 
+                         12.016c0 4.426 2.865 8.183 6.839 
+                         9.504.5.092.682-.217.682-.483 
+                         0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.461-1.11-1.461-.908-.62.069-.607.069-.607 
+                         1.004.071 1.531 1.032 1.531 1.032.892 
+                         1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 
+                         0-1.093.39-1.988 1.029-2.688-.103-.253-.447-1.27.098-2.647 
+                         0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 
+                         6.844c.85.004 1.705.115 2.504.337 1.909-1.294 
+                         2.748-1.025 2.748-1.025.546 1.377.202 2.394.1 
+                         2.647.64.7 1.028 1.595 1.028 2.688 
+                         0 3.847-2.337 4.695-4.566 4.944.359.309.678.919.678 
+                         1.852 0 1.337-.012 2.419-.012 2.748 
+                         0 .268.18.58.688.482A10.025 10.025 0 0022 
+                         12.016C22 6.484 17.523 2 12 2z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+
+                {proj.liveDemoLink && (
+                  <a
+                    href={proj.liveDemoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-cyan-400 transition-colors"
+                  >
+                    {/* External Link Icon */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14 3h7m0 0v7m0-7L10 14m-4 2v5a2 
+                           2 0 002 2h5"
+                      />
+                    </svg>
+                  </a>
+                )}
+
+                {proj.videoURL && (
+                  <a
+                    href={proj.videoURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-cyan-400 transition-colors"
+                  >
+                    {/* Play Icon */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M5 3l14 9-14 9V3z" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-    </section>
+    </div>
   );
 };
 

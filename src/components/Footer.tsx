@@ -1,116 +1,99 @@
-import { FiGithub, FiLinkedin, FiTwitter, FiInstagram, FiArrowUp } from 'react-icons/fi';
+import React from 'react';
 
-const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
+const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-900 text-white pt-16 pb-8">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center">
-          {/* Logo and tagline */}
-          <div className="mb-8 md:mb-0">
-            <div className="text-2xl font-bold text-white mb-2">
-              Alex<span className="text-primary-400">Dev</span>
-            </div>
-            <p className="text-gray-400 max-w-xs">
-              Creating beautiful digital experiences with clean, efficient code.
-            </p>
-          </div>
-          
-          {/* Links */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                Navigation
-              </h3>
-              <ul className="space-y-2">
-                {['Home', 'About', 'Skills', 'Projects', 'Contact'].map((item) => (
-                  <li key={item}>
-                    <a 
-                      href={`#${item.toLowerCase()}`} 
-                      className="text-gray-300 hover:text-primary-400 transition-colors"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                Resources
-              </h3>
-              <ul className="space-y-2">
-                {[
-                  { name: 'Portfolio Source', href: 'https://github.com' },
-                  { name: 'Resume', href: '/resume.pdf' },
-                  { name: 'Blog', href: 'https://example.com/blog' },
-                ].map((item) => (
-                  <li key={item.name}>
-                    <a 
-                      href={item.href} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-300 hover:text-primary-400 transition-colors"
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                Contact
-              </h3>
-              <ul className="space-y-2">
-                <li className="text-gray-300">alex@example.com</li>
-                <li className="text-gray-300">+1 (123) 456-7890</li>
-                <li className="text-gray-300">San Francisco, CA</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-gray-400 text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} Alex Chen. All rights reserved.
-          </div>
-          
-          <div className="flex items-center space-x-6">
-            {[
-              { icon: <FiGithub size={18} />, href: 'https://github.com', label: 'GitHub' },
-              { icon: <FiLinkedin size={18} />, href: 'https://linkedin.com', label: 'LinkedIn' },
-              { icon: <FiTwitter size={18} />, href: 'https://twitter.com', label: 'Twitter' },
-              { icon: <FiInstagram size={18} />, href: 'https://instagram.com', label: 'Instagram' },
-            ].map((social, index) => (
-              <a
-                key={index}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-primary-400 transition-colors"
-                aria-label={social.label}
-              >
-                {social.icon}
-              </a>
-            ))}
-            
-            <button 
-              onClick={scrollToTop}
-              className="ml-4 p-2 bg-gray-800 rounded-full text-gray-400 hover:text-white hover:bg-gray-700 transition-colors focus:outline-none"
-              aria-label="Scroll to top"
+    <footer className="bg-gray-900 py-6 mt-12">
+      <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+        {/* Left: Copyright */}
+        <p className="text-gray-500 text-sm">
+          © {new Date().getFullYear()} Farhan Mashrur. All rights reserved.
+        </p>
+
+        {/* Right: Social Links */}
+        <div className="flex space-x-4 mt-4 md:mt-0">
+          {/* GitHub */}
+          <a
+            href="https://github.com/farhan-439"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-500 hover:text-cyan-400 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="currentColor"
+              viewBox="0 0 24 24"
             >
-              <FiArrowUp size={18} />
-            </button>
-          </div>
+              <path
+                fillRule="evenodd"
+                d="M12 2C6.477 2 2 6.484 2 
+                   12.016c0 4.426 2.865 8.183 6.839 
+                   9.504.5.092.682-.217.682-.483 
+                   0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.461-1.11-1.461-.908-.62.069-.607.069-.607 
+                   1.004.071 1.531 1.032 1.531 1.032.892 
+                   1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 
+                   0-1.093.39-1.988 1.029-2.688-.103-.253-.447-1.27.098-2.647 
+                   0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 
+                   6.844c.85.004 1.705.115 2.504.337 1.909-1.294 
+                   2.748-1.025 2.748-1.025.546 1.377.202 2.394.1 
+                   2.647.64.7 1.028 1.595 1.028 2.688 
+                   0 3.847-2.337 4.695-4.566 4.944.359.309.678.919.678 
+                   1.852 0 1.337-.012 2.419-.012 2.748 
+                   0 .268.18.58.688.482A10.025 10.025 0 0022 
+                   12.016C22 6.484 17.523 2 12 2z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </a>
+
+          {/* LinkedIn */}
+          <a
+            href="https://www.linkedin.com/in/farhanmashrur"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-500 hover:text-cyan-400 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M19 0h-14c-2.761 0-5 
+                         2.239-5 5v14c0 2.761 2.239 
+                         5 5 5h14c2.761 0 5-2.239 
+                         5-5v-14c0-2.761-2.239-5-5-5zm-11.5 
+                         19h-3v-9h3v9zm-1.5-10.291c-.966 
+                         0-1.75-.783-1.75-1.75s.784-1.75 
+                         1.75-1.75 1.75.783 1.75 
+                         1.75-.784 1.75-1.75 
+                         1.75zm13 10.291h-3v-4.5c0-1.104-.896-2-2-2s-2 
+                         .896-2 2v4.5h-3v-9h3v1.25c.977-1.4 
+                         2.835-1.5 3.963-.5 1.128 1 1.037 
+                         2.75 1.037 4.25v4h-.001z"/>
+            </svg>
+          </a>
+
+          {/* Email */}
+          <a
+            href="mailto:fpm33@cornell.edu"
+            className="text-gray-500 hover:text-cyan-400 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 12H8m0 0l4 4m-4-4l4-4"
+              />
+            </svg>
+          </a>
         </div>
       </div>
     </footer>

@@ -1,178 +1,135 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { useTheme } from './ThemeProvider';
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY;
-      if (offset > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
+  const links: { label: string; href: string }[] = [
+    { label: 'About', href: '#about' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Contact', href: '#contacts' },
   ];
 
-  const navbarClasses = `fixed w-full z-50 transition-all duration-500 ease-out ${
-    scrolled 
-      ? 'py-2 bg-white/70 backdrop-blur-xl border-b border-gray-200/20 shadow-sm' 
-      : 'py-4 bg-transparent'
-  }`;
-
-  const linkClasses = `text-gray-700 hover:text-gray-900 font-normal transition-all duration-200 px-3 py-1.5 rounded-lg text-sm hover:bg-gray-100/50 ${
-    scrolled ? 'text-sm' : 'text-sm'
-  }`;
-
   return (
-    <header className={navbarClasses}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
-          {/* Logo - Apple-style clean */}
-          <motion.a 
-            href="#home" 
-            className="text-xl font-light text-gray-900 tracking-tight"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.2 }}
-          >
-            F<span className="font-medium">M</span>
-          </motion.a>
+    <header className="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-50 backdrop-blur-md transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
+        {/* Logo / Name */}
+        <a href="/" className="text-xl font-semibold text-white hover:text-cyan-400">
+          Farhan Mashrur
+        </a>
 
-          {/* Desktop Navigation - Apple-style spacing */}
-          <nav className="hidden md:flex items-center space-x-2">
-            {navLinks.map((link) => (
-              <motion.a 
-                key={link.name} 
-                href={link.href} 
-                className={linkClasses}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.15 }}
-              >
-                {link.name}
-              </motion.a>
-            ))}
-            
-            {/* Resume Button - Apple-style refined */}
-            <motion.a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-4 bg-black text-white hover:bg-gray-800 font-medium transition-all duration-200 px-4 py-2 rounded-full text-sm"
-              whileHover={{ scale: 1.05, y: -1 }}
-              whileTap={{ scale: 0.95 }}
+        {/* Desktop Links */}
+        <nav className="hidden md:flex space-x-6 items-center">
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-white hover:text-cyan-400 transition-colors duration-200"
             >
-              Resume
-            </motion.a>
-          </nav>
+              {link.label}
+            </a>
+          ))}
 
-          {/* Mobile Menu Button - Apple-style minimal */}
-          <motion.button
-            type="button"
-            className="md:hidden p-2 text-gray-700 hover:text-gray-900 focus:outline-none rounded-lg hover:bg-gray-100/50 transition-colors duration-200"
-            onClick={toggleMenu}
-            whileTap={{ scale: 0.95 }}
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="ml-4 p-2 rounded hover:bg-gray-800 transition-colors duration-200"
+            aria-label="Toggle Theme"
           >
-            <div className="w-6 h-6 flex flex-col justify-center items-center">
-              <motion.span
-                className="w-5 h-0.5 bg-current rounded-full"
-                animate={{
-                  rotate: isOpen ? 45 : 0,
-                  y: isOpen ? 2 : -2,
-                }}
-                transition={{ duration: 0.2 }}
-              />
-              <motion.span
-                className="w-5 h-0.5 bg-current rounded-full mt-1"
-                animate={{
-                  opacity: isOpen ? 0 : 1,
-                }}
-                transition={{ duration: 0.2 }}
-              />
-              <motion.span
-                className="w-5 h-0.5 bg-current rounded-full mt-1"
-                animate={{
-                  rotate: isOpen ? -45 : 0,
-                  y: isOpen ? -2 : 2,
-                }}
-                transition={{ duration: 0.2 }}
-              />
-            </div>
-          </motion.button>
-        </div>
+            {theme === 'dark' ? (
+              /* Sun Icon */
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-yellow-300"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M10 4.5a1 1 0 011 1v1.07a3.001 
+                     3.001 0 01.805 5.048l.757.757a1 
+                     1 0 010 1.414l-.757.757a3.001 
+                     3.001 0 01-5.048.805H5.5a1 
+                     1 0 010-2h1.07a3.001 3.001 
+                     0 015.048-.805l.757-.757a1 
+                     1 0 000-1.414l-.757-.757A3.001 
+                     3.001 0 0111.07 5.5V4.5a1 
+                     1 0 011-1z"
+                />
+              </svg>
+            ) : (
+              /* Moon Icon */
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-200"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M17.293 13.293a8 
+                     8 0 11-11.586-11.586 8 8 0 
+                     0011.586 11.586z"
+                />
+              </svg>
+            )}
+          </button>
+        </nav>
+
+        {/* Mobile Hamburger */}
+        <button
+          onClick={() => setIsOpen((v) => !v)}
+          className="md:hidden p-2 focus:outline-none"
+          aria-label="Toggle Menu"
+        >
+          {isOpen ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          )}
+        </button>
       </div>
 
-      {/* Mobile Navigation - Apple-style elegant */}
-      <motion.div
-        initial={{ opacity: 0, height: 0 }}
-        animate={{
-          opacity: isOpen ? 1 : 0,
-          height: isOpen ? 'auto' : 0
-        }}
-        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-        className="md:hidden overflow-hidden bg-white/90 backdrop-blur-xl border-t border-gray-200/20"
-      >
-        <div className="px-6 py-4 space-y-1">
-          {navLinks.map((link, index) => (
-            <motion.a
-              key={link.name}
+      {/* Mobile Menu */}
+      {isOpen && (
+        <nav className="md:hidden bg-black px-4 pb-4">
+          {links.map((link) => (
+            <a
+              key={link.href}
               href={link.href}
-              className="block py-3 font-normal text-gray-700 hover:text-gray-900 border-b border-gray-100/50 last:border-b-0 transition-colors duration-200"
+              className="block py-2 text-white hover:text-cyan-400 transition-colors"
               onClick={() => setIsOpen(false)}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ 
-                opacity: isOpen ? 1 : 0, 
-                x: isOpen ? 0 : -20 
-              }}
-              transition={{ 
-                duration: 0.3, 
-                delay: isOpen ? index * 0.05 : 0,
-                ease: [0.4, 0, 0.2, 1]
-              }}
             >
-              {link.name}
-            </motion.a>
+              {link.label}
+            </a>
           ))}
-          
-          <motion.a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block py-3 mt-4 text-center bg-black text-white hover:bg-gray-800 font-medium rounded-full transition-colors duration-200"
-            onClick={() => setIsOpen(false)}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ 
-              opacity: isOpen ? 1 : 0, 
-              y: isOpen ? 0 : 20 
+          <button
+            onClick={() => {
+              toggleTheme();
+              setIsOpen(false);
             }}
-            transition={{ 
-              duration: 0.3, 
-              delay: isOpen ? navLinks.length * 0.05 + 0.1 : 0,
-              ease: [0.4, 0, 0.2, 1]
-            }}
+            className="mt-2 flex items-center space-x-2 text-white hover:text-cyan-400 transition-colors"
           >
-            Resume
-          </motion.a>
-        </div>
-      </motion.div>
+            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+          </button>
+        </nav>
+      )}
     </header>
   );
 };

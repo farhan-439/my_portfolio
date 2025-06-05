@@ -1,72 +1,51 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import MobileHero from './components/MobileHero';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
-import Contact from './components/Contacts';
+import Contacts from './components/Contacts';
 import Footer from './components/Footer';
 
-function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    // Check if device is mobile
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Initial check
-    checkMobile();
-    
-    // Add resize listener
-    window.addEventListener('resize', checkMobile);
-    
-    // Simulate loading to ensure assets are ready
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white">
-        <div className="flex flex-col items-center">
-          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-          <p className="text-gray-600 font-medium">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
+const App: React.FC = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="bg-black text-white scroll-smooth">
+      {/* 
+        - On desktop: show Hero; on small/mobile: show MobileHero 
+        - Tailwind’s `hidden`/`block` with responsive prefixes 
+      */}
+      <div className="hidden md:block">
+        <Hero />
+      </div>
+      <div className="block md:hidden">
+        <MobileHero />
+      </div>
+
       <Navbar />
-      <main>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* Conditionally render Hero based on screen size */}
-          {isMobile ? <MobileHero /> : <Hero />}
+
+      <main className="pt-16">
+        {/* The `id` attributes let Navbar links scroll to these sections */}
+        <section id="about">
           <About />
+        </section>
+
+        <section id="skills">
           <Skills />
+        </section>
+
+        <section id="projects">
           <Projects />
-          <Contact />
-        </motion.div>
+        </section>
+
+        <section id="contacts">
+          <Contacts />
+        </section>
       </main>
+
       <Footer />
     </div>
   );
-}
+};
 
 export default App;
