@@ -1,4 +1,1 @@
-@import "tailwindcss/preflight";
-/* [optional prefixes/plugins here, e.g. forms, typography, etc.] */
-@import "tailwindcss/utilities";
-@tailwind utilities;
+@import "tailwindcss"

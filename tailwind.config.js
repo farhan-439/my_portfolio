@@ -1,12 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: 'class',            // ← enable “class” strategy
+  darkMode: 'class',                // ← we’re using “class” strategy
   content: [
     './index.html',
-    './src/**/*.{ts,tsx,js,jsx}'
+    './src/**/*.{ts,tsx,js,jsx}'    // ← make sure this glob matches where your components actually live
   ],
   theme: {
-    extend: {}
+    extend: {},
   },
-  plugins: []
+  plugins: [],
 };

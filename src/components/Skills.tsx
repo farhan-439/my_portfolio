@@ -1,29 +1,17 @@
 import React from 'react';
 
-const skillList = [
-  'JavaScript',
-  'TypeScript',
-  'React',
-  'Next.js',
-  'GraphQL',
-  'Node.js',
-  'Python',
-  'Flask',
-  'Django',
-  'Tailwind CSS',
-  'AWS',
-  'Docker',
-  'Git',
-  'SQL',
-  'MongoDB',
-  'Machine Learning',
-];
-
 const Skills: React.FC = () => {
+  const skillList = [
+    'JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Python', 
+    'Flask', 'Django', 'PostgreSQL', 'MongoDB', 'AWS', 'Docker', 
+    'Tailwind CSS', 'GraphQL', 'Git', 'Machine Learning', 'TensorFlow', 
+    'Pandas', 'NumPy', 'Scikit-learn', 'FastAPI', 'Redis', 'Kubernetes'
+  ];
+
   return (
-    <div className="max-w-4xl mx-auto py-20 px-4">
+    <section className="max-w-4xl mx-auto py-20 px-4">
       <h2 className="text-3xl font-semibold text-black dark:text-white text-center mb-8">
-        Skills
+        Skills & Technologies
       </h2>
       <div className="flex flex-wrap justify-center gap-4">
         {skillList.map((skill) => (
@@ -35,7 +23,7 @@ const Skills: React.FC = () => {
           </span>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
