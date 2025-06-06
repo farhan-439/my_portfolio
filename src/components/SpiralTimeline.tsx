@@ -174,6 +174,7 @@ const projects: Project[] = [
 
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
   const [ref, isInView] = useInView();
+  const [isVideoExpanded, setIsVideoExpanded] = useState(false);
   const IconComponent = project.icon;
   
   return (
@@ -217,17 +218,31 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
               </span>
             </div>
             
-            {/* Video Box - Small like Hero */}
-            <div className="flex-shrink-0 w-20 h-12 md:w-24 md:h-14 rounded-lg overflow-hidden border-2 border-gray-300 dark:border-gray-600">
-              <video
-                className="w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-              >
-                <source src={project.videoURL} type="video/mp4" />
-              </video>
+            {/* Video Box with expand button */}
+            <div className="relative flex-shrink-0">
+              <div className="w-28 h-16 md:w-32 md:h-20 rounded-lg overflow-hidden border-2 border-gray-300 dark:border-gray-600 relative group">
+                <video
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                >
+                  <source src={project.videoURL} type="video/mp4" />
+                </video>
+                
+                {/* Expand button overlay */}
+                <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                  <button
+                    onClick={() => setIsVideoExpanded(true)}
+                    className="w-8 h-8 bg-white bg-opacity-90 hover:bg-opacity-100 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  >
+                    <svg className="h-4 w-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -294,6 +309,114 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
             )}
           </div>
         </div>
+        
+        {/* Expanded Video Modal */}
+        {isVideoExpanded && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[9999] p-4">
+            <div className="relative w-full max-w-4xl max-h-[80vh] bg-gray-900 rounded-lg overflow-hidden shadow-2xl">
+              {/* Close button */}
+              <button
+                onClick={() => setIsVideoExpanded(false)}
+                className="absolute top-4 right-4 z-10 w-10 h-10 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full flex items-center justify-center transition-all duration-200"
+              >
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              
+              {/* Video */}
+              <video
+                className="w-full h-auto max-h-[70vh] object-contain"
+                autoPlay
+                loop
+                muted
+                playsInline
+                controls
+              >
+                <source src={project.videoURL} type="video/mp4" />
+              </video>
+              
+              {/* Video info */}
+              <div className="p-6 bg-gray-900 text-white">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`p-2 rounded-md bg-gradient-to-r ${project.gradient} text-white`}>
+                    <IconComponent />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold">{project.title}</h3>
+                    <p className="text-gray-300 text-sm">{project.category} • {project.period}</p>
+                  </div>
+                  {project.award && (
+                    <div className="bg-yellow-500 text-black text-sm px-3 py-1 rounded-md font-medium flex items-center gap-1 ml-auto">
+                      <TrophyIcon />
+                      {project.award}
+                    </div>
+                  )}
+                </div>
+                
+                <p className="text-gray-300 mb-4 leading-relaxed">
+                  {project.description}
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Highlights */}
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-200 mb-2">Key Highlights</h4>
+                    <ul className="space-y-1">
+                      {project.highlights.map((highlight, i) => (
+                        <li key={i} className="flex items-start space-x-2 text-sm text-gray-300">
+                          <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${project.gradient} mt-1.5 flex-shrink-0`}></div>
+                          <span>{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {/* Technologies */}
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-200 mb-2">Technologies</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.map((tech, i) => (
+                        <span 
+                          key={i} 
+                          className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-md font-medium"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Action buttons */}
+                <div className="flex gap-3 mt-6">
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex items-center gap-2"
+                    >
+                      <CodeIcon />
+                      View Code
+                    </a>
+                  )}
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`bg-gradient-to-r ${project.gradient} text-white font-medium py-2 px-4 rounded-md hover:shadow-lg transition-all duration-200 flex items-center gap-2`}
+                    >
+                      <ArrowIcon />
+                      Live Demo
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
