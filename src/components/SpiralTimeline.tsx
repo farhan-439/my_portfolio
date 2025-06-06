@@ -32,189 +32,159 @@ const useInView = (options = {}) => {
 
 interface Project {
   title: string;
+  year: string;
+  tech: string;
+  description: string;
   videoURL: string;
 }
 
-interface TimelineItemProps {
-  project: Project;
-  x: number;
-  y: number;
-  index: number;
-}
+const projects: Project[] = [
+  { 
+    title: 'E-Commerce Platform', 
+    year: '2024', 
+    tech: 'React, Node.js, MongoDB', 
+    description: 'Full-stack e-commerce solution with payment integration and inventory management',
+    videoURL: demo1
+  },
+  { 
+    title: 'ML Prediction Model', 
+    year: '2024', 
+    tech: 'Python, TensorFlow, Flask', 
+    description: 'Machine learning model for stock price prediction with 85% accuracy',
+    videoURL: demo2
+  },
+  { 
+    title: 'Social Media Dashboard', 
+    year: '2023', 
+    tech: 'React, GraphQL, PostgreSQL', 
+    description: 'Analytics dashboard for social media management with real-time insights',
+    videoURL: demo3
+  },
+  { 
+    title: 'Task Management App', 
+    year: '2023', 
+    tech: 'Vue.js, Express, Redis', 
+    description: 'Collaborative task management with real-time updates and team collaboration',
+    videoURL: demo1
+  },
+  { 
+    title: 'Weather Analytics Tool', 
+    year: '2023', 
+    tech: 'Python, FastAPI, Docker', 
+    description: 'Weather data analysis and visualization tool with predictive modeling',
+    videoURL: demo2
+  },
+  { 
+    title: 'Portfolio Website', 
+    year: '2022', 
+    tech: 'React, TypeScript, Tailwind', 
+    description: 'Personal portfolio showcasing modern design principles and responsive layouts',
+    videoURL: demo3
+  }
+];
 
-const TimelineItem: React.FC<TimelineItemProps> = ({ project, x, y, index }) => {
+const TimelineItem: React.FC<{ project: Project; index: number; isLeft: boolean }> = ({ 
+  project, 
+  index, 
+  isLeft 
+}) => {
   const [ref, isInView] = useInView();
-
+  
   return (
-    <div
-      ref={ref}
-      className={`absolute w-40 md:w-48 transition-all duration-700 ease-out ${
-        isInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-      }`}
-      style={{
-        left: `calc(50% + ${x}px)`,
-        top: `${y}px`,
-        transform: 'translateX(-50%)',
-        zIndex: 10 - (index % 10)
-      }}
-    >
-      <div className="bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-        {/* Video Section */}
-        <div className="h-24 md:h-28 bg-gray-900 flex items-center justify-center overflow-hidden relative">
-          {/* Fallback background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600"></div>
+    <div className={`flex items-center mb-16 ${isLeft ? 'flex-row-reverse' : 'flex-row'}`}>
+      {/* Content */}
+      <div 
+        ref={ref}
+        className={`w-5/12 transition-all duration-700 ${
+          isInView 
+            ? 'opacity-100 translate-x-0' 
+            : `opacity-0 ${isLeft ? 'translate-x-8' : '-translate-x-8'}`
+        }`}
+      >
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+          {/* Video Section */}
+          <div className="h-32 md:h-40 bg-gray-900 flex items-center justify-center overflow-hidden relative">
+            {/* Fallback background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600"></div>
+            
+            {/* Video */}
+            <video
+              className="w-full h-full object-cover relative z-10"
+              autoPlay
+              loop
+              muted
+              playsInline
+              onError={(e) => {
+                (e.target as HTMLVideoElement).style.display = 'none';
+              }}
+            >
+              <source src={project.videoURL} type="video/mp4" />
+            </video>
+            
+            {/* Fallback content */}
+            <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg z-0">
+              {project.title}
+            </div>
+          </div>
           
-          {/* Video or placeholder */}
-          <video
-            className="w-full h-full object-cover relative z-10"
-            autoPlay
-            loop
-            muted
-            playsInline
-            onError={(e) => {
-              // Hide video on error, show gradient background
-              (e.target as HTMLVideoElement).style.display = 'none';
-            }}
-          >
-            <source src={project.videoURL} type="video/mp4" />
-          </video>
-          
-          {/* Fallback content */}
-          <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-sm z-0">
-            Project {index + 1}
+          {/* Content Section */}
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-cyan-500 font-bold text-lg">{project.year}</span>
+              <span className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded">
+                {project.tech}
+              </span>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+              {project.title}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+              {project.description}
+            </p>
           </div>
         </div>
-        
-        {/* Title Section */}
-        <div className="p-3 bg-gray-300 dark:bg-gray-700">
-          <h3 className="text-black dark:text-white text-sm md:text-base font-medium text-center leading-tight">
-            {project.title}
-          </h3>
-        </div>
       </div>
+      
+      {/* Center line and dot */}
+      <div className="flex flex-col items-center w-2/12">
+        <div className="w-4 h-4 bg-cyan-500 rounded-full border-4 border-white dark:border-gray-900 shadow-lg z-10 relative">
+          <div className="absolute inset-0 bg-cyan-500 rounded-full animate-ping opacity-20"></div>
+        </div>
+        {index < projects.length - 1 && (
+          <div className="w-0.5 h-16 bg-gradient-to-b from-cyan-500 to-gray-300 dark:to-gray-600 mt-2"></div>
+        )}
+      </div>
+      
+      {/* Empty space */}
+      <div className="w-5/12"></div>
     </div>
   );
 };
 
 const SpiralTimeline: React.FC = () => {
-  const projects: Project[] = [
-    { title: 'E-Commerce Platform', videoURL: demo1 },
-    { title: 'ML Prediction Model', videoURL: demo2 },
-    { title: 'Social Media Dashboard', videoURL: demo3 },
-    { title: 'Task Management App', videoURL: demo1 },
-    { title: 'Weather Analytics Tool', videoURL: demo2 },
-    { title: 'Portfolio Website', videoURL: demo3 },
-    { title: 'Real-time Chat App', videoURL: demo1 },
-    { title: 'Data Visualization Dashboard', videoURL: demo2 },
-    { title: 'Mobile Banking App', videoURL: demo3 },
-    { title: 'AI Content Generator', videoURL: demo1 },
-    { title: 'Inventory Management System', videoURL: demo2 },
-    { title: 'Fitness Tracking App', videoURL: demo3 }
-  ];
-
-  // Spiral calculation parameters
-  const centerX = 0; // Center of the spiral
-  const centerY = 200; // Starting Y position
-  const spiralSpacing = 80; // Distance between spiral arms
-  const angleIncrement = 0.8; // How much the angle increases per item
-  const radiusGrowth = 25; // How much radius increases per revolution
-
-  // Calculate positions for each project
-  const positions = projects.map((_, index) => {
-    const angle = index * angleIncrement;
-    const radius = radiusGrowth * angle;
-    
-    const x = centerX + radius * Math.cos(angle);
-    const y = centerY + radius * Math.sin(angle) + (index * spiralSpacing);
-    
-    return { x, y, angle, radius };
-  });
-
-  // Calculate container dimensions
-  const allX = positions.map(p => p.x);
-  const allY = positions.map(p => p.y);
-  
-  const minX = Math.min(...allX) - 120; // Add padding for card width
-  const maxX = Math.max(...allX) + 120;
-  const minY = Math.min(...allY) - 100;
-  const maxY = Math.max(...allY) + 200;
-  
-  const containerWidth = maxX - minX;
-  const containerHeight = maxY - minY;
-
-  // Adjust positions relative to container
-  const adjustedPositions = positions.map(pos => ({
-    x: pos.x - minX - containerWidth / 2,
-    y: pos.y - minY
-  }));
-
   return (
     <section className="w-full py-20 px-4 bg-white dark:bg-black">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-semibold text-black dark:text-white text-center mb-16">
           Project Timeline
         </h2>
         
-        {/* Timeline Container */}
-        <div className="relative mx-auto overflow-hidden">
-          <div 
-            className="relative mx-auto"
-            style={{ 
-              width: '100%',
-              maxWidth: `${Math.min(containerWidth, 1000)}px`,
-              height: `${containerHeight}px`,
-              minHeight: '800px'
-            }}
-          >
-            {/* Optional: Add a subtle spiral guide line */}
-            <svg 
-              className="absolute inset-0 pointer-events-none opacity-20"
-              style={{ width: '100%', height: '100%' }}
-            >
-              <defs>
-                <linearGradient id="spiralGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="rgb(6, 182, 212)" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="rgb(147, 51, 234)" stopOpacity="0.1" />
-                </linearGradient>
-              </defs>
-              
-              {/* Draw spiral path */}
-              <path
-                d={`M ${containerWidth/2} ${adjustedPositions[0]?.y || 0} ${
-                  adjustedPositions.slice(1).map((pos, index) => 
-                    `L ${pos.x + containerWidth/2} ${pos.y}`
-                  ).join(' ')
-                }`}
-                stroke="url(#spiralGradient)"
-                strokeWidth="2"
-                fill="none"
-                strokeDasharray="5,5"
-              />
-            </svg>
-
-            {/* Timeline Items */}
-            {projects.map((project, index) => {
-              const position = adjustedPositions[index];
-              if (!position) return null;
-              
-              return (
-                <TimelineItem
-                  key={index}
-                  project={project}
-                  x={position.x}
-                  y={position.y}
-                  index={index}
-                />
-              );
-            })}
-          </div>
+        <div className="max-w-4xl mx-auto">
+          {projects.map((project, index) => (
+            <TimelineItem 
+              key={index}
+              project={project}
+              index={index}
+              isLeft={index % 2 === 0}
+            />
+          ))}
         </div>
         
         {/* Timeline Legend */}
         <div className="mt-16 text-center">
           <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base max-w-2xl mx-auto">
-            Scroll through my project journey arranged in a spiral timeline. Each card represents a significant project 
-            that showcases different aspects of my development skills and creative problem-solving approach.
+            This timeline showcases my development journey through various projects, 
+            highlighting the evolution of my technical skills and creative problem-solving abilities.
           </p>
         </div>
       </div>
