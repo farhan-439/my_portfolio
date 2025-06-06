@@ -6,7 +6,7 @@ import demo3 from '../assets/demo3.mp4';
 // Custom hook for intersection observer
 const useInView = (options = {}) => {
   const [isInView, setIsInView] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,7 +27,7 @@ const useInView = (options = {}) => {
     };
   }, []);
 
-  return [ref, isInView] as const;
+  return [ref, isInView];
 };
 
 // Icons
@@ -61,110 +61,101 @@ const ArrowIcon = () => (
   </svg>
 );
 
-interface Project {
-  title: string;
-  category: 'Startup' | 'Machine Learning' | 'Full-Stack' | 'Data Analysis' | 'Academic';
-  period: string;
-  description: string;
-  technologies: string[];
-  highlights: string[];
-  videoURL: string;
-  githubUrl?: string;
-  liveUrl?: string;
-  award?: string;
-  icon: React.ComponentType;
-  gradient: string;
-}
-
-const projects: Project[] = [
+const projects = [
   {
-    title: 'JobLink',
+    title: "JobLink AI Platform",
+    tech: "React • Flask • NLP",
+    video: demo1,
+    description: "AI-powered job matching platform",
     category: 'Startup',
     period: 'Feb 2025 - Present',
-    description: 'Co-founded AI-powered job tracking platform that auto-parses Gmail to unify job application data.',
     technologies: ['React', 'TypeScript', 'Flask', 'PostgreSQL', 'spaCy'],
     highlights: [
       'Built NLP pipeline with 97.82% precision',
       'Raised beta engagement by 40%'
     ],
-    videoURL: demo2,
     githubUrl: 'https://github.com/farhan/joblink',
     liveUrl: 'https://joblink.app',
+    award: '1st Place, Cornell Hackathon',
     icon: BrainIcon,
     gradient: 'from-cyan-500 to-blue-600'
   },
   {
-    title: 'Poultry Disease Detection',
+    title: "Disease Detection ML",
+    tech: "TensorFlow • PyTorch",
+    video: demo2,
+    description: "Medical imaging analysis system",
     category: 'Machine Learning',
     period: 'Feb 2025',
-    description: 'AI system that detects poultry infections 3 days before onset using audio and visual analysis.',
     technologies: ['TensorFlow', 'PyTorch', 'CNN', 'MobileNetV3'],
     highlights: [
       '94% accuracy on spectrograms',
       '25ms inference on Raspberry Pi 4'
     ],
-    videoURL: demo1,
     githubUrl: 'https://github.com/farhan/poultry-detection',
-    award: '1st Place, Cornell Hackathon',
     icon: TrophyIcon,
     gradient: 'from-green-500 to-emerald-600'
   },
   {
-    title: 'TableTalk',
+    title: "TableTalk Analytics",
+    tech: "Python • OpenAI",
+    video: demo3,
+    description: "Natural language data queries",
     category: 'Data Analysis',
     period: 'Oct 2024 - Dec 2024',
-    description: 'Full-stack app analyzing restaurant reviews using ML to reveal customer sentiment patterns.',
     technologies: ['Python', 'Selenium', 'Flask', 'OpenAI'],
     highlights: [
       'Scraped 1K+ Google Maps reviews',
       '92% F1 score on sentiment analysis'
     ],
-    videoURL: demo3,
     githubUrl: 'https://github.com/farhan/tabletalk',
     icon: ChartIcon,
     gradient: 'from-purple-500 to-pink-600'
   },
   {
     title: 'Real Estate Agent Ranking',
+    tech: "Python • Scikit-learn",
+    video: demo1,
+    description: 'Supervised learning model to rank high-potential real estate agents for recruitment.',
     category: 'Data Analysis',
     period: 'Jan 2025 - May 2025',
-    description: 'Supervised learning model to rank high-potential real estate agents for recruitment.',
     technologies: ['Python', 'Scikit-learn', 'Pandas', 'MLS Data'],
     highlights: [
       'Analyzed $650M+ firm with 175+ agents',
       'Multi-factor scoring system'
     ],
-    videoURL: demo1,
     githubUrl: 'https://github.com/farhan/agent-ranking',
     icon: ChartIcon,
     gradient: 'from-orange-500 to-red-600'
   },
   {
     title: 'OCaml Trader',
+    tech: "OCaml • Lwt",
+    video: demo3,
+    description: 'Functional programming trading simulator with real-time data feeds and portfolio management.',
     category: 'Academic',
     period: 'Sept 2024 - Dec 2024',
-    description: 'Functional programming trading simulator with real-time data feeds and portfolio management.',
     technologies: ['OCaml', 'Lwt', 'Financial APIs'],
     highlights: [
       'Simulated 1000+ trades across 500 equities',
       'Sub-50ms price-fetch latency'
     ],
-    videoURL: demo3,
     githubUrl: 'https://github.com/farhan/ocaml-trader',
     icon: CodeIcon,
     gradient: 'from-indigo-500 to-purple-600'
   },
   {
     title: 'Stock Sentiment Platform',
+    tech: "React • Node.js",
+    video: demo2,
+    description: 'Real-time stock analysis platform with sentiment indicators and portfolio tracking.',
     category: 'Full-Stack',
     period: 'Sept 2023 - Present',
-    description: 'Real-time stock analysis platform with sentiment indicators and portfolio tracking.',
     technologies: ['React', 'Node.js', 'Financial APIs'],
     highlights: [
       'Covers 500+ stock tickers',
       'Improved engagement by 15%'
     ],
-    videoURL: demo2,
     githubUrl: 'https://github.com/farhan/stock-sentiment',
     liveUrl: 'https://stock-sentiment.farhan.dev',
     icon: ChartIcon,
@@ -172,10 +163,9 @@ const projects: Project[] = [
   }
 ];
 
-const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+const ProjectCard = ({ project, index }) => {
   const [ref, isInView] = useInView();
   const [isVideoExpanded, setIsVideoExpanded] = useState(false);
-  const IconComponent = project.icon;
   
   return (
     <div 
@@ -187,130 +177,52 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       }`}
       style={{ transitionDelay: `${index * 200}ms` }}
     >
-      <div className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300">
-        {/* Header with gradient */}
-        <div className={`h-2 bg-gradient-to-r ${project.gradient}`}></div>
-        
-        {/* Content */}
-        <div className="p-4">
-          {/* Title, Video, and Period */}
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex-1 mr-3">
-              <div className="flex items-center gap-2 mb-1">
-                <div className={`p-1 rounded-md bg-gradient-to-r ${project.gradient} text-white`}>
-                  <IconComponent />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white leading-tight">
-                  {project.title}
-                </h3>
-                {project.award && (
-                  <div className="bg-yellow-500 text-black text-xs px-2 py-1 rounded-md font-medium flex items-center gap-1">
-                    <TrophyIcon />
-                    1st
-                  </div>
-                )}
-              </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium mb-1">
-                {project.period}
-              </p>
-              <span className="inline-block text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-md">
-                {project.category}
-              </span>
-            </div>
-            
-            {/* Video Box with expand button */}
-            <div className="relative flex-shrink-0">
-              <div className="w-28 h-16 md:w-32 md:h-20 rounded-lg overflow-hidden border-2 border-gray-300 dark:border-gray-600 relative group">
-                <video
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                >
-                  <source src={project.videoURL} type="video/mp4" />
-                </video>
-                
-                {/* Expand button overlay */}
-                <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                  <button
-                    onClick={() => setIsVideoExpanded(true)}
-                    className="w-8 h-8 bg-white bg-opacity-90 hover:bg-opacity-100 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                  >
-                    <svg className="h-4 w-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
+      <div className="group relative">
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-5 shadow-xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl hover:scale-105 transition-all duration-500">
+          
+          {/* Video Preview */}
+          <div className="relative mb-4 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-700">
+            <video
+              className="w-full h-32 object-cover cursor-pointer"
+              autoPlay
+              loop
+              muted
+              playsInline
+              onClick={() => setIsVideoExpanded(true)}
+            >
+              <source src={project.video} type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <button
+                onClick={() => setIsVideoExpanded(true)}
+                className="w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+              >
+                <svg className="h-5 w-5 text-gray-800 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
             </div>
           </div>
 
-          {/* Description - Shortened */}
-          <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3 line-clamp-2">
+          {/* Project Info */}
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300">
+            {project.title}
+          </h3>
+          
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
             {project.description}
           </p>
-
-          {/* Key Highlights - Compact */}
-          <div className="space-y-1 mb-3">
-            {project.highlights.map((highlight, i) => (
-              <div key={i} className="flex items-start space-x-2">
-                <div className={`w-1 h-1 rounded-full bg-gradient-to-r ${project.gradient} mt-2 flex-shrink-0`}></div>
-                <span className="text-xs text-gray-600 dark:text-gray-300 leading-tight">{highlight}</span>
-              </div>
+          
+          <div className="flex flex-wrap gap-2">
+            {project.tech.split(' • ').map((tech, techIndex) => (
+              <span key={techIndex} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs rounded-lg text-gray-700 dark:text-gray-300">
+                {tech}
+              </span>
             ))}
-          </div>
-
-          {/* Tech Stack - Simplified */}
-          <div className="mb-4">
-            <div className="flex flex-wrap gap-1">
-              {project.technologies.slice(0, 3).map((tech, i) => (
-                <span 
-                  key={i} 
-                  className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-md font-medium"
-                >
-                  {tech}
-                </span>
-              ))}
-              {project.technologies.length > 3 && (
-                <span className="text-xs text-gray-400 px-1">+{project.technologies.length - 3}</span>
-              )}
-            </div>
-          </div>
-
-          {/* Action Buttons - Smaller */}
-          <div className="flex gap-2">
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 bg-gray-900 dark:bg-gray-700 text-white text-xs font-medium py-2 px-3 rounded-md hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors duration-200 flex items-center justify-center gap-1"
-              >
-                <CodeIcon />
-                Code
-              </a>
-            )}
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`flex-1 bg-gradient-to-r ${project.gradient} text-white text-xs font-medium py-2 px-3 rounded-md hover:shadow-md transition-all duration-200 flex items-center justify-center gap-1`}
-              >
-                <ArrowIcon />
-                Demo
-              </a>
-            )}
-            {!project.liveUrl && project.githubUrl && (
-              <div className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs font-medium py-2 px-3 rounded-md flex items-center justify-center">
-                Academic
-              </div>
-            )}
           </div>
         </div>
         
-        {/* Expanded Video Modal */}
+        {/* Expanded Video Modal - Same as SpiralTimeline */}
         {isVideoExpanded && (
           <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[9999] p-4">
             <div className="relative w-full max-w-4xl max-h-[80vh] bg-gray-900 rounded-lg overflow-hidden shadow-2xl">
@@ -333,14 +245,14 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                 playsInline
                 controls
               >
-                <source src={project.videoURL} type="video/mp4" />
+                <source src={project.video} type="video/mp4" />
               </video>
               
               {/* Video info */}
               <div className="p-6 bg-gray-900 text-white">
                 <div className="flex items-center gap-3 mb-2">
                   <div className={`p-2 rounded-md bg-gradient-to-r ${project.gradient} text-white`}>
-                    <IconComponent />
+                    <project.icon />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold">{project.title}</h3>
@@ -363,12 +275,12 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                   <div>
                     <h4 className="text-sm font-semibold text-gray-200 mb-2">Key Highlights</h4>
                     <ul className="space-y-1">
-                      {project.highlights.map((highlight, i) => (
+                      {project.highlights?.map((highlight, i) => (
                         <li key={i} className="flex items-start space-x-2 text-sm text-gray-300">
                           <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${project.gradient} mt-1.5 flex-shrink-0`}></div>
                           <span>{highlight}</span>
                         </li>
-                      ))}
+                      )) || []}
                     </ul>
                   </div>
                   
@@ -376,7 +288,14 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                   <div>
                     <h4 className="text-sm font-semibold text-gray-200 mb-2">Technologies</h4>
                     <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, i) => (
+                      {project.technologies?.map((tech, i) => (
+                        <span 
+                          key={i} 
+                          className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-md font-medium"
+                        >
+                          {tech}
+                        </span>
+                      )) || project.tech.split(' • ').map((tech, i) => (
                         <span 
                           key={i} 
                           className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-md font-medium"
@@ -422,7 +341,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   );
 };
 
-const SpiralTimeline: React.FC = () => {
+const SpiralTimeline = () => {
   const [filter, setFilter] = useState('All');
   
   const categories = ['All', 'Startup', 'Machine Learning', 'Full-Stack', 'Data Analysis', 'Academic'];
