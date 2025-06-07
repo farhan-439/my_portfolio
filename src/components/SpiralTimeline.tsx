@@ -205,20 +205,58 @@ const ProjectCard = ({ project, index }) => {
           </div>
 
           {/* Project Info */}
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300">
-            {project.title}
-          </h3>
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300">
+              {project.title}
+            </h3>
+            {project.award && (
+              <div className="bg-yellow-500 text-black text-xs px-2 py-1 rounded-md font-medium flex items-center gap-1 ml-auto">
+                <TrophyIcon />
+              </div>
+            )}
+          </div>
           
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
             {project.description}
           </p>
           
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-4">
             {project.tech.split(' • ').map((tech, techIndex) => (
               <span key={techIndex} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs rounded-lg text-gray-700 dark:text-gray-300">
                 {tech}
               </span>
             ))}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 bg-gray-900 dark:bg-gray-700 text-white text-xs font-medium py-2 px-3 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors duration-200 flex items-center justify-center gap-1"
+              >
+                <CodeIcon />
+                <span>Code</span>
+              </a>
+            )}
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex-1 bg-gradient-to-r ${project.gradient} text-white text-xs font-medium py-2 px-3 rounded-lg hover:shadow-md transition-all duration-200 flex items-center justify-center gap-1`}
+              >
+                <ArrowIcon />
+                <span>Demo</span>
+              </a>
+            )}
+            {!project.liveUrl && project.githubUrl && (
+              <div className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center">
+                Academic
+              </div>
+            )}
           </div>
         </div>
         
@@ -351,8 +389,8 @@ const SpiralTimeline = () => {
     : projects.filter(project => project.category === filter);
 
   return (
-    <section className="w-full py-20 px-4 bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full py-20 px-8 bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-4">
@@ -381,7 +419,7 @@ const SpiralTimeline = () => {
         </div>
         
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project, index) => (
             <ProjectCard key={`${project.title}-${filter}`} project={project} index={index} />
           ))}
