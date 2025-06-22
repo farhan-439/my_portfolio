@@ -7,7 +7,6 @@ import Skills from './components/Skills';
 import SpiralTimeline from './components/SpiralTimeline';
 import Contacts from './components/Contacts';
 import Footer from './components/Footer';
-import ProceduralTerrain from './components/ProceduralTerrain';
 
 const App: React.FC = () => {
   return (
@@ -22,10 +21,6 @@ const App: React.FC = () => {
 
       <Navbar />
 
-      {/* Procedural Terrain */}
-      <div className="bg-white" >
-        <ProceduralTerrain />
-      </div>
   
 
       <main className="pt-16">
