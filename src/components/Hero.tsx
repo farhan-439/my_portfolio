@@ -1,12 +1,24 @@
 // src/components/Hero.tsx
-import React, { useState, useEffect, Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { useGLTF, OrbitControls } from '@react-three/drei';
-import * as THREE from 'three';
+import React, { useState, useEffect } from 'react';
 import profileImg from '../assets/profile.jpg';
 import demo1 from '../assets/demo1.mp4';
 import demo2 from '../assets/demo2.mp4';
 import demo3 from '../assets/demo3.mp4';
+
+// Declare the spline-viewer custom element for TypeScript
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'spline-viewer': {
+        url: string;
+        style?: React.CSSProperties;
+        className?: string;
+        onLoad?: () => void;
+        onError?: () => void;
+      };
+    }
+  }
+}
 
 const projectVideos = [
   { title: "JobLink AI Platform", tech: "React • Flask • NLP", video: demo1 },
@@ -14,151 +26,61 @@ const projectVideos = [
   { title: "TableTalk Analytics", tech: "Python • OpenAI", video: demo3 }
 ];
 
-function Model() {
-  try {
-    // Load the spline export from public directory
-    const { scene } = useGLTF('/spline.gltf');
-    
-    // Debug: Log the scene to see if it loaded
-    console.log('Spline scene loaded:', scene);
-    
-    // Clone the scene to avoid issues with multiple instances
-    const clonedScene = scene.clone();
-    
-    // Make sure the model has materials
-    clonedScene.traverse((child) => {
-      if (child.isMesh) {
-        console.log('Found mesh:', child.name);
-        // Ensure the mesh is visible
-        child.visible = true;
-        child.castShadow = true;
-        child.receiveShadow = true;
-        
-        // Add a basic material if none exists
-        if (!child.material) {
-          child.material = new THREE.MeshStandardMaterial({ color: 0x4f46e5 });
-        }
-      }
-    });
-    
-    return (
-      <primitive 
-        object={clonedScene} 
-        position={[0, -1, 0]} 
-        scale={1.5} 
-        rotation={[0, Math.PI, 0]} 
-        castShadow 
-        receiveShadow 
-      />
-    );
-  } catch (error) {
-    console.error('Error loading Spline model:', error);
-    return <FallbackModel />;
-  }
-}
-
-// Visible fallback model
-function FallbackModel() {
-  return (
-    <group position={[0, 0, 0]}>
-      {/* Main geometric shape */}
-      <mesh position={[0, 0, 0]} castShadow receiveShadow>
-        <dodecahedronGeometry args={[1, 0]} />
-        <meshStandardMaterial 
-          color="#4f46e5" 
-          metalness={0.3}
-          roughness={0.4}
-        />
-      </mesh>
-      
-      {/* Orbiting elements */}
-      <mesh position={[2, 1, 0]} castShadow receiveShadow>
-        <sphereGeometry args={[0.3, 16, 16]} />
-        <meshStandardMaterial 
-          color="#06b6d4" 
-          metalness={0.6}
-          roughness={0.2}
-        />
-      </mesh>
-      
-      <mesh position={[-1.5, -0.5, 1]} castShadow receiveShadow>
-        <octahedronGeometry args={[0.4, 0]} />
-        <meshStandardMaterial 
-          color="#10b981" 
-          metalness={0.4}
-          roughness={0.3}
-        />
-      </mesh>
-    </group>
-  );
-}
-
-// Preload the model for better performance
-useGLTF.preload('/spline.gltf');
-
 const Hero: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredVideo, setHoveredVideo] = useState<number | null>(null);
-  const [modelError, setModelError] = useState(false);
+  const [splineLoaded, setSplineLoaded] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
-  }, []);
+    
+    // Load the Spline viewer script
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.13/build/spline-viewer.js';
+    script.onload = () => {
+      console.log('Spline viewer script loaded');
+      setSplineLoaded(true);
+    };
+    script.onerror = () => {
+      console.error('Failed to load Spline viewer script');
+    };
+    
+    // Only add script if not already present
+    if (!document.querySelector('script[src*="spline-viewer.js"]')) {
+      document.head.appendChild(script);
+    } else {
+      setSplineLoaded(true);
+    }
 
-  // Fallback component in case the 3D model fails to load
-  const ModelFallback = () => (
-    <FallbackModel />
-  );
+    return () => {
+      // Cleanup: remove script when component unmounts
+      const existingScript = document.querySelector('script[src*="spline-viewer.js"]');
+      if (existingScript) {
+        document.head.removeChild(existingScript);
+      }
+    };
+  }, []);
 
   return (
     <div className="relative min-h-screen pt-16 bg-white dark:bg-black overflow-hidden">
-      {/* 3D Spline Model in background */}
-      <Canvas
-        className="absolute inset-0 z-0"
-        camera={{ position: [0, 1.5, 4], fov: 50 }}
-        shadows
-        onCreated={(state) => {
-          // Enable shadows
-          state.gl.shadowMap.enabled = true;
-          state.gl.shadowMap.type = THREE.PCFSoftShadowMap;
-          state.gl.setClearColor('#f0f0f0');
-          console.log('Canvas created successfully');
-        }}
-      >
-        <color attach="background" args={['#f0f0f0']} />
-        <ambientLight intensity={0.6} />
-        <directionalLight 
-          position={[5, 5, 5]} 
-          intensity={1.2} 
-          castShadow 
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-        />
-        <pointLight position={[-5, 5, 5]} intensity={0.5} />
-        <hemisphereLight 
-          skyColor="#ffffff" 
-          groundColor="#444444" 
-          intensity={0.4} 
-        />
-        <Suspense fallback={<ModelFallback />}>
-          {!modelError ? (
-            <ErrorBoundary onError={() => setModelError(true)}>
-              <Model />
-            </ErrorBoundary>
-          ) : (
-            <ModelFallback />
-          )}
-        </Suspense>
-        <OrbitControls 
-          enablePan={false} 
-          enableZoom={false} 
-          autoRotate={true}
-          autoRotateSpeed={0.5}
-        />
-      </Canvas>
+      {/* Background Spline Scene - subtle */}
+      <div className="absolute inset-0 z-0 opacity-20">
+        {splineLoaded && (
+          <spline-viewer
+            url="https://prod.spline.design/9FzaxnyYWquGynD7/scene.splinecode"
+            style={{
+              width: '100%',
+              height: '100%',
+              background: 'transparent'
+            }}
+            className="w-full h-full"
+          />
+        )}
+      </div>
 
-      {/* Apple-style subtle grid background overlay (still under content) */}
-      <div className="absolute inset-0 bg-white dark:bg-black pointer-events-none">
+      {/* Apple-style subtle grid background overlay */}
+      <div className="absolute inset-0 bg-white dark:bg-black pointer-events-none z-5">
         <div
           className="absolute inset-0 dark:opacity-20"
           style={{
@@ -170,64 +92,128 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Foreground content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 py-12">
-        {/* Hero Section */}
-        <div
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          {/* Profile Image */}
-          <div className="relative inline-block mb-8">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden shadow-lg ring-1 ring-black/5 dark:ring-white/10">
-              <img
-                src={profileImg}
-                alt="Farhan Mashrur"
-                className="w-full h-full object-cover"
-              />
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
+        {/* Redesigned Hero Section with Integrated 3D Scene */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+          {/* Left Column - Profile & Info */}
+          <div
+            className={`transition-all duration-1000 ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+            }`}
+          >
+            {/* Profile Image */}
+            <div className="relative inline-block mb-8">
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-xl ring-1 ring-black/5 dark:ring-white/10">
+                <img
+                  src={profileImg}
+                  alt="Farhan Mashrur"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full ring-4 ring-white dark:ring-black flex items-center justify-center">
+                <div className="w-2 h-2 bg-white rounded-full" />
+              </div>
             </div>
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full ring-4 ring-white dark:ring-black flex items-center justify-center">
-              <div className="w-2 h-2 bg-white rounded-full" />
+
+            <h1 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-4 tracking-tight">
+              Farhan Mashrur
+            </h1>
+            
+            <div className="flex flex-wrap gap-2 mb-6">
+              {['CS & Economics','Cornell 2027','3.87 GPA'].map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
-          </div>
 
-          <h1 className="text-3xl md:text-4xl font-semibold text-black dark:text-white mb-3 tracking-tight">
-            Farhan Mashrur
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">
-            Computer Science & Economics
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500 mb-8">
-            Cornell University • Class of 2027 • 3.87 GPA
-          </p>
+            <div className="text-gray-700 dark:text-gray-300 leading-relaxed space-y-4 mb-8">
+              <p className="text-lg">
+                <strong>Co-Founder & Full-Stack Engineer</strong> at JobLink, building AI-powered job tracking with <strong>95%+ precision</strong> for 100+ students.
+              </p>
+              <p>
+                <strong>TA for Jon Kleinberg's CS 1340</strong>, guiding 750+ students through algorithms.
+              </p>
+              <p>
+                <strong>VP of Tech</strong> at Cornell Data Strategy, leading 25+ developers and winning hackathons with AI innovations.
+              </p>
+            </div>
 
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {['Full-Stack Developer','ML Researcher','Startup Co-founder'].map((tag) => (
-              <span
-                key={tag}
-                className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium"
+            <div className="flex flex-wrap gap-3 mb-8">
+              {['Full-Stack Dev','ML Researcher','Startup Co-founder'].map((tag) => (
+                <span
+                  key={tag}
+                  className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a
+                href="#timeline"
+                className="px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-200 shadow-lg text-center"
               >
-                {tag}
-              </span>
-            ))}
+                Explore Timeline
+              </a>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-full font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 text-center"
+              >
+                Download Resume
+              </a>
+            </div>
           </div>
 
-          <div className="text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto mb-12 space-y-4 text-left">
-            <p>
-              I'm <strong>Farhan Mashrur</strong>, a junior at <strong>Cornell University</strong> pursuing dual BA degrees in CS & Economics, graduating May 2027 with a 3.87 GPA.
-            </p>
-            <p>
-              As <strong>Co-Founder & Full-Stack Engineer at JobLink</strong> (launched Feb 2025), I built an AI-powered job-tracking platform parsing Gmail with NLP—achieving 95%+ precision and delighting 100+ students.
-            </p>
-            <p>
-              I'm also a <strong>TA for Jon Kleinberg's CS 1340</strong>, guiding 750+ students through algorithms.
-            </p>
-            <p>
-              Last summer, I interned at <strong>BRAC Bkash Ltd.</strong> in Dhaka, deploying a real-time seating system handling 100k+ daily queries on AWS microservices.
-            </p>
-            <p>
-              As VP of Tech at Cornell Data Strategy, I lead 25+ developers and recently won a hackathon with an AI poultry-disease detector.
-            </p>
+          {/* Right Column - Interactive 3D Scene */}
+          <div
+            className={`transition-all duration-1000 delay-300 ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+            }`}
+          >
+            <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-2xl border border-gray-200 dark:border-gray-700">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-black dark:text-white mb-2">
+                  Interactive Portfolio
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Explore my work in 3D
+                </p>
+              </div>
+              
+              <div className="relative w-full h-96 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden border border-gray-300 dark:border-gray-600">
+                {splineLoaded ? (
+                  <spline-viewer
+                    url="https://prod.spline.design/9FzaxnyYWquGynD7/scene.splinecode"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      background: 'transparent'
+                    }}
+                    className="w-full h-full"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                      <p className="text-gray-600 dark:text-gray-400 font-medium">Loading 3D Experience...</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div className="mt-6 text-center">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Click and drag to explore • Scroll to zoom
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -357,33 +343,5 @@ const Hero: React.FC = () => {
     </div>
   );
 };
-
-// Simple Error Boundary component
-class ErrorBoundary extends React.Component<
-  { children: React.ReactNode; onError: () => void },
-  { hasError: boolean }
-> {
-  constructor(props: { children: React.ReactNode; onError: () => void }) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.log('3D Model loading error:', error, errorInfo);
-    this.props.onError();
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return null;
-    }
-
-    return this.props.children;
-  }
-}
 
 export default Hero;
