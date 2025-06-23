@@ -19,6 +19,7 @@ declare global {
 const Hero: React.FC = () => {
   const [splineLoaded, setSplineLoaded] = useState(false);
   const [nameTransition, setNameTransition] = useState(false);
+  
 
   useEffect(() => {
     // Load the Spline viewer script
@@ -32,7 +33,7 @@ const Hero: React.FC = () => {
       // Trigger name transition after robot loads
       setTimeout(() => {
         setNameTransition(true);
-      }, 1500); // Wait 1.5 seconds after robot loads
+      }, 10); // Wait 1.5 seconds after robot loads
     };
     script.onerror = () => {
       console.error('Failed to load Spline viewer script');
@@ -61,9 +62,11 @@ const Hero: React.FC = () => {
     <div className="relative min-h-screen overflow-hidden" style={{ backgroundColor: '#000000' }}>
       {/* Big Spline Robot - Background */}
       <div className="absolute inset-0 z-0">
+
+      
         {splineLoaded && (
           <spline-viewer
-            url="https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode"
+            url=" https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode"
             style={{
               width: '100%',
               height: '100%',
@@ -84,14 +87,12 @@ const Hero: React.FC = () => {
         )}
       </div>
 
-      {/* Name - Apple Style, On Top */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-thin text-white tracking-tight leading-none">
-            Farhan Mashrur
-          </h1>
-        </div>
-      </div>
+      {/* Name - Centered and Fixed */}
+      <div className="inset-0 z-10 pointer-events-none">
+      <div className="inset-0 z-10 pointer-events-none">
+
+</div>
+</div>
     </div>
   );
 };

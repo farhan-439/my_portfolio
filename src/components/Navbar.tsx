@@ -31,26 +31,33 @@ const Navbar: React.FC = () => {
         fixed top-6 left-6 right-6 z-50 transition-all duration-500 ease-out
       `}
     >
-<div
-  className={`
-    bg-gradient-to-r from-slate-200/60 via-slate-300/40 to-slate-400/30
-    backdrop-blur-xl border border-slate-400/30
-    rounded-2xl shadow-2xl transition-all duration-500 ease-out
-    px-8 flex items-center justify-between h-10
-    ${isScrolled ? 'shadow-black/30' : ''}
-  `}
-  style={{
-    backgroundColor: 'rgba(226,232,240,0.35)', // fallback for glass effect
-    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.10)'
-  }}
->
-  {/* Logo / Name */}
-  <a
-    href="/"
-    className="text-xl font-medium text-black hover:text-blue-950 transition-colors duration-300"
-  >
-    Farhan Mashrur
-  </a>
+      <div
+        className={`
+          ${isScrolled 
+            ? 'bg-gradient-to-r from-slate-200/60 via-slate-300/40 to-slate-400/30 backdrop-blur-xl border border-slate-400/30 rounded-2xl shadow-2xl'
+            : 'bg-transparent'
+          }
+          transition-all duration-500 ease-out
+          px-8 flex items-center justify-between h-10
+        `}
+        style={isScrolled ? {
+          backgroundColor: 'rgba(226,232,240,0.35)',
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.10)'
+        } : {}}
+      >
+        {/* Logo / Name */}
+        <a
+          href="/"
+          className={`
+            text-xl font-medium transition-colors duration-300
+            ${isScrolled 
+              ? 'text-black hover:text-blue-950' 
+              : 'text-black hover:text-blue-950'
+            }
+          `}
+        >
+          Farhan Mashrur
+        </a>
 
         {/* Desktop Links */}
         <nav className="hidden md:flex space-x-10 items-center">
@@ -58,27 +65,31 @@ const Navbar: React.FC = () => {
             <a
               key={link.href}
               href={link.href}
-              className="
-                text-base font-medium text-black hover:text-blue-900 transition-all duration-300 relative
+              className={`
+                text-base font-medium transition-all duration-300 relative
+                ${isScrolled 
+                  ? 'text-black hover:text-blue-900 hover:after:bg-blue-900' 
+                  : 'text-black hover:text-blue-900 hover:after:bg-blue-900'
+                }
                 hover:after:w-full after:content-[''] after:absolute after:bottom-[-4px] 
-                after:left-0 after:w-0 after:h-[1px] after:bg-slate-100 after:transition-all after:duration-300
-              "
+                after:left-0 after:w-0 after:h-[1px] after:transition-all after:duration-300
+              `}
             >
               {link.label}
             </a>
           ))}
-
-          {/* Theme Toggle */}
-          
         </nav>
 
         {/* Mobile Hamburger */}
         <button
           onClick={() => setIsOpen((v) => !v)}
-          className="
-            md:hidden p-3 rounded-full text-slate-300 hover:text-slate-100 
-            hover:bg-slate-700/50 transition-all duration-300
-          "
+          className={`
+            md:hidden p-3 rounded-full transition-all duration-300
+            ${isScrolled 
+              ? 'text-black hover:text-blue-900 hover:bg-slate-200/50' 
+              : 'text-black hover:text-blue-900 hover:bg-slate-200/50'
+            }
+          `}
           aria-label="Toggle Menu"
         >
           {isOpen ? (
@@ -107,13 +118,25 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <nav className="md:hidden mt-3 bg-slate-800/90 backdrop-blur-xl border border-slate-600/40 rounded-2xl shadow-2xl">
+        <nav className={`
+          md:hidden mt-3 backdrop-blur-xl rounded-2xl shadow-2xl
+          ${isScrolled 
+            ? 'bg-gradient-to-r from-slate-200/80 via-slate-300/60 to-slate-400/50 border border-slate-400/30' 
+            : 'bg-black/80 border border-gray-700/50'
+          }
+        `}>
           <div className="px-8 py-6 space-y-4">
             {links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="block text-slate-300 hover:text-slate-100 text-base font-medium transition-colors duration-200"
+                className={`
+                  block text-base font-medium transition-colors duration-200
+                  ${isScrolled 
+                    ? 'text-black hover:text-blue-900' 
+                    : 'text-white hover:text-gray-300'
+                  }
+                `}
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
@@ -124,7 +147,13 @@ const Navbar: React.FC = () => {
                 toggleTheme();
                 setIsOpen(false);
               }}
-              className="mt-6 flex items-center space-x-2 text-slate-300 hover:text-slate-100 text-base font-medium transition-colors duration-200"
+              className={`
+                mt-6 flex items-center space-x-2 text-base font-medium transition-colors duration-200
+                ${isScrolled 
+                  ? 'text-black hover:text-blue-900' 
+                  : 'text-white hover:text-gray-300'
+                }
+              `}
             >
               <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
             </button>
