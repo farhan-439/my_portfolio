@@ -18,6 +18,7 @@ declare global {
 
 const Hero: React.FC = () => {
   const [splineLoaded, setSplineLoaded] = useState(false);
+  const [nameTransition, setNameTransition] = useState(false);
 
   useEffect(() => {
     // Load the Spline viewer script
@@ -27,6 +28,11 @@ const Hero: React.FC = () => {
     script.onload = () => {
       console.log('Spline viewer script loaded');
       setSplineLoaded(true);
+      
+      // Trigger name transition after robot loads
+      setTimeout(() => {
+        setNameTransition(true);
+      }, 1500); // Wait 1.5 seconds after robot loads
     };
     script.onerror = () => {
       console.error('Failed to load Spline viewer script');
@@ -37,6 +43,9 @@ const Hero: React.FC = () => {
       document.head.appendChild(script);
     } else {
       setSplineLoaded(true);
+      setTimeout(() => {
+        setNameTransition(true);
+      }, 1500);
     }
 
     return () => {
@@ -54,7 +63,7 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 z-0">
         {splineLoaded && (
           <spline-viewer
-            url="https://prod.spline.design/OetLM9XyPUIGf8ia/scene.splinecode"
+            url="https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode"
             style={{
               width: '100%',
               height: '100%',

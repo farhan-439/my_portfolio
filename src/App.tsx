@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import MobileHero from './components/MobileHero';
+
 import About from './components/About';
 import Skills from './components/Skills';
 import SpiralTimeline from './components/SpiralTimeline';
@@ -12,11 +12,8 @@ const App: React.FC = () => {
   return (
     <div className="bg-white text-black dark:bg-black dark:text-white scroll-smooth">
       {/* Hero / MobileHero */}
-      <div className="hidden md:block">
+      <div className="">
         <Hero />
-      </div>
-      <div className="block md:hidden">
-        <MobileHero />
       </div>
 
       <Navbar />
