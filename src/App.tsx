@@ -20,7 +20,7 @@ const App: React.FC = () => {
 
   
 
-      <main className="pt-16">
+      <main className="">
         <section id="about">
           <About />
         </section>
