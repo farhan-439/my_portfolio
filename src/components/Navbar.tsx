@@ -28,17 +28,17 @@ const Navbar: React.FC = () => {
   return (
     <header
       className={`
-        fixed top-6 left-6 right-6 z-50 transition-all duration-500 ease-out
+        fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out
       `}
     >
       <div
         className={`
           ${isScrolled 
-            ? 'bg-gradient-to-r from-slate-200/60 via-slate-300/40 to-slate-400/30 backdrop-blur-xl border border-slate-400/30 rounded-2xl shadow-2xl'
+            ? 'bg-slate-200 backdrop-blur-xl border-b border-slate-400/30 shadow-2xl'
             : 'bg-transparent'
           }
           transition-all duration-500 ease-out
-          px-8 flex items-center justify-between h-10
+          px-8 flex items-center justify-between h-12
         `}
         style={isScrolled ? {
           backgroundColor: 'rgba(226,232,240,0.35)',
@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
         <a
           href="/"
           className={`
-            text-xl font-medium transition-colors duration-300
+            text-base font-medium transition-colors duration-300
             ${isScrolled 
               ? 'text-black hover:text-blue-950' 
               : 'text-black hover:text-blue-950'
@@ -119,10 +119,10 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <nav className={`
-          md:hidden mt-3 backdrop-blur-xl rounded-2xl shadow-2xl
+          md:hidden backdrop-blur-xl shadow-2xl
           ${isScrolled 
-            ? 'bg-gradient-to-r from-slate-200/80 via-slate-300/60 to-slate-400/50 border border-slate-400/30' 
-            : 'bg-black/80 border border-gray-700/50'
+            ? 'bg-gradient-to-r from-slate-200/80 via-slate-300/60 to-slate-400/50 border-b border-slate-400/30' 
+            : 'bg-black/80 border-b border-gray-700/50'
           }
         `}>
           <div className="px-8 py-6 space-y-4">
