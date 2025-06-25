@@ -3,7 +3,7 @@ import profileImg from '../assets/profile.jpg';
 
 const About: React.FC = () => {
   return (
-    <section className="min-h-screen md:py-8 lg:min-h-screen lg:flex lg:items-center lg:justify-center px-4 py-8 lg:py-16" style={{ backgroundColor: '#dcdcdc' }}>
+    <section className="min-h-screen md:py-8 lg:min-h-screen lg:flex lg:items-center lg:justify-center px-4 py-8 lg:py-16 bg-gray-100" >
       <div className="max-w-6xl w-full lg:mx-auto">
         {/* Title */}
         <div className="text-center mb-6 lg:mb-8">
