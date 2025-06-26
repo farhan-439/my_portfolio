@@ -33,10 +33,7 @@ const Navbar: React.FC = () => {
     >
       <div
         className={`
-          ${isScrolled 
-            ? 'bg-slate-200 backdrop-blur-xl border-b border-slate-400/30 shadow-2xl'
-            : 'bg-transparent'
-          }
+          bg-gradient-to-r from-slate-200/80 via-slate-300/60 to-slate-400/50 backdrop-blur-xl border-b border-slate-400/30
           transition-all duration-500 ease-out
           px-8 flex items-center justify-between h-12
         `}

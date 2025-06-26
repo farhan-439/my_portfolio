@@ -3,10 +3,12 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 
 import About from './components/About';
-import Skills from './components/Skills';
+
 import SpiralTimeline from './components/SpiralTimeline';
 import Contacts from './components/Contacts';
 import Footer from './components/Footer';
+import LeadershipSection from './components/LeadershipSection';
+import ExperienceSection from './components/ExperienceSection';
 
 const App: React.FC = () => {
   return (
@@ -25,15 +27,19 @@ const App: React.FC = () => {
           <About />
         </section>
 
-
         <section id="skills">
-          <Skills />
+          <ExperienceSection />
         </section>
 
         <section id="timeline">
           <SpiralTimeline />
         </section>
 
+
+
+        <section id="leadership">
+          <LeadershipSection />
+        </section>
         <section id="contacts">
           <Contacts />
         </section>
