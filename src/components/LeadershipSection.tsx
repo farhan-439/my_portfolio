@@ -108,7 +108,7 @@ const LeadershipSection = () => {
   const [headerRef, headerInView] = useInView();
 
   return (
-    <section className="w-full py-16 px-4" style={{ backgroundColor: '#f8f9fa' }}>
+    <section className="w-full py-16 px-4 bg-white">
       <div className="max-w-4xl mx-auto">
         <div 
           ref={headerRef}

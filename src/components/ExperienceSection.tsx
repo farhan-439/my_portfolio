@@ -123,7 +123,7 @@ const ExperienceSection = () => {
   const [headerRef, headerInView] = useInView();
 
   return (
-    <section className="w-full py-16 px-4 bg-white">
+    <section className="w-full py-16 px-4" style={{ backgroundColor: '#e3e3e3' }}>
       <div className="max-w-4xl mx-auto">
         <div 
           ref={headerRef}
