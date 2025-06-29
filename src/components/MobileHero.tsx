@@ -1,4 +1,4 @@
-// src/components/Hero.tsx
+// src/components/MobileHero.tsx
 import React, { useState, useEffect } from 'react';
 
 // Declare the spline-viewer custom element for TypeScript
@@ -16,41 +16,41 @@ declare global {
   }
 }
 
-const Hero: React.FC = () => {
+const MobileHero: React.FC = () => {
   const [splineLoaded, setSplineLoaded] = useState(false);
   const [showGeometry, setShowGeometry] = useState(true);
 
   useEffect(() => {
-    // Load the Spline viewer script
+    // Load the Spline viewer script for mobile
     const script = document.createElement('script');
     script.type = 'module';
-    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.13/build/spline-viewer.js';
+    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.16/build/spline-viewer.js';
     script.onload = () => {
-      console.log('Spline viewer script loaded');
+      console.log('Mobile Spline viewer script loaded');
       setSplineLoaded(true);
       
       // Wait a few seconds after model loads before hiding geometry
       setTimeout(() => {
         setShowGeometry(false);
-      }, 1000); // 3 seconds after model loads
+      }, 1000);
     };
     script.onerror = () => {
-      console.error('Failed to load Spline viewer script');
+      console.error('Failed to load Mobile Spline viewer script');
     };
     
     // Only add script if not already present
-    if (!document.querySelector('script[src*="spline-viewer.js"]')) {
+    if (!document.querySelector('script[src*="@splinetool/viewer@1.10.16"]')) {
       document.head.appendChild(script);
     } else {
       setSplineLoaded(true);
       setTimeout(() => {
         setShowGeometry(false);
-      }, 3000);
+      }, 1000);
     }
 
     return () => {
       // Cleanup: remove script when component unmounts
-      const existingScript = document.querySelector('script[src*="spline-viewer.js"]');
+      const existingScript = document.querySelector('script[src*="@splinetool/viewer@1.10.16"]');
       if (existingScript) {
         document.head.removeChild(existingScript);
       }
@@ -59,11 +59,11 @@ const Hero: React.FC = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden" style={{ backgroundColor: '#000000' }}>
-      {/* Big Spline Robot - Background */}
+      {/* Mobile Spline Robot - Background */}
       <div className="absolute inset-0 z-0">
         {splineLoaded && (
           <spline-viewer
-            url="https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode"
+            url="https://prod.spline.design/FzfAGO2OlQXxxpgj/scene.splinecode"
             style={{
               width: '100%',
               height: '100%',
@@ -84,31 +84,31 @@ const Hero: React.FC = () => {
         )}
       </div>
 
-      {/* Breathing Light Animation */}
+      {/* Breathing Light Animation - Mobile Optimized */}
       {showGeometry && (
         <div className="fixed inset-0 z-10 pointer-events-none">
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             
-            {/* Main breathing light */}
+            {/* Main breathing light - smaller for mobile */}
             <div 
-              className="w-4 h-4 bg-white rounded-full"
+              className="w-3 h-3 bg-white rounded-full"
               style={{
                 animation: 'breathe 2s ease-in-out infinite',
-                boxShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.1)'
+                boxShadow: '0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3), 0 0 45px rgba(255, 255, 255, 0.1)'
               }}
             ></div>
             
-            {/* Outer ring */}
+            {/* Outer ring - smaller for mobile */}
             <div 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 border border-white/30 rounded-full"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 border border-white/30 rounded-full"
               style={{
                 animation: 'breatheRing 2s ease-in-out infinite 0.3s'
               }}
             ></div>
             
-            {/* Outer ring 2 */}
+            {/* Outer ring 2 - smaller for mobile */}
             <div 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 border border-white/20 rounded-full"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 border border-white/20 rounded-full"
               style={{
                 animation: 'breatheRing 2s ease-in-out infinite 0.6s'
               }}
@@ -118,17 +118,17 @@ const Hero: React.FC = () => {
         </div>
       )}
 
-      {/* Sticky Social Media Links */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+      {/* Sticky Social Media Links - Mobile Optimized */}
+      <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
         {/* LinkedIn */}
         <a
           href="https://linkedin.com/in/yourprofile" // Replace with your LinkedIn URL
           target="_blank"
           rel="noopener noreferrer"
-          className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-blue-700 hover:scale-110 shadow-lg"
+          className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-blue-700 active:scale-95 shadow-lg"
         >
           <svg
-            className="w-6 h-6 text-white"
+            className="w-5 h-5 text-white"
             fill="currentColor"
             viewBox="0 0 24 24"
           >
@@ -141,10 +141,10 @@ const Hero: React.FC = () => {
           href="https://github.com/yourusername" // Replace with your GitHub URL
           target="_blank"
           rel="noopener noreferrer"
-          className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-gray-900 hover:scale-110 shadow-lg"
+          className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-gray-900 active:scale-95 shadow-lg"
         >
           <svg
-            className="w-6 h-6 text-white"
+            className="w-5 h-5 text-white"
             fill="currentColor"
             viewBox="0 0 24 24"
           >
@@ -159,12 +159,12 @@ const Hero: React.FC = () => {
           0%, 100% {
             transform: scale(1);
             opacity: 0.8;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3), 0 0 45px rgba(255, 255, 255, 0.1);
           }
           50% {
             transform: scale(1.3);
             opacity: 1;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.5), 0 0 90px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8), 0 0 45px rgba(255, 255, 255, 0.5), 0 0 65px rgba(255, 255, 255, 0.3);
           }
         }
         
@@ -183,4 +183,4 @@ const Hero: React.FC = () => {
   );
 };
 
-export default Hero;
+export default MobileHero;
