@@ -177,7 +177,7 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
               {/* Quick action buttons */}
               <div className="flex gap-2">
                 {project.githubUrl && (
-                  
+                  <a
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -187,7 +187,7 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
                   </a>
                 )}
                 {project.liveUrl && (
-                  
+                  <a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -290,7 +290,7 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
             {/* Action Buttons */}
             <div className="flex gap-3">
               {project.githubUrl && (
-                
+                <a
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -300,7 +300,7 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
                 </a>
               )}
               {project.liveUrl && (
-                
+                <a
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -427,7 +427,7 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
         {/* Action Buttons */}
         <div className="flex gap-3">
           {project.githubUrl && (
-            
+            <a
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -437,7 +437,7 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
             </a>
           )}
           {project.liveUrl && (
-            
+            <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -514,14 +514,14 @@ const ProjectsSection = () => {
             }`}>
               {isMobile ? (
                 <>
-                  Projects showcasing expertise in 
-                  <strong className="text-white"> AI/ML</strong>, <strong className="text-white">full-stack</strong>, 
+                  Projects showcasing expertise in{' '}
+                  <strong className="text-white">AI/ML</strong>, <strong className="text-white">full-stack</strong>, 
                   and <strong className="text-white">data analysis</strong>.
                 </>
               ) : (
                 <>
-                  From hackathon wins to production systems, here are the projects that showcase my expertise in 
-                  <strong className="text-white"> AI/ML</strong>, <strong className="text-white">full-stack development</strong>, 
+                  From hackathon wins to production systems, here are the projects that showcase my expertise in{' '}
+                  <strong className="text-white">AI/ML</strong>, <strong className="text-white">full-stack development</strong>, 
                   and <strong className="text-white">data analysis</strong>.
                 </>
               )}
@@ -555,7 +555,7 @@ const ProjectsSection = () => {
               <span className={`text-gray-400 ${isMobile ? 'text-sm' : ''}`}>
                 {isMobile ? 'More on' : 'More projects on'}
               </span>
-              
+              <a
                 href="https://github.com/farhanmashrur"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -563,8 +563,8 @@ const ProjectsSection = () => {
                   isMobile ? 'text-sm' : ''
                 }`}
               >
-                GitHub 
-                <svg className={`fill="none" stroke="currentColor" viewBox="0 0 24 24" ${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`}>
+                GitHub{' '}
+                <svg className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </a>
