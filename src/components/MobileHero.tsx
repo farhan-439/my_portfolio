@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-// Local type declaration for spline-viewer
-declare module 'react/jsx-runtime' {
-  interface IntrinsicElements {
-    'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-      url: string;
-      style?: React.CSSProperties;
-      className?: string;
-    };
-  }
-}
-
 const MobileHero: React.FC = () => {
   const [splineLoaded, setSplineLoaded] = useState(false);
   const [showGeometry, setShowGeometry] = useState(true);
@@ -58,6 +47,7 @@ const MobileHero: React.FC = () => {
         {/* Mobile Spline Robot - Background */}
         <div className="absolute inset-0 z-0">
           {splineLoaded && (
+            // @ts-expect-error Spline viewer is a custom element not recognized by TypeScript
             <spline-viewer
               url="https://prod.spline.design/FzfAGO2OlQXxxpgj/scene.splinecode"
               style={{
