@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import demo1 from '../assets/demo1.mp4';
 import demo2 from '../assets/demo2.mp4';
 import demo3 from '../assets/demo3.mp4';
@@ -6,7 +6,7 @@ import demo3 from '../assets/demo3.mp4';
 // Custom hook for intersection observer
 const useInView = (options = {}) => {
   const [isInView, setIsInView] = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,7 +27,7 @@ const useInView = (options = {}) => {
     };
   }, []);
 
-  return [ref, isInView];
+  return [ref, isInView] as const;
 };
 
 // Custom hook to detect mobile
@@ -36,7 +36,7 @@ const useIsMobile = () => {
 
   useEffect(() => {
     const checkIsMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor;
+      const userAgent = navigator.userAgent || (navigator as any).vendor;
       const isMobileDevice = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
       const isSmallScreen = window.innerWidth <= 768;
       setIsMobile(isMobileDevice || isSmallScreen);
@@ -50,7 +50,26 @@ const useIsMobile = () => {
   return isMobile;
 };
 
-const featuredProjects = [
+interface Metric {
+  label: string;
+  value: string;
+}
+
+interface Project {
+  title: string;
+  subtitle: string;
+  video: string;
+  shortDescription: string;
+  fullDescription: string;
+  technologies: string[];
+  keyMetric: Metric;
+  metrics: Metric[];
+  githubUrl: string;
+  liveUrl?: string;
+  isAward?: boolean;
+}
+
+const featuredProjects: Project[] = [
   {
     title: "Poultry Disease Detection",
     subtitle: "1st Place, Cornell Hackathon",
@@ -101,7 +120,7 @@ const featuredProjects = [
 ];
 
 // Mobile Project Card Component
-const MobileProjectCard = ({ project, index }) => {
+const MobileProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const [ref, isInView] = useInView();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVideoExpanded, setIsVideoExpanded] = useState(false);
@@ -158,7 +177,7 @@ const MobileProjectCard = ({ project, index }) => {
               {/* Quick action buttons */}
               <div className="flex gap-2">
                 {project.githubUrl && (
-                  <a
+                  
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -168,7 +187,7 @@ const MobileProjectCard = ({ project, index }) => {
                   </a>
                 )}
                 {project.liveUrl && (
-                  <a
+                  
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -182,7 +201,7 @@ const MobileProjectCard = ({ project, index }) => {
 
             {/* Main technologies */}
             <div className="flex flex-wrap gap-1">
-              {project.technologies.slice(0, 3).map((tech, i) => (
+              {project.technologies.slice(0, 3).map((tech: string, i: number) => (
                 <span key={i} className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-md">
                   {tech}
                 </span>
@@ -251,7 +270,7 @@ const MobileProjectCard = ({ project, index }) => {
 
             {/* All Metrics */}
             <div className="grid grid-cols-3 gap-2 mb-4">
-              {project.metrics.map((metric, i) => (
+              {project.metrics.map((metric: Metric, i: number) => (
                 <div key={i} className="text-center p-2 bg-gray-800 rounded-lg">
                   <div className="text-sm font-medium text-white">{metric.value}</div>
                   <div className="text-xs text-gray-400">{metric.label}</div>
@@ -261,7 +280,7 @@ const MobileProjectCard = ({ project, index }) => {
 
             {/* All Technologies */}
             <div className="flex flex-wrap gap-2 mb-4">
-              {project.technologies.map((tech, i) => (
+              {project.technologies.map((tech: string, i: number) => (
                 <span key={i} className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-md">
                   {tech}
                 </span>
@@ -271,7 +290,7 @@ const MobileProjectCard = ({ project, index }) => {
             {/* Action Buttons */}
             <div className="flex gap-3">
               {project.githubUrl && (
-                <a
+                
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -281,7 +300,7 @@ const MobileProjectCard = ({ project, index }) => {
                 </a>
               )}
               {project.liveUrl && (
-                <a
+                
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -331,7 +350,7 @@ const MobileProjectCard = ({ project, index }) => {
 };
 
 // Desktop Project Card Component
-const DesktopProjectCard = ({ project, index }) => {
+const DesktopProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const [ref, isInView] = useInView();
   const [isVideoExpanded, setIsVideoExpanded] = useState(false);
   
@@ -388,7 +407,7 @@ const DesktopProjectCard = ({ project, index }) => {
 
         {/* Metrics */}
         <div className="grid grid-cols-3 gap-3 mb-4">
-          {project.metrics.map((metric, i) => (
+          {project.metrics.map((metric: Metric, i: number) => (
             <div key={i} className="text-center p-2 bg-gray-800 rounded-lg">
               <div className="text-sm font-medium text-white">{metric.value}</div>
               <div className="text-xs text-gray-400">{metric.label}</div>
@@ -398,7 +417,7 @@ const DesktopProjectCard = ({ project, index }) => {
 
         {/* Technologies */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {project.technologies.map((tech, i) => (
+          {project.technologies.map((tech: string, i: number) => (
             <span key={i} className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-md">
               {tech}
             </span>
@@ -408,7 +427,7 @@ const DesktopProjectCard = ({ project, index }) => {
         {/* Action Buttons */}
         <div className="flex gap-3">
           {project.githubUrl && (
-            <a
+            
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -418,7 +437,7 @@ const DesktopProjectCard = ({ project, index }) => {
             </a>
           )}
           {project.liveUrl && (
-            <a
+            
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -513,14 +532,14 @@ const ProjectsSection = () => {
           {isMobile ? (
             /* Mobile: Vertical list with expand/collapse */
             <div className="space-y-4 mb-6">
-              {featuredProjects.map((project, index) => (
+              {featuredProjects.map((project: Project, index: number) => (
                 <MobileProjectCard key={project.title} project={project} index={index} />
               ))}
             </div>
           ) : (
             /* Desktop: Grid layout */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {featuredProjects.map((project, index) => (
+              {featuredProjects.map((project: Project, index: number) => (
                 <DesktopProjectCard key={project.title} project={project} index={index} />
               ))}
             </div>
@@ -536,7 +555,7 @@ const ProjectsSection = () => {
               <span className={`text-gray-400 ${isMobile ? 'text-sm' : ''}`}>
                 {isMobile ? 'More on' : 'More projects on'}
               </span>
-              <a
+              
                 href="https://github.com/farhanmashrur"
                 target="_blank"
                 rel="noopener noreferrer"

@@ -1,11 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 // Custom hook for intersection observer
 const useInView = (options = {}) => {
   const [isInView, setIsInView] = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const node = ref.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
@@ -13,21 +14,30 @@ const useInView = (options = {}) => {
       { rootMargin: '-50px', ...options }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    if (node) {
+      observer.observe(node);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (node) {
+        observer.unobserve(node);
       }
     };
   }, []);
 
-  return [ref, isInView];
+  return [ref, isInView] as const;
 };
 
-const experienceData = [
+interface Experience {
+  company: string;
+  role: string;
+  period: string;
+  location: string;
+  description: string;
+  highlights: string[];
+}
+
+const experienceData: Experience[] = [
   {
     company: "JobLink",
     role: "Co-Founder / Full-Stack Engineer",
@@ -78,7 +88,7 @@ const experienceData = [
   }
 ];
 
-const ExperienceCard = ({ experience, index }) => {
+const ExperienceCard = ({ experience, index }: { experience: Experience; index: number }) => {
   const [ref, isInView] = useInView();
   
   return (
@@ -107,7 +117,7 @@ const ExperienceCard = ({ experience, index }) => {
         </p>
         
         <div className="space-y-1">
-          {experience.highlights.map((highlight, i) => (
+          {experience.highlights.map((highlight: string, i: number) => (
             <div key={i} className="flex items-center text-xs text-gray-600">
               <div className="w-1 h-1 rounded-full bg-gray-400 mr-2"></div>
               {highlight}
@@ -138,7 +148,7 @@ const ExperienceSection = () => {
         </div>
 
         <div className="space-y-0">
-          {experienceData.map((experience, index) => (
+          {experienceData.map((experience: Experience, index: number) => (
             <ExperienceCard 
               key={experience.company + experience.role}
               experience={experience} 

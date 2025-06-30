@@ -3,18 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 
 
-// Extend JSX.IntrinsicElements for the spline-viewer custom element
-declare module 'react' {
-  interface IntrinsicElements {
-    'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-      url: string;
-      style?: React.CSSProperties;
-      className?: string;
-      onLoad?: () => void;
-      onError?: () => void;
-    };
-  }
-}
+// (Moved JSX.IntrinsicElements augmentation to a .d.ts file for proper type extension)
 
 const DesktopHero: React.FC = () => {
   const [splineLoaded, setSplineLoaded] = useState(false);
