@@ -1,9 +1,32 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
+
+// Type definitions
+interface LeadershipItem {
+  organization: string;
+  role: string;
+  period: string;
+  description: string;
+  metrics: string[];
+}
+
+interface ProjectItem {
+  title: string;
+  role: string;
+  period: string;
+  description: string;
+  metrics: string[];
+}
+
+interface LeadershipCardProps {
+  item: LeadershipItem | ProjectItem;
+  index: number;
+  type: 'leadership' | 'project';
+}
 
 // Custom hook for intersection observer
 const useInView = (options = {}) => {
   const [isInView, setIsInView] = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -24,10 +47,10 @@ const useInView = (options = {}) => {
     };
   }, []);
 
-  return [ref, isInView];
+  return [ref, isInView] as const;
 };
 
-const leadershipData = [
+const leadershipData: LeadershipItem[] = [
   {
     organization: "Cornell Data Strategy",
     role: "Vice President of Technology",
@@ -44,7 +67,7 @@ const leadershipData = [
   }
 ];
 
-const projectsData = [
+const projectsData: ProjectItem[] = [
   {
     title: "Real Estate Agent Ranking Model",
     role: "Data Analyst Lead",
@@ -61,7 +84,7 @@ const projectsData = [
   }
 ];
 
-const LeadershipCard = ({ item, index, type }) => {
+const LeadershipCard: React.FC<LeadershipCardProps> = ({ item, index, type }) => {
   const [ref, isInView] = useInView();
   
   return (
@@ -78,7 +101,7 @@ const LeadershipCard = ({ item, index, type }) => {
         <div className="flex justify-between items-start mb-3">
           <div>
             <h3 className="text-lg font-medium text-gray-900">
-              {type === 'leadership' ? item.organization : item.title}
+              {type === 'leadership' ? (item as LeadershipItem).organization : (item as ProjectItem).title}
             </h3>
             <p className="text-gray-600 text-sm">{item.role}</p>
           </div>
@@ -92,7 +115,7 @@ const LeadershipCard = ({ item, index, type }) => {
         </p>
         
         <div className="space-y-1">
-          {item.metrics.map((metric, i) => (
+          {item.metrics.map((metric: string, i: number) => (
             <div key={i} className="flex items-center text-xs text-gray-600">
               <div className="w-1 h-1 rounded-full bg-gray-400 mr-2"></div>
               {metric}
@@ -104,7 +127,7 @@ const LeadershipCard = ({ item, index, type }) => {
   );
 };
 
-const LeadershipSection = () => {
+const LeadershipSection: React.FC = () => {
   const [headerRef, headerInView] = useInView();
 
   return (
