@@ -1,18 +1,18 @@
 // src/components/DesktopHero.tsx
 import React, { useState, useEffect } from 'react';
 
-// Declare the spline-viewer custom element for TypeScript
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'spline-viewer': {
-        url: string;
-        style?: React.CSSProperties;
-        className?: string;
-        onLoad?: () => void;
-        onError?: () => void;
-      };
-    }
+
+
+// Extend JSX.IntrinsicElements for the spline-viewer custom element
+declare module 'react' {
+  interface IntrinsicElements {
+    'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+      url: string;
+      style?: React.CSSProperties;
+      className?: string;
+      onLoad?: () => void;
+      onError?: () => void;
+    };
   }
 }
 
