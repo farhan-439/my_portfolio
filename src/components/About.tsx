@@ -3,8 +3,8 @@ import React from 'react';
 
 const About: React.FC = () => {
   return (
-    <section className=" px-1" style={{ backgroundColor: '#e3e3e3' }}>
-      <div className="max-w-8xl px-10">
+    <section className="px-1" style={{ backgroundColor: '#e3e3e3' }}>
+      <div className="max-w-8xl md:px-10 px-4">
         {/* Floating Black Container */}
         <div className="bg-black rounded-3xl p-8 md:p-12 shadow-2xl">
           {/* Title */}
@@ -21,8 +21,8 @@ const About: React.FC = () => {
               </p>
               
               <p>
-                I co-founded <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors underline">JobLink</a> this February - an AI job tracker that parses Gmail automatically using NLP.
-                Over 100 students have told me in person how much the automated tracking helps them, and it's been accepted by <a href="#" className="underline text-blue-400 hover:text-blue-300 transition-colors">Beta University</a>.
+                I co-founded <a href="https://joblink.one" className="text-blue-400 hover:text-blue-300 transition-colors underline">JobLink</a> this February - an AI job tracker that parses Gmail automatically using NLP.
+                Over 100 students have told me in person how much the automated tracking helps them, and it's been accepted by <a href="https://www.betauniversity.org" className="underline text-blue-400 hover:text-blue-300 transition-colors">Beta University</a>.
               </p>
               
               <p>

@@ -71,9 +71,25 @@ interface Project {
 
 const featuredProjects: Project[] = [
   {
+    title: "JobLink",
+    subtitle: "AI Job Tracker Startup",
+    video: demo1,
+    shortDescription: "AI job-tracker with React, Flask, PostgreSQL; auto-parses Gmail to unify job data.",
+    fullDescription: "Built AI job-tracker with React (TS), Flask, PostgreSQL; auto-parses Gmail to unify job data. Created NLP pipeline (LLM + spaCy + regex) with 95+% precision for company, role, status extraction. Led dev from wireframes to launch: OAuth Gmail sync, REST APIs, smart reminders; raised beta engagement 40%.",
+    technologies: ['React', 'TypeScript', 'Flask', 'PostgreSQL', 'NLP', 'OAuth'],
+    keyMetric: { label: "Precision", value: "95%" },
+    metrics: [
+      { label: "Precision", value: "95%" },
+      { label: "Engagement Boost", value: "+40%" },
+      { label: "Gmail Integration", value: "OAuth" }
+    ],
+    githubUrl: 'https://github.com/farhan/joblink',
+    liveUrl: 'https://joblink.farhan.dev'
+  },
+  {
     title: "Poultry Disease Detection",
     subtitle: "1st Place, Cornell Hackathon",
-    video: demo1,
+    video: demo2,
     shortDescription: "AI that flags infections 3 days pre-onset with 94% accuracy using CNN.",
     fullDescription: "Built AI that flags infections 3 days pre-onset from 12,000 spectrograms; reached 94% accuracy. Designed 5-layer CNN targeting 20–22 kHz vocal bands; inference in 25 ms on Raspberry Pi 4.",
     technologies: ['TensorFlow', 'PyTorch', 'CNN', 'MobileNetV3'],
@@ -87,35 +103,64 @@ const featuredProjects: Project[] = [
     isAward: true
   },
   {
+    title: "TableTalk",
+    subtitle: "Review Analysis Platform",
+    video: demo3,
+    shortDescription: "Full-stack app scraping 1K+ Google Maps reviews with Gaussian Mixture Models and PCA.",
+    fullDescription: "Co-led team of 7 building full-stack app scraping 1K+ Google Maps reviews via Selenium. Applied Gaussian Mixture Models with PCA on Flask/SQL backend to reveal review patterns. Built OpenAI-based sentiment pipeline analyzing 50K+ reviews with 92% F1 score.",
+    technologies: ['Flask', 'Selenium', 'OpenAI', 'Gaussian Mixture Models', 'PCA'],
+    keyMetric: { label: "F1 Score", value: "92%" },
+    metrics: [
+      { label: "F1 Score", value: "92%" },
+      { label: "Reviews Analyzed", value: "50K+" },
+      { label: "Google Maps Reviews", value: "1K+" }
+    ],
+    githubUrl: 'https://github.com/farhan/tabletalk'
+  },
+  {
     title: "OCaml Trader",
     subtitle: "Functional Trading Simulator",
-    video: demo2,
+    video: demo1,
     shortDescription: "Real-time trading simulator with <50ms latency across 500 equities.",
-    fullDescription: "Simulated 1000+ trades on live feeds spanning 500 equities; real-time P/L dashboard. Leveraged Lwt to keep price-fetch latency under 50 ms and transaction error rate <0.1%.",
+    fullDescription: "Simulated 1M+ trades on live feeds spanning 500 equities; real-time P/L dashboard. Leveraged Lwt to keep price-fetch latency under 50 ms and transaction error rate <0.1%. Implemented portfolio ops—buy/sell, performance, persistence—across 12 metrics; visual reports render in 200 ms.",
     technologies: ['OCaml', 'Lwt', 'Financial APIs'],
     keyMetric: { label: "Latency", value: "<50ms" },
     metrics: [
-      { label: "Trades Simulated", value: "1000+" },
+      { label: "Trades Simulated", value: "1M+" },
       { label: "Latency", value: "<50ms" },
       { label: "Error Rate", value: "<0.1%" }
     ],
     githubUrl: 'https://github.com/farhan/ocaml-trader'
   },
   {
-    title: "Stock Sentiment Platform",
-    subtitle: "Real-time Market Analysis",
-    video: demo3,
-    shortDescription: "Market analysis platform for 500+ tickers with 15% engagement boost.",
-    fullDescription: "Helped build Stock Sentiment Platform with search, portfolio, and real-time indicators for 500+ tickers. Gathered user feedback from 40+ testers, refining MVP to improve engagement by 15%.",
-    technologies: ['React', 'Node.js', 'Financial APIs'],
-    keyMetric: { label: "Stock Tickers", value: "500+" },
+    title: "Real Estate Agent Ranking",
+    subtitle: "Data Analytics for $650M+ Firm",
+    video: demo2,
+    shortDescription: "Supervised model to rank high-potential agents for a $650M+ firm with 175+ agents.",
+    fullDescription: "Built supervised model to rank high-potential agents for a $650M+ firm (175+ agents). Engineered MLS-based features (volume, growth, efficiency) for multi-factor scoring. Improved recruitment by targeting $3M–$5M agents with strong performance.",
+    technologies: ['Python', 'Machine Learning', 'MLS Data', 'Feature Engineering'],
+    keyMetric: { label: "Firm Value", value: "$650M+" },
     metrics: [
-      { label: "Stock Tickers", value: "500+" },
-      { label: "User Testers", value: "40+" },
-      { label: "Engagement Boost", value: "+15%" }
+      { label: "Firm Value", value: "$650M+" },
+      { label: "Agents Analyzed", value: "175+" },
+      { label: "Target Range", value: "$3-5M" }
     ],
-    githubUrl: 'https://github.com/farhan/stock-sentiment',
-    liveUrl: 'https://stock-sentiment.farhan.dev'
+    githubUrl: 'https://github.com/farhan/agent-ranking'
+  },
+  {
+    title: "Resume AI Matching",
+    subtitle: "Intelligent Resume Analysis",
+    video: demo3,
+    shortDescription: "AI-powered resume matching system using NLP and machine learning for recruitment.",
+    fullDescription: "Developed AI-powered resume matching system that analyzes candidate profiles against job requirements using advanced NLP techniques. Implemented semantic similarity scoring and keyword extraction for improved recruitment efficiency.",
+    technologies: ['Python', 'NLP', 'Machine Learning', 'spaCy', 'TF-IDF'],
+    keyMetric: { label: "Match Score", value: "89%" },
+    metrics: [
+      { label: "Match Accuracy", value: "89%" },
+      { label: "Processing Speed", value: "100ms" },
+      { label: "Resume Database", value: "10K+" }
+    ],
+    githubUrl: 'https://github.com/farhan/resume-ai-matching'
   }
 ];
 
@@ -186,6 +231,12 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
                     Code
                   </a>
                 )}
+                <button
+                  onClick={() => setIsVideoExpanded(true)}
+                  className="bg-purple-600 hover:bg-purple-700 text-white text-xs font-medium py-1.5 px-3 rounded-md transition-colors duration-200"
+                >
+                  Video
+                </button>
                 {project.liveUrl && (
                   <a
                     href={project.liveUrl}
@@ -299,6 +350,12 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
                   Code
                 </a>
               )}
+              <button
+                onClick={() => setIsVideoExpanded(true)}
+                className="flex-1 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium py-2 px-3 rounded-lg transition-colors duration-200 text-center"
+              >
+                Video
+              </button>
               {project.liveUrl && (
                 <a
                   href={project.liveUrl}
@@ -308,11 +365,6 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
                 >
                   Demo
                 </a>
-              )}
-              {!project.liveUrl && (
-                <div className="flex-1 bg-gray-800 text-gray-500 text-sm font-medium py-2 px-3 rounded-lg text-center">
-                  Academic
-                </div>
               )}
             </div>
           </>
@@ -364,7 +416,7 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
       }`}
       style={{ transitionDelay: `${index * 150}ms` }}
     >
-      <div className="bg-gray-900 rounded-2xl p-6 hover:bg-gray-800 transition-all duration-300">
+      <div className="bg-gray-900 rounded-2xl p-6 hover:bg-gray-800 transition-all duration-300 h-full flex flex-col">
         {/* Video Preview */}
         <div className="relative mb-4 rounded-xl overflow-hidden bg-gray-800">
           <video
@@ -390,7 +442,7 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
         </div>
 
         {/* Project Info */}
-        <div className="mb-4">
+        <div className="mb-4 flex-grow">
           <div className="flex items-start justify-between mb-2">
             <h3 className="text-lg font-medium text-white">{project.title}</h3>
             {project.isAward && (
@@ -400,7 +452,7 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
             )}
           </div>
           <p className="text-gray-400 text-sm mb-3">{project.subtitle}</p>
-          <p className="text-gray-300 text-sm leading-relaxed mb-4">
+          <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-4">
             {project.fullDescription}
           </p>
         </div>
@@ -425,7 +477,7 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 mt-auto">
           {project.githubUrl && (
             <a
               href={project.githubUrl}
@@ -436,6 +488,12 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
               Code
             </a>
           )}
+          <button
+            onClick={() => setIsVideoExpanded(true)}
+            className="flex-1 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium py-2 px-3 rounded-lg transition-colors duration-200 text-center"
+          >
+            Video
+          </button>
           {project.liveUrl && (
             <a
               href={project.liveUrl}
@@ -445,11 +503,6 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
             >
               Demo
             </a>
-          )}
-          {!project.liveUrl && (
-            <div className="flex-1 bg-gray-800 text-gray-500 text-sm font-medium py-2 px-3 rounded-lg text-center">
-              Academic
-            </div>
           )}
         </div>
         

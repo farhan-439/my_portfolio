@@ -35,6 +35,7 @@ const MobileHero: React.FC = () => {
     return () => {
       // Cleanup: remove script when component unmounts
       const existingScript = document.querySelector('script[src*="@splinetool/viewer@1.10.16"]');
+      
       if (existingScript && existingScript.parentNode) {
         existingScript.parentNode.removeChild(existingScript);
       }
@@ -50,6 +51,7 @@ const MobileHero: React.FC = () => {
             // @ts-expect-error Spline viewer is a custom element not recognized by TypeScript
             <spline-viewer
               url="https://prod.spline.design/FzfAGO2OlQXxxpgj/scene.splinecode"
+              
               style={{
                 width: '100%',
                 height: '100%',
