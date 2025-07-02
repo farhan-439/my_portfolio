@@ -241,7 +241,7 @@ const featuredProjects: Project[] = [
     metrics: [
       { label: "Match Accuracy", value: "89%" },
       { label: "Processing Speed", value: "100ms" },
-      { label: "Resume Database", value: "10K+" }
+      { label: "Metrics Used", value: "40+" }
     ],
     technicalDetails: [
       {
