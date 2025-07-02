@@ -52,14 +52,14 @@ const leadershipData: LeadershipItem[] = [
   {
     organization: "Cornell Event Services",
     role: "Planning Team Member",
-    period: "Jan 2024 – May 2025",
+    period: "Jan 2024 – Aug 2025",
     description: "Part of the Planning team for Cornell University where we organized Reunion 2025 and Commencement 2025. Collaborated on large-scale event coordination, logistics management, and utilized internal web tools and digital systems for attendee management and resource allocation.",
     
   },
   {
     organization: "Cornell Fintech Club",
     role: "Software Developer",
-    period: "Sept 2023 – Present",
+    period: "Sept 2023 – Aug 2024",
     description: "Helped build Stock Sentiment Platform with search, portfolio, and real-time indicators for 500+ tickers. Gathered user feedback from 40+ testers, refining MVP to improve engagement by 15%.",
     link: "https://www.cornellfintechclub.com"
   },
@@ -67,7 +67,7 @@ const leadershipData: LeadershipItem[] = [
   {
     organization: "International Student Association",
     role: "Planning Team Member",
-    period: "Sept 2023 – Present",
+    period: "Jan 2025 – Present",
     description: "Planned and organized member social events and hosted Gala nights which gathered around 300+ students. Coordinated event logistics, vendor management, and student engagement initiatives to foster community building among international students.",
     link: "https://isucornell.com/index.html"
   },

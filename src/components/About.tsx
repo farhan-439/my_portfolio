@@ -46,7 +46,7 @@ const About: React.FC = () => {
               {/* Current Focus */}
               <div className="mt-6 pt-5 border-t border-gray-600">
                 <p className="text-gray-400 italic text-sm">
-                  Currently working on JobLink features and always experimenting with new ML architectures.
+                  Currently working on time series model training at my internship, continuing to build Joblink and always experimenting with new ML architectures.
                 </p>
               </div>
             </div>
