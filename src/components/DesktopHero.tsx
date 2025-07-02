@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+
 const DesktopHero: React.FC = () => {
   const [splineLoaded, setSplineLoaded] = useState<boolean>(false);
   const [showGeometry, setShowGeometry] = useState<boolean>(true);
@@ -7,7 +8,8 @@ const DesktopHero: React.FC = () => {
   useEffect(() => {
     const script: HTMLScriptElement = document.createElement('script');
     script.type = 'module';
-    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.13/build/spline-viewer.js';
+    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.19/build/spline-viewer.js';
+
     script.onload = () => {
       console.log('Desktop Spline viewer script loaded');
       setSplineLoaded(true);
@@ -20,7 +22,7 @@ const DesktopHero: React.FC = () => {
       console.error('Failed to load Desktop Spline viewer script');
     };
 
-    if (!document.querySelector('script[src*="@splinetool/viewer@1.10.13"]')) {
+    if (!document.querySelector('script[src*="@splinetool/viewer@1.10.19"]')) {
       document.head.appendChild(script);
     } else {
       setSplineLoaded(true);
@@ -30,7 +32,7 @@ const DesktopHero: React.FC = () => {
     }
 
     return () => {
-      const existingScript = document.querySelector('script[src*="@splinetool/viewer@1.10.13"]');
+      const existingScript = document.querySelector('script[src*="@splinetool/viewer@1.10.19"]');
       if (existingScript && existingScript.parentNode) {
         existingScript.parentNode.removeChild(existingScript);
       }

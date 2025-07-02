@@ -8,7 +8,7 @@ const MobileHero: React.FC = () => {
     // Load the Spline viewer script for mobile
     const script = document.createElement('script');
     script.type = 'module';
-    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.16/build/spline-viewer.js';
+    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.19/build/spline-viewer.js';
     script.onload = () => {
       console.log('Mobile Spline viewer script loaded');
       setSplineLoaded(true);
@@ -23,7 +23,7 @@ const MobileHero: React.FC = () => {
     };
     
     // Only add script if not already present
-    if (!document.querySelector('script[src*="@splinetool/viewer@1.10.16"]')) {
+    if (!document.querySelector('script[src*="@splinetool/viewer@1.10.19"]')) {
       document.head.appendChild(script);
     } else {
       setSplineLoaded(true);
@@ -34,7 +34,7 @@ const MobileHero: React.FC = () => {
 
     return () => {
       // Cleanup: remove script when component unmounts
-      const existingScript = document.querySelector('script[src*="@splinetool/viewer@1.10.16"]');
+      const existingScript = document.querySelector('script[src*="@splinetool/viewer@1.10.19"]');
       
       if (existingScript && existingScript.parentNode) {
         existingScript.parentNode.removeChild(existingScript);
