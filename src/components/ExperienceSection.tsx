@@ -67,7 +67,7 @@ const experienceData: Experience[] = [
     role: "Software Engineering Intern",
     period: "Jun 2024 – Aug 2024",
     location: "Dhaka, Bangladesh",
-    description: "Deployed real-time office seating system across 5 floors and 400+ employees. Integrated 7 Spring Boot microservices with AWS DynamoDB and S3, handling 100K+ seat queries daily. Built admin CMS for 30+ office managers processing 20K+ configuration changes per month.",
+    description: "Built real-time office seating system across 5 floors and 400+ employees. Integrated 7 Spring Boot microservices with AWS DynamoDB and S3. Built admin CMS for 30+ office managers and 20K+ configuration changes per month.",
     highlights: [
       "Spring Boot, Java, AWS",
       "DynamoDB, S3, Redis",
