@@ -2,6 +2,10 @@ import { useRef, useEffect, useState } from 'react';
 import demo1 from '../assets/demo1.mp4';
 import demo2 from '../assets/demo2.mp4';
 import demo3 from '../assets/demo3.mp4';
+import demo4 from '../assets/demo4.mp4';
+import demo5 from '../assets/demo5.mp4';
+import demo6 from '../assets/demo6.mp4';
+
 
 // Custom hook for intersection observer
 const useInView = (options = {}) => {
@@ -83,8 +87,9 @@ const featuredProjects: Project[] = [
       { label: "Engagement Boost", value: "+40%" },
       { label: "Gmail Integration", value: "OAuth" }
     ],
-    githubUrl: 'https://github.com/farhan/joblink',
-    liveUrl: 'https://joblink.farhan.dev'
+    // githubUrl: 'https://github.com/farhan/joblink', // code is private
+    liveUrl: 'https://joblink.one',
+    codePrivate: true // <-- add this flag
   },
   {
     title: "Poultry Disease Detection",
@@ -99,7 +104,7 @@ const featuredProjects: Project[] = [
       { label: "Inference Speed", value: "25ms" },
       { label: "Dataset Size", value: "12K+" }
     ],
-    githubUrl: 'https://github.com/farhan/poultry-detection',
+    githubUrl: 'https://github.com/farhan-439/avian_alert',
     isAward: true
   },
   {
@@ -120,22 +125,22 @@ const featuredProjects: Project[] = [
   {
     title: "OCaml Trader",
     subtitle: "Functional Trading Simulator",
-    video: demo1,
-    shortDescription: "Real-time trading simulator with <50ms latency across 500 equities.",
-    fullDescription: "Simulated 1M+ trades on live feeds spanning 500 equities; real-time P/L dashboard. Leveraged Lwt to keep price-fetch latency under 50 ms and transaction error rate <0.1%. Implemented portfolio ops—buy/sell, performance, persistence—across 12 metrics; visual reports render in 200 ms.",
-    technologies: ['OCaml', 'Lwt', 'Financial APIs'],
+    video: demo4,
+    shortDescription: "Real-time trading simulator with live API stock updates and user portfolio tracking.",
+    fullDescription: "Built a trading simulator with real-time stock data via API for 500 equities and live user portfolio tracking. Developed a simulated portfolio feature using a custom ML model to forecast future prices, enabling users to test strategies. Supported 500+ simulated trades and 12 portfolio metrics for performance analysis.",
+    technologies: ['OCaml', 'Lwt', 'Async IO', 'Financial APIs', 'Custom ML Model'],
     keyMetric: { label: "Latency", value: "<50ms" },
     metrics: [
-      { label: "Trades Simulated", value: "1M+" },
-      { label: "Latency", value: "<50ms" },
-      { label: "Error Rate", value: "<0.1%" }
+      { label: "Simulated Trades", value: "500+" },
+      { label: "Portfolio Metrics", value: "12" },
+      { label: "Latency", value: "<50ms" }
     ],
     githubUrl: 'https://github.com/farhan/ocaml-trader'
   },
   {
     title: "Real Estate Agent Ranking",
     subtitle: "Data Analytics for $650M+ Firm",
-    video: demo2,
+    video: demo5,
     shortDescription: "Supervised model to rank high-potential agents for a $650M+ firm with 175+ agents.",
     fullDescription: "Built supervised model to rank high-potential agents for a $650M+ firm (175+ agents). Engineered MLS-based features (volume, growth, efficiency) for multi-factor scoring. Improved recruitment by targeting $3M–$5M agents with strong performance.",
     technologies: ['Python', 'Machine Learning', 'MLS Data', 'Feature Engineering'],
@@ -150,7 +155,7 @@ const featuredProjects: Project[] = [
   {
     title: "Resume AI Matching",
     subtitle: "Intelligent Resume Analysis",
-    video: demo3,
+    video: demo6,
     shortDescription: "AI-powered resume matching system using NLP and machine learning for recruitment.",
     fullDescription: "Developed AI-powered resume matching system that analyzes candidate profiles against job requirements using advanced NLP techniques. Implemented semantic similarity scoring and keyword extraction for improved recruitment efficiency.",
     technologies: ['Python', 'NLP', 'Machine Learning', 'spaCy', 'TF-IDF'],
@@ -244,7 +249,7 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
                     rel="noopener noreferrer"
                     className="bg-white hover:bg-gray-100 text-gray-900 text-xs font-medium py-1.5 px-3 rounded-md transition-colors duration-200"
                   >
-                    Demo
+                    Website
                   </a>
                 )}
               </div>
@@ -363,7 +368,7 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
                   rel="noopener noreferrer"
                   className="flex-1 bg-white hover:bg-gray-100 text-gray-900 text-sm font-medium py-2 px-3 rounded-lg transition-colors duration-200 text-center"
                 >
-                  Demo
+                  Website
                 </a>
               )}
             </div>
@@ -501,7 +506,7 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
               rel="noopener noreferrer"
               className="flex-1 bg-white hover:bg-gray-100 text-gray-900 text-sm font-medium py-2 px-3 rounded-lg transition-colors duration-200 text-center"
             >
-              Demo
+              Website
             </a>
           )}
         </div>

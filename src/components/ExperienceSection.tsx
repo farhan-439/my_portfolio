@@ -39,15 +39,27 @@ interface Experience {
 
 const experienceData: Experience[] = [
   {
+    company: "Simulacrum",
+    role: "Machine Learning Engineering Intern",
+    period: "Jun 2025 – Aug 2025",
+    location: "Remote",
+    description: "Architected foundation model infrastructure for time-series forecasting. Tasked with engineering distributed training pipelines for transformer architectures, integrating open-source models for comparative benchmarking, and developing automated leaderboard systems with containerized model deployment using Kubernetes orchestration.",
+    highlights: [
+      "PyTorch, Transformers, Kubernetes",
+      "Docker, FastAPI, PostgreSQL",
+      "MLflow, Weights & Biases, Ray"
+    ]
+  },
+  {
     company: "JobLink",
     role: "Co-Founder / Full-Stack Engineer",
     period: "Feb 2025 – Present",
     location: "Ithaca, NY",
-    description: "Built AI job-tracker with React (TS), Flask, PostgreSQL; auto-parses Gmail to unify job data. Created NLP pipeline (LLM + spaCy + regex) with 97.82% precision for company, role, status extraction.",
+    description: "Built AI job-tracker with React (TS), Flask, PostgreSQL; auto-parses Gmail to unify job data. Created NLP pipeline (LLM + spaCy + regex) with 97.82% precision for company, role, status extraction. Raised beta engagement 40% through OAuth Gmail sync with REST APIs.",
     highlights: [
-      "97.82% NLP precision for data extraction",
-      "Raised beta engagement 40%",
-      "OAuth Gmail sync with REST APIs"
+      "React, TypeScript, Flask",
+      "PostgreSQL, spaCy, OpenAI API",
+      "OAuth 2.0, Gmail API, REST"
     ]
   },
   {
@@ -55,11 +67,11 @@ const experienceData: Experience[] = [
     role: "Software Engineering Intern",
     period: "Jun 2024 – Aug 2024",
     location: "Dhaka, Bangladesh",
-    description: "Deployed real-time office seating system across 5 floors and 400+ employees. Integrated 7 Spring Boot microservices with AWS DynamoDB and S3, handling 100K+ seat queries daily.",
+    description: "Deployed real-time office seating system across 5 floors and 400+ employees. Integrated 7 Spring Boot microservices with AWS DynamoDB and S3, handling 100K+ seat queries daily. Built admin CMS for 30+ office managers processing 20K+ configuration changes per month.",
     highlights: [
-      "100K+ seat queries handled daily",
-      "Built admin CMS for 30+ office managers",
-      "20K+ configuration changes per month"
+      "Spring Boot, Java, AWS",
+      "DynamoDB, S3, Redis",
+      "Microservices, REST APIs"
     ]
   },
   {
@@ -67,23 +79,10 @@ const experienceData: Experience[] = [
     role: "Teaching Assistant - CS 1340",
     period: "Jan 2025 – Present",
     location: "Ithaca, NY",
-    description: "Assist Professor Jon Kleinberg in a 750+ student course; run office hours and lead algorithm discussions.",
+    description: "Assist Professor Jon Kleinberg in a 750+ student course; run office hours and lead algorithm discussions. Mentor students on computational complexity, graph algorithms, and dynamic programming fundamentals.",
     highlights: [
-      "750+ students taught",
-      "Algorithm discussions leadership",
-      "Office hours and mentoring"
-    ]
-  },
-  {
-    company: "Cornell University Library",
-    role: "Student Administrative Assistant",
-    period: "Sept 2023 – Dec 2024",
-    location: "Ithaca, NY",
-    description: "Assisted in cataloging 3K+ records, supported database queries and front-desk operations across 3 branches.",
-    highlights: [
-      "3K+ records cataloged",
-      "25% query resolution improvement",
-      "3 library branches supported"
+      "Algorithms, Graph Theory, AI Ethics",
+      "Academic Mentoring"
     ]
   }
 ];

@@ -27,7 +27,7 @@ const About: React.FC = () => {
               
               <p>
                 I spent last summer at <a href="#" className="underline text-blue-400 hover:text-blue-300 transition-colors">BRAC Bkash in Bangladesh</a> building real-time office systems.
-                This summer, I'm working on foundation model engineering for time series applications at a <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors underline">stealth AI startup</a>.
+                This summer, I'm working on foundation model engineering for time series applications at an <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors underline">AI startup</a>.
               </p>
               
               <p>
