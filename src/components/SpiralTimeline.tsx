@@ -71,6 +71,7 @@ interface Project {
   githubUrl: string;
   liveUrl?: string;
   isAward?: boolean;
+  codePrivate?: boolean;
 }
 
 const featuredProjects: Project[] = [
@@ -87,7 +88,7 @@ const featuredProjects: Project[] = [
       { label: "Engagement Boost", value: "+40%" },
       { label: "Gmail Integration", value: "OAuth" }
     ],
-    // githubUrl: 'https://github.com/farhan/joblink', // code is private
+    githubUrl: '', // code is private, so leave as empty string
     liveUrl: 'https://joblink.one',
     codePrivate: true // <-- add this flag
   },

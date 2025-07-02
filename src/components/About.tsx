@@ -129,8 +129,8 @@ const About: React.FC = () => {
                     <span className="text-gray-400 text-right">International Student Association</span>
                   </div>
                   <div className="flex justify-between items-start">
-                    <span><strong className="text-white">Product Team Member</strong></span>
-                    <span className="text-gray-400 text-right">Cornell WebDev</span>
+                    <span><strong className="text-white">Event Planner</strong></span>
+                    <span className="text-gray-400 text-right">Cornell University Events</span>
                   </div>
                 </div>
               </div>

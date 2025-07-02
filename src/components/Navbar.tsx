@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
     
     const targetElement = document.querySelector(href);
     if (targetElement) {
-      const offsetTop = targetElement.offsetTop - 80; // Account for navbar height
+      const offsetTop = (targetElement as HTMLElement).offsetTop - 80; // Account for navbar height
       
       window.scrollTo({
         top: offsetTop,

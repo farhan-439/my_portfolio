@@ -42,7 +42,7 @@ const experienceData: Experience[] = [
     company: "Simulacrum",
     role: "Machine Learning Engineering Intern",
     period: "Jun 2025 – Aug 2025",
-    location: "Remote",
+    location: "Tata Innovation Center, New York, NY",
     description: "Architected foundation model infrastructure for time-series forecasting. Tasked with engineering distributed training pipelines for transformer architectures, integrating open-source models for comparative benchmarking, and developing automated leaderboard systems with containerized model deployment using Kubernetes orchestration.",
     highlights: [
       "PyTorch, Transformers, Kubernetes",
