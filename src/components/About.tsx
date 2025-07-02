@@ -26,22 +26,21 @@ const About: React.FC = () => {
               </p>
               
               <p>
-                I spent last summer at <a href="#" className="underline text-blue-400 hover:text-blue-300 transition-colors">BRAC Bkash in Bangladesh</a> building real-time office systems.
-                This summer, I'm working on foundation model engineering for time series applications at an <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors underline">AI startup</a>.
+                I spent last summer at <a href="https://www.linkedin.com/company/bkash-limited/" className="underline text-blue-400 hover:text-blue-300 transition-colors">BRAC Bkash</a>  in Bangladesh building real-time office systems.
+                This summer, I'm working on foundation model engineering for time series applications at an <a href="https://www.smlcrm.com" className="text-blue-400 hover:text-blue-300 transition-colors underline">AI startup</a>.
               </p>
               
               <p>
-                I'm equally passionate about economics - I won <a href="#" className="text-blue-400 underline hover:text-blue-300 transition-colors">two bronze medals</a> in the International Economics Olympiad
-                back-to-back and genuinely enjoy studying how markets and human behavior intersect.
+  I'm equally passionate about economics – I won bronze medals in the International Economics Olympiad <a href="https://www.thedailystar.net/youth/young-icons/global-achievements/news/team-bangladesh-wins-four-bronze-medals-intl-economics-olympiad-2152091" className="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener noreferrer">2022</a> and <a href="https://www.thedailystar.net/shout/news/team-bangladesh-wins-silver-and-bronze-medals-the-international-economics-olympiad-2022-3102311" className="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener noreferrer">2023</a>, and genuinely enjoy studying how markets and human behavior intersect.
+</p>
+              
+              <p>
+                I love applying ML to real problems - from <a href="https://www.linkedin.com/posts/farhanmashrur_i-am-very-thrilled-to-share-that-our-team-activity-7302084680705605632-d90o?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD_yNmsBEZbRp7Wu7XDTfc0GnxhQ3SCmnUE" className="text-blue-400 underline hover:text-blue-300 transition-colors">winning hackathons</a> with disease-detection models
+                to building <a href="https://github.com/farhan-439/ocaml_trader" className="text-blue-400 hover:text-blue-300 transition-colors underline">trading simulators</a> in OCaml that blend my CS and economics interests.
               </p>
               
               <p>
-                I love applying ML to real problems - from <a href="#" className="text-blue-400 underline hover:text-blue-300 transition-colors">winning hackathons</a> with disease-detection models
-                to building <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors underline">trading simulators</a> in OCaml that blend my CS and economics interests.
-              </p>
-              
-              <p>
-                As VP of Technology at <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors underline">Cornell Data Strategy</a>, I manage engineering teams working on projects that have generated over $1.6M in business value across 8 industries.
+                As VP of Technology at <a href="https://cornelldatastrategy.com" className="text-blue-400 hover:text-blue-300 transition-colors underline">Cornell Data Strategy</a>, I manage engineering teams working on projects that have generated over $1.6M in business value across 8 industries.
               </p>
               
               {/* Current Focus */}

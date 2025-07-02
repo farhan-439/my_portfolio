@@ -614,7 +614,7 @@ const ProjectsSection = () => {
                 {isMobile ? 'More on' : 'More projects on'}
               </span>
               <a
-                href="https://github.com/farhanmashrur"
+                href="https://github.com/farhan-439"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`text-white hover:text-gray-300 font-medium flex items-center gap-1 ${

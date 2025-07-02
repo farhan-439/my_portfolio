@@ -104,7 +104,7 @@ const DesktopHero: React.FC = () => {
         <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
           {/* LinkedIn */}
           <a
-            href="https://linkedin.com/in/yourprofile" // Replace with your LinkedIn URL
+            href="https://www.linkedin.com/in/farhanmashrur/" // Replace with your LinkedIn URL
             target="_blank"
             rel="noopener noreferrer"
             className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-blue-700 hover:scale-110 shadow-lg"
@@ -120,7 +120,7 @@ const DesktopHero: React.FC = () => {
 
           {/* GitHub */}
           <a
-            href="https://github.com/yourusername" // Replace with your GitHub URL
+            href="https://github.com/farhan-439" // Replace with your GitHub URL
             target="_blank"
             rel="noopener noreferrer"
             className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-gray-900 hover:scale-110 shadow-lg"

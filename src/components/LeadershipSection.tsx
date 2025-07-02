@@ -47,21 +47,21 @@ const leadershipData: LeadershipItem[] = [
     role: "Vice President of Technology",
     period: "Aug 2024 – Present",
     description: "Led tech initiatives across multiple verticals; managed 3+ engineering teams totaling 25+ developers. Oversaw engineering execution for initiatives generating $1.6M+ in business value, optimizing resources by 23%, and supporting solutions across 8 industries.",
-    link: "https://example.com/cornell-data-strategy"
+    link: "https://cornelldatastrategy.com"
   },
   {
     organization: "Cornell Event Services",
     role: "Planning Team Member",
     period: "Jan 2024 – May 2025",
     description: "Part of the Planning team for Cornell University where we organized Reunion 2025 and Commencement 2025. Collaborated on large-scale event coordination, logistics management, and utilized internal web tools and digital systems for attendee management and resource allocation.",
-    link: "https://example.com/cornell-events"
+    
   },
   {
     organization: "Cornell Fintech Club",
     role: "Software Developer",
     period: "Sept 2023 – Present",
     description: "Helped build Stock Sentiment Platform with search, portfolio, and real-time indicators for 500+ tickers. Gathered user feedback from 40+ testers, refining MVP to improve engagement by 15%.",
-    link: "https://example.com/cornell-fintech"
+    link: "https://www.cornellfintechclub.com"
   },
 
   {
@@ -69,7 +69,7 @@ const leadershipData: LeadershipItem[] = [
     role: "Planning Team Member",
     period: "Sept 2023 – Present",
     description: "Planned and organized member social events and hosted Gala nights which gathered around 300+ students. Coordinated event logistics, vendor management, and student engagement initiatives to foster community building among international students.",
-    link: "https://example.com/isa-cornell"
+    link: "https://isucornell.com/index.html"
   },
 ];
 

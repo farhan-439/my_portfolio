@@ -110,7 +110,7 @@ const MobileHero: React.FC = () => {
         <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
           {/* LinkedIn */}
           <a
-            href="https://linkedin.com/in/yourprofile" // Replace with your LinkedIn URL
+            href="https://www.linkedin.com/in/farhanmashrur/" // Replace with your LinkedIn URL
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-blue-700 active:scale-95 shadow-lg"
@@ -126,7 +126,7 @@ const MobileHero: React.FC = () => {
 
           {/* GitHub */}
           <a
-            href="https://github.com/yourusername" // Replace with your GitHub URL
+            href="https://github.com/farhan-439" // Replace with your GitHub URL
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-gray-900 active:scale-95 shadow-lg"
