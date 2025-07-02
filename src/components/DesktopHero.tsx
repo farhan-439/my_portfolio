@@ -40,6 +40,11 @@ const DesktopHero: React.FC = () => {
   return (
     <>
       <div className="relative min-h-screen overflow-hidden" style={{ backgroundColor: '#000000' }}>
+      <div className="absolute bottom-40 right-6 z-30 pointer-events-none select-none">
+    <span className="text-black/30 text-[10px] md:text-xs font-light tracking-wide">
+      *move cursor to interact
+    </span>
+  </div>
         {/* Desktop Spline Robot - Background */}
         <div className="absolute inset-0 z-0">
             {splineLoaded && (

@@ -121,7 +121,7 @@ const featuredProjects: Project[] = [
       { label: "Reviews Analyzed", value: "50K+" },
       { label: "Google Maps Reviews", value: "1K+" }
     ],
-    githubUrl: 'https://github.com/farhan/tabletalk'
+    githubUrl: 'https://github.com/Cornell-Data-Strategy/Project-Rest'
   },
   {
     title: "OCaml Trader",
@@ -136,7 +136,7 @@ const featuredProjects: Project[] = [
       { label: "Portfolio Metrics", value: "12" },
       { label: "Latency", value: "<50ms" }
     ],
-    githubUrl: 'https://github.com/farhan/ocaml-trader'
+    githubUrl: 'https://github.com/farhan-439/ocaml_trader'
   },
   {
     title: "Real Estate Agent Ranking",
@@ -151,7 +151,8 @@ const featuredProjects: Project[] = [
       { label: "Agents Analyzed", value: "175+" },
       { label: "Target Range", value: "$3-5M" }
     ],
-    githubUrl: 'https://github.com/farhan/agent-ranking'
+    githubUrl: '', // code is private, so leave as empty string
+    codePrivate: true // <-- add this flag
   },
   {
     title: "Resume AI Matching",
@@ -166,7 +167,7 @@ const featuredProjects: Project[] = [
       { label: "Processing Speed", value: "100ms" },
       { label: "Resume Database", value: "10K+" }
     ],
-    githubUrl: 'https://github.com/farhan/resume-ai-matching'
+    githubUrl: 'https://github.com/farhan-439/resume_job_scoring_engine'
   }
 ];
 

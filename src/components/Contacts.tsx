@@ -1,10 +1,11 @@
 import { useRef, useEffect, useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 // Custom hook for intersection observer
 const useInView = (options = {}) => {
   const [isInView, setIsInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     const node = ref.current;
     const observer = new IntersectionObserver(
@@ -13,23 +14,50 @@ const useInView = (options = {}) => {
       },
       { rootMargin: '-50px', ...options }
     );
-    
+
     if (node) {
       observer.observe(node);
     }
-    
+
     return () => {
       if (node) {
         observer.unobserve(node);
       }
     };
   }, [options]);
-  
+
   return [ref, isInView] as const;
 };
 
 const ContactFooterSection = () => {
   const [contactRef, contactInView] = useInView();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!formRef.current) return;
+
+    // Get environment variables
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    // Check if all required environment variables are available
+    if (!serviceId || !templateId || !publicKey) {
+      alert('Email service is not properly configured. Please contact the administrator.');
+      console.error('Missing EmailJS environment variables');
+      return;
+    }
+
+    emailjs.sendForm(serviceId, templateId, formRef.current, publicKey)
+    .then(() => {
+      alert('Message sent!');
+      formRef.current?.reset();
+    }, (error) => {
+      alert('Failed to send message. Please try again.');
+      console.error(error);
+    });
+  };
 
   return (
     <div className="w-full" style={{ backgroundColor: '#e3e3e3' }}>
@@ -58,7 +86,6 @@ const ContactFooterSection = () => {
               {/* Contact Info - Column 1 */}
               <div className="lg:col-span-3 space-y-4">
                 <h3 className="text-white text-lg font-medium mb-6">Get In Touch</h3>
-                
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
                     <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,7 +99,6 @@ const ContactFooterSection = () => {
                     </a>
                   </div>
                 </div>
-
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
                     <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
@@ -86,7 +112,6 @@ const ContactFooterSection = () => {
                     </a>
                   </div>
                 </div>
-
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
                     <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
@@ -105,18 +130,15 @@ const ContactFooterSection = () => {
               {/* Beyond Code - Column 2 */}
               <div className="lg:col-span-3 space-y-6">
                 <h3 className="text-white text-lg font-medium mb-6">Beyond Code</h3>
-                
                 <div className="space-y-5">
                   <div>
                     <p className="text-white text-sm font-medium">Poker & Chess</p>
                     <p className="text-gray-400 text-sm">Good at one of them</p>
                   </div>
-                  
                   <div>
                     <p className="text-white text-sm font-medium">Movies</p>
                     <p className="text-gray-400 text-sm">Honorary mention: 12 Angry Men</p>
                   </div>
-                  
                   <div>
                     <p className="text-white text-sm font-medium">Bowling</p>
                     <p className="text-gray-400 text-sm">Favorite pastime</p>
@@ -127,36 +149,41 @@ const ContactFooterSection = () => {
               {/* Quick Form - Column 3 (Larger) */}
               <div className="lg:col-span-6 space-y-4">
                 <h3 className="text-white text-lg font-medium mb-6">Send a Message</h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder-gray-400 text-sm"
-                    placeholder="Your name"
-                  />
-                  <input
-                    type="email"
-                    className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder-gray-400 text-sm"
-                    placeholder="Your email"
-                  />
-                </div>
-                
-                
-                <div className="relative">
-                  <textarea
-                    rows={4}
-                    className="w-full px-4 py-3 pr-12 bg-gray-800 text-white border border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none placeholder-gray-400 text-sm"
-                    placeholder="Your message..."
-                  ></textarea>
-                  <button
-                    className="absolute bottom-3 right-3 w-8 h-8 bg-white rounded-lg flex items-center justify-center hover:bg-gray-200 transition-all duration-200"
-                    onClick={() => alert('Message sent! (Demo)')}
-                  >
-                  <svg className="w-4 h-4 text-black rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                  </svg>
-                  </button>
-                </div>
+                <form ref={formRef} onSubmit={sendEmail}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      name="user_name"
+                      className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder-gray-400 text-sm"
+                      placeholder="Your name"
+                      required
+                    />
+                    <input
+                      type="email"
+                      name="user_email"
+                      className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder-gray-400 text-sm"
+                      placeholder="Your email"
+                      required
+                    />
+                  </div>
+                  <div className="relative mt-4">
+                    <textarea
+                      name="message"
+                      rows={4}
+                      className="w-full px-4 py-3 pr-12 bg-gray-800 text-white border border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none placeholder-gray-400 text-sm"
+                      placeholder="Your message..."
+                      required
+                    ></textarea>
+                    <button
+                      type="submit"
+                      className="absolute bottom-3 right-3 w-8 h-8 bg-white rounded-lg flex items-center justify-center hover:bg-gray-200 transition-all duration-200"
+                    >
+                      <svg className="w-4 h-4 text-black rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      </svg>
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -165,14 +192,14 @@ const ContactFooterSection = () => {
 
       {/* Compact Footer */}
       <footer className="border-t border-gray-300 py-8 px-1">
-  <div className="max-w-8xl md:px-10 px-4">
-    <div className="flex justify-center">
-      <p className="text-gray-500 text-sm text-center">
-        © 2025 • All rights reserved
-      </p>
-    </div>
-  </div>
-</footer>
+        <div className="max-w-8xl md:px-10 px-4">
+          <div className="flex justify-center">
+            <p className="text-gray-500 text-sm text-center">
+              © 2025 • All rights reserved
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
