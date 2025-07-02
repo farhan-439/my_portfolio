@@ -409,7 +409,7 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
   return (
     <div 
       ref={ref}
-      className={`transition-all duration-500 ${
+      className={`transition-all duration-400 ${
         isInView 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-4'

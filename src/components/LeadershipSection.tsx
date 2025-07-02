@@ -79,7 +79,7 @@ const LeadershipCard: React.FC<LeadershipCardProps> = ({ item, index }) => {
   return (
     <div
       ref={ref}
-      className={`transition-all duration-100 ${
+      className={`transition-all duration-200 ${
         isInView
           ? 'opacity-100 translate-y-0'
           : 'opacity-0 translate-y-4'
