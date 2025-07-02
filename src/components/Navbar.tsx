@@ -23,20 +23,42 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Smooth scroll function
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      const offsetTop = targetElement.offsetTop - 80; // Account for navbar height
+      
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+    }
+    
+    // Close mobile menu
+    setIsOpen(false);
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
       <div
         className={`
-          transition-all duration-300 px-6 md:px-8 flex items-center justify-between h-13
-          ${isScrolled 
-            ? 'bg-white/90 backdrop-blur-xl border-b border-gray-200/50 shadow-sm' 
+          transition-all duration-300 px-6 md:px-8 flex items-center justify-between h-16
+          ${isScrolled
+            ? 'bg-white/90 backdrop-blur-xl border-b border-gray-200/50 shadow-sm'
             : 'bg-transparent'
           }
         `}
       >
         {/* Logo / Name */}
         <a
-          href="/"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           className="text-lg font-medium text-gray-900 hover:text-gray-700 transition-colors duration-200"
         >
           Farhan Mashrur
@@ -48,7 +70,8 @@ const Navbar: React.FC = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors duration-200 relative group"
+              onClick={(e) => handleLinkClick(e, link.href)}
+              className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors duration-200 relative group cursor-pointer"
             >
               {link.label}
               <div className="absolute bottom-[-6px] left-0 w-0 h-px bg-gray-900 transition-all duration-200 group-hover:w-full"></div>
@@ -82,8 +105,8 @@ const Navbar: React.FC = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="block text-base font-medium text-gray-700 hover:text-gray-900 transition-colors duration-200 py-2"
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => handleLinkClick(e, link.href)}
+                className="block text-base font-medium text-gray-700 hover:text-gray-900 transition-colors duration-200 py-2 cursor-pointer"
               >
                 {link.label}
               </a>

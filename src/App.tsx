@@ -1,4 +1,4 @@
-// src/App.tsx
+// App.tsx
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import DesktopHero from './components/DesktopHero';
@@ -6,9 +6,9 @@ import MobileHero from './components/MobileHero';
 import About from './components/About';
 import SpiralTimeline from './components/SpiralTimeline';
 import Contacts from './components/Contacts';
-import Footer from './components/Footer';
 import LeadershipSection from './components/LeadershipSection';
 import ExperienceSection from './components/ExperienceSection';
+
 
 const App: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -16,10 +16,9 @@ const App: React.FC = () => {
   useEffect(() => {
     // Function to check if device is mobile
     const checkIsMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor;
+      const userAgent = navigator.userAgent || (navigator as any).vendor;
       const isMobileDevice = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
       const isSmallScreen = window.innerWidth <= 768;
-      
       // Consider it mobile if it's either a mobile device OR has a small screen
       setIsMobile(isMobileDevice || isSmallScreen);
     };
@@ -53,7 +52,6 @@ const App: React.FC = () => {
             <DesktopHero />
           </div>
         )}
-        
         {/* Fallback for edge cases - show mobile hero on small screens, desktop on large */}
         <div className="block md:hidden">
           {!isMobile && <MobileHero />}
@@ -62,28 +60,30 @@ const App: React.FC = () => {
           {isMobile && <DesktopHero />}
         </div>
       </div>
-
+      
       <Navbar />
       
       <main className="">
         <section id="about">
           <About />
         </section>
-        <section id="skills">
+        
+        <section id="experience">
           <ExperienceSection />
         </section>
-        <section id="timeline">
+        
+        <section id="projects">
           <SpiralTimeline />
         </section>
+        
         <section id="leadership">
           <LeadershipSection />
         </section>
-        <section id="contacts">
+        
+        <section id="contact">
           <Contacts />
         </section>
       </main>
-      
-      <Footer />
     </div>
   );
 };
