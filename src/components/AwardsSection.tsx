@@ -108,36 +108,9 @@ const awardsData: Award[] = [
   }
 ];
 
-const categoryStyles = {
-  Academic: {
-    gradient: 'from-blue-500 to-blue-600',
-    border: 'border-blue-200',
-    bg: 'bg-blue-50',
-    text: 'text-blue-700'
-  },
-  Competition: {
-    gradient: 'from-amber-500 to-amber-600',
-    border: 'border-amber-200',
-    bg: 'bg-amber-50',
-    text: 'text-amber-700'
-  },
-  Startup: {
-    gradient: 'from-purple-500 to-purple-600',
-    border: 'border-purple-200',
-    bg: 'bg-purple-50',
-    text: 'text-purple-700'
-  },
-  Leadership: {
-    gradient: 'from-green-500 to-green-600',
-    border: 'border-green-200',
-    bg: 'bg-green-50',
-    text: 'text-green-700'
-  }
-};
 
 const AwardCard = ({ award, index }: { award: Award; index: number }) => {
   const [ref, isInView] = useInView();
-  const style = categoryStyles[award.category];
   
   return (
     <div 
