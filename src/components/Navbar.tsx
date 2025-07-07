@@ -7,8 +7,10 @@ const Navbar: React.FC = () => {
   const links = [
     { label: 'About', href: '#about' },
     { label: 'Experience', href: '#experience' },
+
     { label: 'Projects', href: '#projects' },
     { label: 'Leadership', href: '#leadership' },
+    { label: 'Awards', href: '#awards' },
     { label: 'Contact', href: '#contact' },
   ];
 

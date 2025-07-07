@@ -8,11 +8,11 @@ import SpiralTimeline from './components/SpiralTimeline';
 import Contacts from './components/Contacts';
 import LeadershipSection from './components/LeadershipSection';
 import ExperienceSection from './components/ExperienceSection';
-
+import AwardsSection from './components/AwardsSection';
 
 const App: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
-
+  
   useEffect(() => {
     // Function to check if device is mobile
     const checkIsMobile = () => {
@@ -22,23 +22,23 @@ const App: React.FC = () => {
       // Consider it mobile if it's either a mobile device OR has a small screen
       setIsMobile(isMobileDevice || isSmallScreen);
     };
-
+    
     // Check initially
     checkIsMobile();
-
+    
     // Add event listener for window resize
     const handleResize = () => {
       checkIsMobile();
     };
-
+    
     window.addEventListener('resize', handleResize);
-
+    
     // Cleanup event listener
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
+  
   return (
     <div className="bg-white text-black dark:bg-black dark:text-white scroll-smooth">
       {/* Conditional Hero Rendering */}
@@ -71,6 +71,7 @@ const App: React.FC = () => {
         <section id="experience">
           <ExperienceSection />
         </section>
+
         
         <section id="projects">
           <SpiralTimeline />
@@ -79,6 +80,12 @@ const App: React.FC = () => {
         <section id="leadership">
           <LeadershipSection />
         </section>
+
+                
+        <section id="awards">
+          <AwardsSection />
+        </section>
+        
         
         <section id="contact">
           <Contacts />

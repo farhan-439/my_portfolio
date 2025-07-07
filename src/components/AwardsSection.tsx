@@ -37,40 +37,68 @@ interface Award {
   placement?: string;
   achievement?: string;
   link?: string;
+  orgLink?: string;
+  links?: Array<{url: string; label: string}>;
 }
 
 const awardsData: Award[] = [
   {
-    title: "International Economics Olympiad",
-    organization: "Global Economics Competition",
-    year: "2022 & 2023",
+    title: "Bronze Medalist",
+    organization: "International Economics Olympiad",
+    year: "2022 & 2021",
     placement: "Bronze Medal",
     achievement: "Consecutive Years",
     description: "Competed against top economics students globally in quantitative economics and econometrics, earning bronze medals in consecutive years representing Bangladesh",
     category: "Academic",
-    link: "https://www.thedailystar.net/youth/young-icons/global-achievements/news/team-bangladesh-wins-four-bronze-medals-intl-economics-olympiad-2152091"
+    orgLink: "https://ieo-official.org",
+    links: [
+      {
+        url: "https://www.thedailystar.net/youth/young-icons/global-achievements/news/team-bangladesh-wins-four-bronze-medals-intl-economics-olympiad-2152091",
+        label: "Article(2022)"
+      },
+      {
+        url: "https://www.thedailystar.net/youth/young-icons/global-achievements/news/team-bangladesh-wins-four-bronze-medals-intl-economics-olympiad-2152091",
+        label: "Article(2021)"
+      }
+    ]
   },
   {
-    title: "Cornell AI Hackathon",
-    organization: "Cornell University",
+    title: "First Place, Data Science",
+    organization: "Cornell Digital Agriculture Hackathon",
     year: "2025",
     placement: "1st Place",
     achievement: "Signal Processing",
     description: "Led winning team developing deep learning model for poultry disease detection using 12,000 spectrograms, achieving 94% accuracy with real-time inference on edge devices",
     category: "Competition",
+    links: [
+      {
+        url: "https://github.com/farhan-439/avian_alert",
+        label: "Code"
+      },
+      {
+        url: "https://www.linkedin.com/posts/farhanmashrur_i-am-very-thrilled-to-share-that-our-team-activity-7302084680705605632-d90o?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD_yNmsBEZbRp7Wu7XDTfc0GnxhQ3SCmnUE",
+        label: "Post"
+      }
+    ]
   },
   {
-    title: "Beta University Accelerator",
+    title: "Selected for Startup Accelerator",
     organization: "Beta University",
     year: "2025",
     placement: "Accepted",
     achievement: "Startup Program",
     description: "Co-founded JobLink startup selected for competitive accelerator program among hundreds of applicants, focusing on AI-powered job tracking solutions",
     category: "Startup",
-    link: "https://www.betauniversity.org"
+    orgLink: "https://www.betauniversity.org",
+    links: [
+      {
+        url: "https://joblink.one",
+        label: "JobLink"
+      }
+    ]
   },
   {
-    title: "Academic Excellence Award",
+    title: "Valedictorian",
     organization: "High School",
     year: "2023",
     placement: "Valedictorian",
@@ -109,48 +137,34 @@ const categoryStyles = {
 
 const AwardCard = ({ award, index }: { award: Award; index: number }) => {
   const [ref, isInView] = useInView();
-  const [isHovered, setIsHovered] = useState(false);
   const style = categoryStyles[award.category];
   
   return (
     <div 
       ref={ref}
-      className={`transition-all duration-500 ${
+      className={`transition-all duration-200 ${
         isInView 
           ? 'opacity-100 translate-y-0' 
-          : 'opacity-0 translate-y-8'
+          : 'opacity-0 translate-y-4'
       }`}
-      style={{ transitionDelay: `${index * 150}ms` }}
+      style={{ transitionDelay: `${index * 100}ms` }}
     >
-      <div 
-        className={`relative bg-white rounded-3xl p-8 border-2 ${style.border} hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 overflow-hidden group`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Animated background gradient */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${style.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
-        
-        {/* Category badge with enhanced styling */}
-        <div className={`inline-flex items-center px-4 py-2 rounded-full ${style.bg} ${style.border} border mb-6`}>
-          <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${style.gradient} mr-2`}></div>
-          <span className={`text-sm font-semibold ${style.text}`}>
-            {award.category}
-          </span>
-        </div>
-
-        {/* Header with enhanced layout */}
-        <div className="flex justify-between items-start mb-6">
+      <div className="bg-gradient-to-br from-white to-slate-50 rounded-2xl p-6 border border-slate-200 hover:border-navy-300 hover:shadow-lg transition-all duration-300 group">
+        <div className="flex justify-between items-start mb-3">
           <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-2xl font-bold text-gray-900 leading-tight">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <h3 className="text-lg font-semibold text-slate-800 group-hover:text-slate-700 transition-colors">
                 {award.title}
               </h3>
-              {award.link && (
+            </div>
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <p className="text-slate-600 text-sm font-medium">{award.organization}</p>
+              {award.orgLink && (
                 <a
-                  href={award.link}
+                  href={award.orgLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-2 rounded-full ${style.bg} text-gray-400 hover:${style.text} transition-all duration-200 hover:scale-110`}
+                  className="text-red-500 hover:text-red-700 transition-colors duration-200"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -158,44 +172,46 @@ const AwardCard = ({ award, index }: { award: Award; index: number }) => {
                 </a>
               )}
             </div>
-            
-            {/* Achievement highlights */}
-            <div className="flex flex-wrap gap-2 mb-3">
-              {award.placement && (
-                <span className={`px-3 py-1 bg-gradient-to-r ${style.gradient} text-white text-sm font-medium rounded-full`}>
-                  {award.placement}
-                </span>
-              )}
-              {award.achievement && (
-                <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
-                  {award.achievement}
-                </span>
-              )}
-            </div>
-            
-            <p className="text-gray-600 text-lg font-medium">{award.organization}</p>
+            {(award.links || award.link) && (
+              <div className="flex items-center gap-2 flex-wrap">
+                {award.links ? (
+                  <>
+                    <span className="text-xs text-red-600 font-medium">News Publications:</span>
+                    {award.links.map((linkItem, idx) => (
+                      <a
+                        key={idx}
+                        href={linkItem.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-red-500 hover:text-red-700 underline transition-colors duration-200"
+                      >
+                        {linkItem.label}
+                      </a>
+                    ))}
+                  </>
+                ) : award.link && (
+                  <a
+                    href={award.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-red-500 hover:text-red-700 transition-colors duration-200"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            )}
           </div>
-          
-          {/* Enhanced year display */}
-          <div className="text-right ml-4">
-            <div className="bg-gray-900 text-white px-4 py-2 rounded-2xl">
-              <span className="text-lg font-bold">{award.year}</span>
-            </div>
-          </div>
+          <span className="text-xs text-white bg-slate-700 border border-slate-600 px-3 py-1 rounded-full font-medium">
+            {award.year}
+          </span>
         </div>
-
-        {/* Enhanced description */}
-        <div className="relative">
-          <div className={`absolute left-0 top-0 w-1 h-full bg-gradient-to-b ${style.gradient} rounded-full`}></div>
-          <p className="text-gray-700 text-base leading-relaxed pl-6">
-            {award.description}
-          </p>
-        </div>
-
-        {/* Hover effect indicator */}
-        <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${style.gradient} transform transition-transform duration-300 ${
-          isHovered ? 'translate-y-0' : 'translate-y-full'
-        }`}></div>
+        
+        <p className="text-gray-700 text-sm leading-relaxed border-l-2 border-red-300 pl-3">
+          {award.description}
+        </p>
       </div>
     </div>
   );
@@ -205,30 +221,21 @@ const AwardsSection = () => {
   const [headerRef, headerInView] = useInView();
 
   return (
-    <section className="w-full py-20 px-4" style={{ backgroundColor: '#e3e3e3' }}>
-      <div className="max-w-5xl mx-auto">
-        {/* Enhanced Header */}
+    <section className="w-full py-16 px-4" style={{ backgroundColor: '#e3e3e3' }}>
+      <div className="max-w-4xl mx-auto">
         <div 
           ref={headerRef}
-          className={`text-center mb-16 transition-all duration-1000 ${
+          className={`text-center mb-12 transition-all duration-700 ${
             headerInView 
               ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-8'
+              : 'opacity-0 translate-y-4'
           }`}
         >
-          <div className="relative inline-block">
-            <h2 className="text-4xl md:text-5xl font-light text-black mb-6 relative">
-              Awards & Recognition
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-amber-500 rounded-full"></div>
-            </h2>
-          </div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Recognition for academic excellence, innovative solutions, and leadership impact
-          </p>
+          <h2 className="text-3xl font-light text-black mb-4">Awards & Recognition</h2>
+          <div className="w-12 h-px bg-black mx-auto"></div>
         </div>
 
-        {/* Awards Grid with enhanced spacing */}
-        <div className="space-y-8">
+        <div className="grid gap-6">
           {awardsData.map((award: Award, index: number) => (
             <AwardCard 
               key={`${award.title}-${award.year}`}
