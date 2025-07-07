@@ -103,7 +103,7 @@ const awardsData: Award[] = [
     year: "2023",
     placement: "Valedictorian",
     achievement: "Class Rank #1",
-    description: "Graduated as valedictorian with highest academic honors, maintaining perfect GPA while leading multiple student organizations and community initiatives",
+    description: "Graduated as valedictorian with highest academic honors, leading multiple student organizations and community initiatives",
     category: "Academic",
   }
 ];
