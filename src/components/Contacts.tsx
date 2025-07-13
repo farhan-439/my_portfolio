@@ -31,7 +31,14 @@ const useInView = (options = {}) => {
 
 const ContactFooterSection = () => {
   const [contactRef, contactInView] = useInView();
+  const [contactHasBeenInView, setContactHasBeenInView] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (contactInView && !contactHasBeenInView) {
+      setContactHasBeenInView(true);
+    }
+  }, [contactInView, contactHasBeenInView]);
 
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,7 +74,7 @@ const ContactFooterSection = () => {
           <div
             ref={contactRef}
             className={`bg-black rounded-3xl p-8 md:p-12 shadow-2xl transition-all duration-700 ${
-              contactInView
+              contactHasBeenInView
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-4'
             }`}

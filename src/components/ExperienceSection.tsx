@@ -89,12 +89,19 @@ const experienceData: Experience[] = [
 
 const ExperienceCard = ({ experience, index }: { experience: Experience; index: number }) => {
   const [ref, isInView] = useInView();
+  const [hasBeenInView, setHasBeenInView] = useState(false);
+
+  useEffect(() => {
+    if (isInView && !hasBeenInView) {
+      setHasBeenInView(true);
+    }
+  }, [isInView, hasBeenInView]);
   
   return (
     <div 
       ref={ref}
       className={`transition-all duration-500 ${
-        isInView 
+        hasBeenInView 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-4'
       }`}
@@ -130,6 +137,13 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
 
 const ExperienceSection = () => {
   const [headerRef, headerInView] = useInView();
+  const [headerHasBeenInView, setHeaderHasBeenInView] = useState(false);
+
+  useEffect(() => {
+    if (headerInView && !headerHasBeenInView) {
+      setHeaderHasBeenInView(true);
+    }
+  }, [headerInView, headerHasBeenInView]);
 
   return (
     <section className="w-full py-16 px-4" style={{ backgroundColor: '#e3e3e3' }}>
@@ -137,7 +151,7 @@ const ExperienceSection = () => {
         <div 
           ref={headerRef}
           className={`text-center mb-12 transition-all duration-700 ${
-            headerInView 
+            headerHasBeenInView 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-4'
           }`}

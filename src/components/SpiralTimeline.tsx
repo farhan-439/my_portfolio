@@ -6,7 +6,6 @@ import demo4 from '../assets/demo4.mp4';
 import demo5 from '../assets/demo5.mp4';
 import demo6 from '../assets/demo6.mp4';
 
-
 // Custom hook for intersection observer
 const useInView = (options = {}) => {
   const [isInView, setIsInView] = useState(false);
@@ -100,7 +99,7 @@ const featuredProjects: Project[] = [
         items: ["Large Language Models", "spaCy NER", "Regex Pattern Matching", "95% Classification Accuracy"]
       },
       {
-        category: "Backend Systems", 
+        category: "Backend Systems",
         items: ["Flask REST API", "PostgreSQL ACID", "OAuth 2.0 Flow", "WebSocket Notifications"]
       },
       {
@@ -261,18 +260,25 @@ const featuredProjects: Project[] = [
   }
 ];
 
-// Mobile Project Card Component (unchanged)
+// Mobile Project Card Component
 const MobileProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const [ref, isInView] = useInView();
+  const [hasBeenInView, setHasBeenInView] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVideoExpanded, setIsVideoExpanded] = useState(false);
-  
+
+  useEffect(() => {
+    if (isInView && !hasBeenInView) {
+      setHasBeenInView(true);
+    }
+  }, [isInView, hasBeenInView]);
+
   return (
-    <div 
+    <div
       ref={ref}
       className={`transition-all duration-500 ${
-        isInView 
-          ? 'opacity-100 translate-y-0' 
+        hasBeenInView
+          ? 'opacity-100 translate-y-0'
           : 'opacity-0 translate-y-4'
       }`}
       style={{ transitionDelay: `${index * 150}ms` }}
@@ -315,7 +321,7 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
                 <div className="text-sm font-medium text-white">{project.keyMetric.value}</div>
                 <div className="text-xs text-gray-400">{project.keyMetric.label}</div>
               </div>
-              
+
               {/* Quick action buttons */}
               <div className="flex gap-2">
                 {project.githubUrl && (
@@ -466,7 +472,7 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
             </div>
           </>
         )}
-        
+
         {/* Expanded Video Modal */}
         {isVideoExpanded && (
           <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999] p-4">
@@ -479,7 +485,6 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              
               <video
                 className="w-full h-auto rounded-lg"
                 autoPlay
@@ -501,15 +506,22 @@ const MobileProjectCard = ({ project, index }: { project: Project; index: number
 // Enhanced Desktop Project Card Component
 const DesktopProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const [ref, isInView] = useInView();
+  const [hasBeenInView, setHasBeenInView] = useState(false);
   const [isVideoExpanded, setIsVideoExpanded] = useState(false);
   const [showTechnicalDetails, setShowTechnicalDetails] = useState(false);
-  
+
+  useEffect(() => {
+    if (isInView && !hasBeenInView) {
+      setHasBeenInView(true);
+    }
+  }, [isInView, hasBeenInView]);
+
   return (
-    <div 
+    <div
       ref={ref}
       className={`transition-all duration-400 ${
-        isInView 
-          ? 'opacity-100 translate-y-0' 
+        hasBeenInView
+          ? 'opacity-100 translate-y-0'
           : 'opacity-0 translate-y-4'
       }`}
       style={{ transitionDelay: `${index * 150}ms` }}
@@ -563,12 +575,12 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
               onClick={() => setShowTechnicalDetails(!showTechnicalDetails)}
               className="text-gray-400 hover:text-white transition-colors duration-200"
             >
-              <svg 
+              <svg
                 className={`h-4 w-4 transition-transform duration-200 ${
                   showTechnicalDetails ? 'rotate-180' : ''
-                }`} 
-                fill="none" 
-                stroke="currentColor" 
+                }`}
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -634,7 +646,7 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
             </a>
           )}
         </div>
-        
+
         {/* Expanded Video Modal */}
         {isVideoExpanded && (
           <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999] p-4">
@@ -647,7 +659,6 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              
               <video
                 className="w-full h-auto rounded-lg"
                 autoPlay
@@ -669,7 +680,14 @@ const DesktopProjectCard = ({ project, index }: { project: Project; index: numbe
 // Main Projects Section Component
 const ProjectsSection = () => {
   const [headerRef, headerInView] = useInView();
+  const [headerHasBeenInView, setHeaderHasBeenInView] = useState(false);
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    if (headerInView && !headerHasBeenInView) {
+      setHeaderHasBeenInView(true);
+    }
+  }, [headerInView, headerHasBeenInView]);
 
   return (
     <section className="w-full py-1 px-1" style={{ backgroundColor: '#e3e3e3' }}>
@@ -677,11 +695,11 @@ const ProjectsSection = () => {
         {/* Black Container */}
         <div className={`bg-black rounded-3xl shadow-2xl ${isMobile ? 'p-6' : 'p-8 md:p-12'}`}>
           {/* Header */}
-          <div 
+          <div
             ref={headerRef}
             className={`text-center transition-all duration-700 ${
-              headerInView 
-                ? 'opacity-100 translate-y-0' 
+              headerHasBeenInView
+                ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-4'
             } ${isMobile ? 'mb-8' : 'mb-12'}`}
           >
@@ -690,20 +708,20 @@ const ProjectsSection = () => {
             </h2>
             <div className={`bg-red-600 mx-auto mb-6 h-0.5 ${isMobile ? 'w-12 mb-4' : 'w-16 md:w-24'}`}></div>
             <p className={`text-gray-300 mx-auto leading-relaxed ${
-              isMobile 
-                ? 'text-sm max-w-sm' 
+              isMobile
+                ? 'text-sm max-w-sm'
                 : 'text-lg max-w-3xl'
             }`}>
               {isMobile ? (
                 <>
                   Projects showcasing expertise in{' '}
-                  <strong className="text-white">AI/ML</strong>, <strong className="text-white">full-stack</strong>, 
+                  <strong className="text-white">AI/ML</strong>, <strong className="text-white">full-stack</strong>,
                   and <strong className="text-white">data analysis</strong>.
                 </>
               ) : (
                 <>
                   From hackathon wins to production systems, here are the projects that showcase my expertise in{' '}
-                  <strong className="text-white">AI/ML</strong>, <strong className="text-white">full-stack development</strong>, 
+                  <strong className="text-white">AI/ML</strong>, <strong className="text-white">full-stack development</strong>,
                   and <strong className="text-white">data analysis</strong>.
                 </>
               )}
@@ -730,8 +748,8 @@ const ProjectsSection = () => {
           {/* Bottom CTA */}
           <div className="text-center">
             <div className={`inline-flex items-center bg-gray-800 rounded-full border border-gray-700 ${
-              isMobile 
-                ? 'space-x-3 px-4 py-2' 
+              isMobile
+                ? 'space-x-3 px-4 py-2'
                 : 'space-x-4 px-6 py-3'
             }`}>
               <span className={`text-gray-400 ${isMobile ? 'text-sm' : ''}`}>

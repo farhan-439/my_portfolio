@@ -18,7 +18,7 @@ interface LeadershipCardProps {
 const useInView = (options = {}) => {
   const [isInView, setIsInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -26,18 +26,18 @@ const useInView = (options = {}) => {
       },
       { rootMargin: '-50px', ...options }
     );
-    
+
     if (ref.current) {
       observer.observe(ref.current);
     }
-    
+
     return () => {
       if (ref.current) {
         observer.unobserve(ref.current);
       }
     };
   }, []);
-  
+
   return [ref, isInView] as const;
 };
 
@@ -54,7 +54,6 @@ const leadershipData: LeadershipItem[] = [
     role: "Planning Team Member",
     period: "Jan 2024 – Aug 2025",
     description: "Part of the Planning team for Cornell University where we organized Reunion 2025 and Commencement 2025. Collaborated on large-scale event coordination, logistics management, and utilized internal web tools and digital systems for attendee management and resource allocation.",
-    
   },
   {
     organization: "Cornell Fintech Club",
@@ -63,7 +62,6 @@ const leadershipData: LeadershipItem[] = [
     description: "Helped build Stock Sentiment Platform with search, portfolio, and real-time indicators for 500+ tickers. Gathered user feedback from 40+ testers, refining MVP to improve engagement by 15%.",
     link: "https://www.cornellfintechclub.com"
   },
-
   {
     organization: "International Student Association",
     role: "Planning Team Member",
@@ -75,12 +73,19 @@ const leadershipData: LeadershipItem[] = [
 
 const LeadershipCard: React.FC<LeadershipCardProps> = ({ item, index }) => {
   const [ref, isInView] = useInView();
-  
+  const [hasBeenInView, setHasBeenInView] = useState(false);
+
+  useEffect(() => {
+    if (isInView && !hasBeenInView) {
+      setHasBeenInView(true);
+    }
+  }, [isInView, hasBeenInView]);
+
   return (
     <div
       ref={ref}
       className={`transition-all duration-200 ${
-        isInView
+        hasBeenInView
           ? 'opacity-100 translate-y-0'
           : 'opacity-0 translate-y-4'
       }`}
@@ -112,7 +117,7 @@ const LeadershipCard: React.FC<LeadershipCardProps> = ({ item, index }) => {
             {item.period}
           </span>
         </div>
-        
+
         <p className="text-gray-700 text-sm leading-relaxed">
           {item.description}
         </p>
@@ -123,14 +128,21 @@ const LeadershipCard: React.FC<LeadershipCardProps> = ({ item, index }) => {
 
 const LeadershipSection: React.FC = () => {
   const [headerRef, headerInView] = useInView();
-  
+  const [headerHasBeenInView, setHeaderHasBeenInView] = useState(false);
+
+  useEffect(() => {
+    if (headerInView && !headerHasBeenInView) {
+      setHeaderHasBeenInView(true);
+    }
+  }, [headerInView, headerHasBeenInView]);
+
   return (
     <section className="w-full py-16 px-4 bg-white" style={{ backgroundColor: '#e3e3e3' }}>
       <div className="max-w-4xl mx-auto">
         <div
           ref={headerRef}
           className={`text-center mb-12 transition-all duration-700 ${
-            headerInView
+            headerHasBeenInView
               ? 'opacity-100 translate-y-0'
               : 'opacity-0 translate-y-4'
           }`}
@@ -138,7 +150,7 @@ const LeadershipSection: React.FC = () => {
           <h2 className="text-3xl font-light text-black mb-4">Leadership & Volunteering Experience</h2>
           <div className="w-12 h-px bg-black mx-auto"></div>
         </div>
-        
+
         <div className="grid gap-6">
           {leadershipData.map((leadership, index) => (
             <LeadershipCard

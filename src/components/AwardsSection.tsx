@@ -108,15 +108,21 @@ const awardsData: Award[] = [
   }
 ];
 
-
 const AwardCard = ({ award, index }: { award: Award; index: number }) => {
   const [ref, isInView] = useInView();
+  const [hasBeenInView, setHasBeenInView] = useState(false);
+
+  useEffect(() => {
+    if (isInView && !hasBeenInView) {
+      setHasBeenInView(true);
+    }
+  }, [isInView, hasBeenInView]);
   
   return (
     <div 
       ref={ref}
       className={`transition-all duration-200 ${
-        isInView 
+        hasBeenInView 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-4'
       }`}
@@ -192,14 +198,21 @@ const AwardCard = ({ award, index }: { award: Award; index: number }) => {
 
 const AwardsSection = () => {
   const [headerRef, headerInView] = useInView();
+  const [headerHasBeenInView, setHeaderHasBeenInView] = useState(false);
+
+  useEffect(() => {
+    if (headerInView && !headerHasBeenInView) {
+      setHeaderHasBeenInView(true);
+    }
+  }, [headerInView, headerHasBeenInView]);
 
   return (
-    <section className="w-full py-16 px-4" style={{ backgroundColor: '#e3e3e3' }}>
+    <section className="w-full py-5 px-4" style={{ backgroundColor: '#e3e3e3' }}>
       <div className="max-w-4xl mx-auto">
         <div 
           ref={headerRef}
           className={`text-center mb-12 transition-all duration-700 ${
-            headerInView 
+            headerHasBeenInView 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-4'
           }`}
