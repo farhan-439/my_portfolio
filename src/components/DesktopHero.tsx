@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 
-const DesktopHero: React.FC = () => {
+const DesktopHero: React.FC<{ onSceneReady?: () => void }> = ({ onSceneReady }) => {
   const [splineLoaded, setSplineLoaded] = useState<boolean>(false);
   const [showGeometry, setShowGeometry] = useState<boolean>(true);
 
@@ -39,6 +39,15 @@ const DesktopHero: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!splineLoaded) return;
+    const viewer = document.querySelector('spline-viewer');
+    if (!viewer) return;
+    const handleLoad = () => onSceneReady?.();
+    viewer.addEventListener('load', handleLoad, { once: true });
+    return () => viewer.removeEventListener('load', handleLoad);
+  }, [splineLoaded, onSceneReady]);
+
   return (
     <>
       <div className="relative min-h-screen overflow-hidden" style={{ backgroundColor: '#000000' }}>
@@ -73,9 +82,10 @@ const DesktopHero: React.FC = () => {
           )}
         </div>
 
+
         {/* Breathing Light Animation */}
         {showGeometry && (
-          <div className="fixed inset-0 z-10 pointer-events-none">
+          <div className="absolute inset-0 z-10 pointer-events-none">
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               
               {/* Main breathing light */}
@@ -108,7 +118,7 @@ const DesktopHero: React.FC = () => {
         )}
 
         {/* Sticky Social Media Links */}
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <div className="absolute bottom-6 right-6 z-30 flex flex-col gap-3">
           {/* LinkedIn */}
           <a
             href="https://www.linkedin.com/in/farhanmashrur/" // Replace with your LinkedIn URL

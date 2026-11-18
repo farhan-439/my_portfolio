@@ -1,96 +1,59 @@
-// App.tsx
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
-import DesktopHero from './components/DesktopHero';
-import MobileHero from './components/MobileHero';
-import About from './components/About';
-import SpiralTimeline from './components/SpiralTimeline';
-import Contacts from './components/Contacts';
-import LeadershipSection from './components/LeadershipSection';
-import ExperienceSection from './components/ExperienceSection';
-import AwardsSection from './components/AwardsSection';
+import PortfolioContent from './components/PortfolioContent';
+import './robot-intro.css';
+
+const DesktopHero = lazy(() => import('./components/DesktopHero'));
+const MobileHero = lazy(() => import('./components/MobileHero'));
 
 const App: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
+  const [sceneReady, setSceneReady] = useState(false);
+  const [minimumPassed, setMinimumPassed] = useState(false);
+  const [introComplete, setIntroComplete] = useState(false);
+  const [introVisible, setIntroVisible] = useState(true);
+
   useEffect(() => {
-    // Function to check if device is mobile
     const checkIsMobile = () => {
-      const userAgent = navigator.userAgent || (navigator as any).vendor;
-      const isMobileDevice = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-      const isSmallScreen = window.innerWidth <= 768;
-      // Consider it mobile if it's either a mobile device OR has a small screen
-      setIsMobile(isMobileDevice || isSmallScreen);
+      const mobileDevice = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
+      setIsMobile(mobileDevice || window.innerWidth <= 768);
     };
-    
-    // Check initially
     checkIsMobile();
-    
-    // Add event listener for window resize
-    const handleResize = () => {
-      checkIsMobile();
-    };
-    
-    window.addEventListener('resize', handleResize);
-    
-    // Cleanup event listener
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
-  
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const minimum = window.setTimeout(() => setMinimumPassed(true), reducedMotion ? 0 : 1400);
+    const fallback = window.setTimeout(() => setIntroComplete(true), 8000);
+    return () => { window.clearTimeout(minimum); window.clearTimeout(fallback); };
+  }, []);
+
+  useEffect(() => {
+    if (sceneReady && minimumPassed) setIntroComplete(true);
+  }, [sceneReady, minimumPassed]);
+
+  useEffect(() => {
+    if (!introComplete) return;
+    const timer = window.setTimeout(() => setIntroVisible(false), 480);
+    return () => window.clearTimeout(timer);
+  }, [introComplete]);
+
   return (
     <div className="bg-white text-black dark:bg-black dark:text-white scroll-smooth">
-      {/* Conditional Hero Rendering */}
-      <div className="">
-        {isMobile ? (
-          <div className="block md:hidden">
-            <MobileHero />
-          </div>
-        ) : (
-          <div className="hidden md:block">
-            <DesktopHero />
-          </div>
-        )}
-        {/* Fallback for edge cases - show mobile hero on small screens, desktop on large */}
-        <div className="block md:hidden">
-          {!isMobile && <MobileHero />}
-        </div>
-        <div className="hidden md:block">
-          {isMobile && <DesktopHero />}
-        </div>
-      </div>
-      
+      <section id="top" className="robot-hero" aria-label="Interactive robot introduction">
+        <Suspense fallback={<div className="min-h-screen bg-black" />}>
+          {isMobile ? <MobileHero onSceneReady={() => setSceneReady(true)} /> : <DesktopHero onSceneReady={() => setSceneReady(true)} />}
+        </Suspense>
+        {introVisible && <div className={`robot-intro ${introComplete ? 'is-complete' : ''}`} aria-live="polite">
+          <div className="robot-intro-head"><span>FARHAN MASHRUR</span><span>INTERACTIVE PORTFOLIO / 2027</span></div>
+          <div className="robot-intro-core" aria-hidden="true"><div className="robot-intro-orbit"><div className="robot-intro-signal"><i/><i/><i/></div></div></div>
+          <div className="robot-intro-bottom"><div><span className="robot-intro-label">{introComplete ? 'SCENE READY' : 'LOADING INTERACTIVE SCENE'}</span><div className="robot-intro-progress"><span/></div></div><span className="robot-intro-index">01 / 01</span></div>
+        </div>}
+      </section>
       <Navbar />
-      
-      <main className="">
-        <section id="about">
-          <About />
-        </section>
-        
-        <section id="experience">
-          <ExperienceSection />
-        </section>
-
-        
-        <section id="projects">
-          <SpiralTimeline />
-        </section>
-        
-        <section id="leadership">
-          <LeadershipSection />
-        </section>
-
-                
-        <section id="awards">
-          <AwardsSection />
-        </section>
-        
-        
-        <section id="contact">
-          <Contacts />
-        </section>
-      </main>
+      <PortfolioContent />
     </div>
   );
 };

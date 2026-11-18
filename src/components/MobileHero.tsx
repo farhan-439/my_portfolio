@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const MobileHero: React.FC = () => {
+const MobileHero: React.FC<{ onSceneReady?: () => void }> = ({ onSceneReady }) => {
   const [splineLoaded, setSplineLoaded] = useState(false);
   const [showGeometry, setShowGeometry] = useState(true);
 
@@ -42,6 +42,15 @@ const MobileHero: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!splineLoaded) return;
+    const viewer = document.querySelector('spline-viewer');
+    if (!viewer) return;
+    const handleLoad = () => onSceneReady?.();
+    viewer.addEventListener('load', handleLoad, { once: true });
+    return () => viewer.removeEventListener('load', handleLoad);
+  }, [splineLoaded, onSceneReady]);
+
   return (
     <>
       <div className="relative min-h-screen overflow-hidden" style={{ backgroundColor: '#000000' }}>
@@ -74,7 +83,7 @@ const MobileHero: React.FC = () => {
 
         {/* Breathing Light Animation - Mobile Optimized */}
         {showGeometry && (
-          <div className="fixed inset-0 z-10 pointer-events-none">
+          <div className="absolute inset-0 z-10 pointer-events-none">
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               
               {/* Main breathing light - smaller for mobile */}
@@ -107,7 +116,7 @@ const MobileHero: React.FC = () => {
         )}
 
         {/* Sticky Social Media Links - Mobile Optimized */}
-        <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
+        <div className="absolute bottom-4 right-4 z-30 flex flex-col gap-2">
           {/* LinkedIn */}
           <a
             href="https://www.linkedin.com/in/farhanmashrur/" // Replace with your LinkedIn URL

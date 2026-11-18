@@ -1,54 +1,20 @@
-# React + TypeScript + Vite
+# Farhan Mashrur — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Source for [mashrurfarhan.com](https://mashrurfarhan.com), built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## Local preview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm ci
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open the Local URL printed by Vite. Run `npm run build` for a production check.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Design and content
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+The original interactive Spline robot opens the page. A short gray and red loading sequence fades into it when the scene is ready, with a timed fallback. Below it, all 11 projects appear in a compact filterable grid. Available demo videos loop muted while in view, pause offscreen, and resume from the same point. Project details expand inline without dialogs. The page also includes experience, research and leadership, recognition, contact, and a local portfolio search that appears after the hero. Content draws on the supplied resume and public GitHub projects. Graduation is listed as May 2027. Earlier projects and campus details remain available; no personal portrait appears on the page.
+
+The winning hackathons appear within their project details, with the problem, build, and technical strengths. AvianAlert's repository reports 91.38% audio accuracy and 100% sensitivity for its unhealthy class. Private judging notes were not available.
+
+The contact form opens a prefilled draft in the visitor's mail app.
