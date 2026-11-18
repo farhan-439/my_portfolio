@@ -15,6 +15,8 @@ type Project = {
   description: string;
   stack: string[];
   href?: string;
+  demoHref?: string;
+  eventHref?: string;
   video?: string;
   win?: string;
   story?: { problem: string; build: string; edge: string };
@@ -43,10 +45,28 @@ const projects: Project[] = [
     }
   },
   {
-    name: 'Kindred', label: 'Private local AI · 2026', category: 'AI & ML',
-    description: 'An offline conversation memory system with evidence-linked facts, grounded recall, and a people graph.',
-    stack: ['Bonsai', 'SQLite FTS5', 'Node.js', 'llama.cpp'],
-    href: 'https://github.com/farhan-439/offline_agent'
+    name: 'Pebble', label: 'Multilingual local AI · 2026', category: 'AI & ML',
+    description: 'Offline multilingual conversation memory that retrieves beyond a model’s context window and cites the original speech.',
+    stack: ['Argmax', 'Bonsai 4B', 'SQLite FTS5', 'Swift', 'Node.js', 'Electron'],
+    href: 'https://github.com/farhan-439/offline_agent',
+    demoHref: 'https://youtu.be/9JLYg51D-ck?si=EJcDHfljC6LmvoDw',
+    story: {
+      problem: 'Keep useful details from conversations available across languages and over time without sending private speech to a cloud service.',
+      build: 'Argmax transcribes and separates speakers; multilingual Whisper retains original speech alongside English translations. Bonsai extracts evidence-linked facts into layered SQLite memory, then pages relevant records into a bounded context during recall.',
+      edge: 'Answers cite the utterances, clips or photos used. The desktop app also supports live translation and spoken replies in four tested languages.'
+    }
+  },
+  {
+    name: 'Maternal', label: 'Qatar precision health · 2025', category: 'Product',
+    description: 'A postpartum depression screening prototype built with medical students in Doha after Cornell selected me for its Precision Health AI Hackathon.',
+    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Local storage'],
+    href: 'https://github.com/farhan-439/postpartum_web',
+    eventHref: 'https://hackathon.cornell.edu/qatar',
+    story: {
+      problem: 'Explore earlier postpartum depression risk screening with clinicians and medical students.',
+      build: 'The public prototype has consent and patient onboarding, baseline and weekly questionnaires, rule-based risk scores, and patient and clinician dashboards.',
+      edge: 'Cornell selected me to join computer science and Weill Cornell Medicine-Qatar medical students in Doha. The public repository is a frontend prototype, not a clinically validated prediction model.'
+    }
   },
   {
     name: 'JobLink', label: 'Product · 2025', category: 'Product',
@@ -235,7 +255,7 @@ export default function PortfolioContent() {
       <div className="all-projects">{visibleProjectIndices.map(index => { const project = projects[index]; const expanded = activeProject === index; return <article className={`project-tile ${expanded ? 'is-expanded' : ''}`} id={`project-${projectSlug(project.name)}`} key={project.name}>
         <div className="project-tile-media">{project.video ? <PreviewVideo src={project.video} name={project.name} /> : <button type="button" className="project-tile-placeholder" onClick={() => setActiveProject(expanded ? null : index)} aria-label={`${expanded ? 'Collapse' : 'Expand'} ${project.name} details`} aria-expanded={expanded}><span>{project.category}</span><strong>{project.name}</strong></button>}</div>
         <button type="button" className="project-tile-open" onClick={() => { setActiveProject(expanded ? null : index); setShareCopied(false); }} aria-label={`${expanded ? 'Collapse' : 'Expand'} ${project.name} details`} aria-expanded={expanded} aria-controls={`project-details-${index}`}><span className="project-tile-meta">{String(index + 1).padStart(2, '0')} / {project.label}</span><span className="project-tile-heading"><strong>{project.name}</strong><ChevronDown size={17}/></span><span className="project-tile-description">{project.description}</span>{project.win && <span className="project-tile-win">{project.win}</span>}</button>
-        {expanded && <div className="project-inline-detail" id={`project-details-${index}`}><div className="project-detail-intro"><span className="section-marker">{project.label}</span><h3>{project.name}</h3><p>{project.description}</p>{project.win && <strong>{project.win}</strong>}</div><div className="project-detail-main">{project.story && <div className="project-detail-story"><div><strong>Problem</strong><p>{project.story.problem}</p></div><div><strong>Approach</strong><p>{project.story.build}</p></div><div><strong>Result</strong><p>{project.story.edge}</p></div></div>}<div className="project-detail-stack"><strong>TECH STACK</strong><div>{project.stack.map(item => <span key={item}>{item}</span>)}</div></div><div className="project-detail-links">{project.href && <a href={project.href} target="_blank" rel="noopener noreferrer">View project <ArrowUpRight size={16}/></a>}<button type="button" onClick={() => { void copyProjectLink(index); }}>{shareCopied ? <Check size={15}/> : <Copy size={15}/>} {shareCopied ? 'Copied link' : 'Copy link'}</button></div></div></div>}
+        {expanded && <div className="project-inline-detail" id={`project-details-${index}`}><div className="project-detail-intro"><span className="section-marker">{project.label}</span><h3>{project.name}</h3><p>{project.description}</p>{project.win && <strong>{project.win}</strong>}</div><div className="project-detail-main">{project.story && <div className="project-detail-story"><div><strong>Problem</strong><p>{project.story.problem}</p></div><div><strong>Approach</strong><p>{project.story.build}</p></div><div><strong>Result</strong><p>{project.story.edge}</p></div></div>}<div className="project-detail-stack"><strong>TECH STACK</strong><div>{project.stack.map(item => <span key={item}>{item}</span>)}</div></div><div className="project-detail-links">{project.href && <a href={project.href} target="_blank" rel="noopener noreferrer">View project <ArrowUpRight size={16}/></a>}{project.demoHref && <a href={project.demoHref} target="_blank" rel="noopener noreferrer">Watch demo <ArrowUpRight size={16}/></a>}{project.eventHref && <a href={project.eventHref} target="_blank" rel="noopener noreferrer">Cornell event <ArrowUpRight size={16}/></a>}<button type="button" onClick={() => { void copyProjectLink(index); }}>{shareCopied ? <Check size={15}/> : <Copy size={15}/>} {shareCopied ? 'Copied link' : 'Copy link'}</button></div></div></div>}
       </article> })}</div>
     </div></section>
 

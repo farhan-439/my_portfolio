@@ -7,8 +7,8 @@
 .robot-intro-center{position:absolute;left:max(28px,4vw);right:max(28px,4vw);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;text-align:center}
 .robot-intro-kicker{display:block;color:#a12b31;font-size:10px;font-weight:750;letter-spacing:.14em}
 .robot-dot-face{display:block;width:min(245px,46vw);height:auto;margin:12px auto 2px;overflow:visible;transition:transform .55s cubic-bezier(.22,1,.36,1),opacity .22s ease}
-.robot-dot-face circle{fill:#2a2b2d;animation:robot-dot-assemble .46s cubic-bezier(.2,.8,.2,1) both}
-.robot-dot-face circle.is-eye{fill:#a12b31;animation-name:robot-eye-assemble}
+.robot-dot-face circle{fill:#2a2b2d;animation:robot-dot-assemble .46s cubic-bezier(.2,.8,.2,1) var(--assemble-delay) both,robot-dot-pulse 2.2s ease-in-out var(--pulse-delay) infinite}
+.robot-dot-face circle.is-eye{fill:#a12b31;animation-name:robot-eye-assemble,robot-dot-pulse}
 .robot-intro.is-revealing .robot-dot-face{transform:translate(18vw,-20vh) scale(.48)}
 .robot-intro.is-dissolving .robot-dot-face{transform:translate(18vw,-20vh) scale(.36);opacity:0}
 .robot-intro-center strong{display:block;font-size:clamp(28px,3.2vw,42px);font-weight:580;letter-spacing:-.055em;line-height:1.1}
@@ -20,6 +20,7 @@
 .robot-intro-progress span{display:block;width:26%;height:100%;background:#a12b31;animation:robot-loading 1.4s cubic-bezier(.65,0,.35,1) infinite}
 @keyframes robot-dot-assemble{from{opacity:.22;transform:translate(var(--dot-x),var(--dot-y)) scale(.65)}to{opacity:.9;transform:translate(0,0) scale(1)}}
 @keyframes robot-eye-assemble{from{opacity:.22;transform:translate(var(--dot-x),var(--dot-y)) scale(.65)}to{opacity:1;transform:translate(0,0) scale(1)}}
+@keyframes robot-dot-pulse{0%,100%{opacity:.55}50%{opacity:1}}
 @keyframes robot-loading{0%{transform:translateX(-105%)}100%{transform:translateX(400%)}}
 @media(max-width:768px){.robot-intro.is-revealing .robot-dot-face{transform:translateY(11vh) scale(.48)}.robot-intro.is-dissolving .robot-dot-face{transform:translateY(11vh) scale(.36)}}
 @media(max-width:640px){.robot-intro-head{top:82px;font-size:9px}.robot-intro-center{top:48%}.robot-intro-kicker{font-size:9px}.robot-dot-face{width:min(236px,64vw)}.robot-intro-center strong{font-size:30px}.robot-intro-center p{font-size:12px}.robot-intro-bottom{bottom:28px;display:block;font-size:9px}.robot-intro-bottom>span{white-space:normal;display:block;line-height:1.5}.robot-intro-progress{margin-top:15px}}
