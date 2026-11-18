@@ -46,9 +46,19 @@ const MobileHero: React.FC<{ onSceneReady?: () => void }> = ({ onSceneReady }) =
     if (!splineLoaded) return;
     const viewer = document.querySelector('spline-viewer');
     if (!viewer) return;
-    const handleLoad = () => onSceneReady?.();
-    viewer.addEventListener('load', handleLoad, { once: true });
-    return () => viewer.removeEventListener('load', handleLoad);
+    let cancelled = false;
+    let timer: number;
+    const started = performance.now();
+    const checkCanvas = () => {
+      const canvas = viewer.shadowRoot?.querySelector('canvas');
+      if (canvas instanceof HTMLCanvasElement && canvas.style.visibility === 'visible' && canvas.width > 0) {
+        if (!cancelled) onSceneReady?.();
+      } else if (performance.now() - started < 7000) {
+        timer = window.setTimeout(checkCanvas, 50);
+      }
+    };
+    checkCanvas();
+    return () => { cancelled = true; window.clearTimeout(timer); };
   }, [splineLoaded, onSceneReady]);
 
   return (
