@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, Copy, Github, Linkedin, Mail, Search, X } from 'lucide-react';
 import joblinkDemo from '../assets/demo1-preview.mp4';
 import avianDemo from '../assets/demo2.mp4';
@@ -186,21 +186,6 @@ function ContactRobot() {
     media.addEventListener('change', update);
     return () => media.removeEventListener('change', update);
   }, []);
-  useLayoutEffect(() => {
-    const frame = frameRef.current;
-    if (!frame) return;
-    const sizeViewer = () => {
-      const { width, height } = frame.getBoundingClientRect();
-      frame.style.setProperty('--contact-render-width', `${Math.round(width * 1.8)}px`);
-      frame.style.setProperty('--contact-render-height', `${Math.round(height * 1.8)}px`);
-      frame.style.setProperty('--contact-render-left', `${Math.round(width * -0.8)}px`);
-      frame.style.setProperty('--contact-render-top', `${Math.round(height * -0.4 + 80)}px`);
-    };
-    sizeViewer();
-    const observer = new ResizeObserver(sizeViewer);
-    observer.observe(frame);
-    return () => observer.disconnect();
-  }, [isMobile]);
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
@@ -211,7 +196,7 @@ function ContactRobot() {
   if (isMobile) return null;
   return <div className={`contact-robot ${inView ? 'is-in-view' : 'is-prewarming'}`} ref={frameRef} aria-label="Interactive robot">{(
     // @ts-expect-error Spline viewer is a custom element.
-    <spline-viewer url="https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode"/>
+    <spline-viewer url="https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode" style={{ width: '100%', height: '100%' }}/>
   )}</div>;
 }
 
