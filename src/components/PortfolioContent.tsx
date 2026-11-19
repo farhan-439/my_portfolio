@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, Copy, Github, Linkedin, Mail, Search, X } from 'lucide-react';
 import joblinkDemo from '../assets/demo1-preview.mp4';
 import avianDemo from '../assets/demo2.mp4';
@@ -161,7 +161,7 @@ function PreviewVideo({ src, name }: { src: string; name: string }) {
     return () => observer.disconnect();
   }, []);
   const conceptPreview = name === 'Maternal';
-  return <video ref={videoRef} src={src} muted loop playsInline preload="none" controls aria-label={`${name} ${conceptPreview ? 'animated concept preview' : 'demo'}`} />;
+  return <video ref={videoRef} src={src} muted loop playsInline preload="none" aria-label={`${name} ${conceptPreview ? 'animated concept preview' : 'demo'}`} />;
 }
 
 function YouTubePreview({ id, name }: { id: string; name: string }) {
@@ -173,22 +173,45 @@ function YouTubePreview({ id, name }: { id: string; name: string }) {
     observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
-  return <div className="pebble-video" ref={containerRef}>{nearby ? <iframe title={`${name} demo`} src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&playsinline=1&controls=1&rel=0`} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen loading="lazy"/> : <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt={`${name} video preview`} loading="lazy"/>}</div>;
+  return <div className="pebble-video" ref={containerRef}>{nearby ? <iframe title={`${name} demo`} src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&playsinline=1&controls=0&rel=0`} allow="autoplay; encrypted-media; picture-in-picture" loading="lazy" tabIndex={-1}/> : <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt={`${name} video preview`} loading="lazy"/>}</div>;
 }
 
 function ContactRobot() {
   const frameRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches);
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 760px)');
+    const update = () => setIsMobile(media.matches);
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  useLayoutEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const sizeViewer = () => {
+      const { width, height } = frame.getBoundingClientRect();
+      frame.style.setProperty('--contact-render-width', `${Math.round(width * 1.8)}px`);
+      frame.style.setProperty('--contact-render-height', `${Math.round(height * 1.8)}px`);
+      frame.style.setProperty('--contact-render-left', `${Math.round(width * -0.8)}px`);
+      frame.style.setProperty('--contact-render-top', `${Math.round(height * -0.4 + 80)}px`);
+    };
+    sizeViewer();
+    const observer = new ResizeObserver(sizeViewer);
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, [isMobile]);
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
     const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.01 });
     observer.observe(frame);
     return () => observer.disconnect();
-  }, []);
+  }, [isMobile]);
+  if (isMobile) return null;
   return <div className={`contact-robot ${inView ? 'is-in-view' : 'is-prewarming'}`} ref={frameRef} aria-label="Interactive robot">{(
     // @ts-expect-error Spline viewer is a custom element.
-    <spline-viewer url="https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode" style={{ width: '100%', height: '100%' }}/>
+    <spline-viewer url="https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode"/>
   )}</div>;
 }
 
@@ -272,7 +295,7 @@ export default function PortfolioContent() {
   return <main className="portfolio-body">
     <section className="intro-section portfolio-width" id="about">
       <div className="intro-overline"><span>FARHAN MASHRUR</span><span>CORNELL · MAY 2027</span></div>
-      <div className="intro-layout"><h2>A little about me<span>.</span></h2><div><p>At Cornell, I’ve helped students work through machine learning, reproduced results for economics journals, and built software with Cornell Data Strategy. I enjoy the details that make a tool useful beyond a demo.</p><a href="#projects" className="inline-link">View projects <ArrowUpRight size={17}/></a></div></div>
+      <div className="intro-layout"><h2>Hey, I’m Farhan<span>.</span></h2><div><p>I’m a senior undergraduate student at Cornell University. I’ve worked on software at Microsoft, Simulacrum, and bKash; built products with Cornell teams; and helped reproduce results for economics journals. You’ll find more details below.</p><a href="#projects" className="inline-link">View projects <ArrowUpRight size={17}/></a></div></div>
       <div className="about-quick"><div><span className="section-marker">AT CORNELL</span><div className="about-quick-row"><img src={logoFor('Cornell University')} alt=""/><div><strong>Cornell University</strong><small>ML teaching · research · Data Strategy · May 2027</small></div></div></div><div><span className="section-marker">PREVIOUSLY</span><div className="about-quick-logos"><span><img src={logoFor('Microsoft')} alt=""/>Microsoft</span><span><img src={logoFor('Simulacrum')} alt=""/>Simulacrum</span><span><img src={logoFor('BRAC bKash')} alt=""/>bKash</span></div></div></div>
     </section>
 
