@@ -124,7 +124,7 @@ const projects: Project[] = [
 const roles = [
   { organization: 'Microsoft', title: 'Software Engineering Intern · Dynamics 365', date: 'May – Aug 2026', detail: 'Shipped a C# / TypeScript rule simulator that cut diagnosis from days to under five seconds. Designed Cosmos DB and SQL storage for 130K+ daily events, reducing storage 97%; built asynchronous Dataverse history and owned the feature-flagged rollout.' },
   { organization: 'Simulacrum', title: 'Software Engineering Intern', date: 'Jun – Aug 2025', detail: 'Built a distributed forecasting API for LSTM, Transformer, and XGBoost. Ran 500+ experiments, cut training time 40%, and deployed inference on Vertex AI with Docker and Kubernetes.' },
-  { organization: 'Cornell University', title: 'Research Assistant · AEA Replication Lab', date: 'Aug 2025 – May 2026', detail: 'Reproduced R, Stata, and MATLAB pipelines on Linux clusters and automated validation. Parallelized cluster workflows, improving utilization 25%.' },
+  { organization: 'Cornell University', title: 'Research Assistant · AEA Replication Lab', date: 'Aug 2025 – May 2026', detail: 'Reproduced published results for economics journals.' },
   { organization: 'Cornell University', title: 'Teaching Assistant · Machine Learning', date: 'Aug 2025 – Present', detail: 'Lead office hours and grading for 250+ students across two ML courses; author assignments and debug implementations live.' },
   { organization: 'BRAC bKash', title: 'Software Engineering Intern', date: 'Jun – Aug 2024', detail: 'Built a Spring Boot and DynamoDB reservation backend with concurrency control for 400+ users; load-tested REST services at 5K+ queries per day.' },
 ];
@@ -177,7 +177,16 @@ function YouTubePreview({ id, name }: { id: string; name: string }) {
 }
 
 function ContactRobot() {
-  return <div className="contact-robot" aria-label="Interactive robot">{(
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.01 });
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, []);
+  return <div className={`contact-robot ${inView ? 'is-in-view' : 'is-prewarming'}`} ref={frameRef} aria-label="Interactive robot">{(
     // @ts-expect-error Spline viewer is a custom element.
     <spline-viewer url="https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode" style={{ width: '100%', height: '100%' }}/>
   )}</div>;
@@ -245,8 +254,7 @@ export default function PortfolioContent() {
       window.setTimeout(() => document.getElementById(`project-${projectSlug(projects[item.index!].name)}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 0);
     }
     if (item.kind === 'role' && item.index !== undefined) {
-      const role = document.getElementById(`role-${item.index}`) as HTMLDetailsElement | null;
-      if (role) { role.open = true; role.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      document.getElementById(`role-${item.index}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     if (item.kind === 'section' && item.id) document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -270,7 +278,7 @@ export default function PortfolioContent() {
   return <main className="portfolio-body">
     <section className="intro-section portfolio-width" id="about">
       <div className="intro-overline"><span>FARHAN MASHRUR</span><span>CORNELL · MAY 2027</span></div>
-      <div className="intro-layout"><h2>A little about me<span>.</span></h2><div><p>At Cornell, I’ve helped students work through machine learning, reproduced economics research on Linux clusters, and built software with Cornell Data Strategy. I enjoy the details that make a tool useful beyond a demo.</p><a href="#projects" className="inline-link">View projects <ArrowUpRight size={17}/></a></div></div>
+      <div className="intro-layout"><h2>A little about me<span>.</span></h2><div><p>At Cornell, I’ve helped students work through machine learning, reproduced results for economics journals, and built software with Cornell Data Strategy. I enjoy the details that make a tool useful beyond a demo.</p><a href="#projects" className="inline-link">View projects <ArrowUpRight size={17}/></a></div></div>
       <div className="about-quick"><div><span className="section-marker">AT CORNELL</span><div className="about-quick-row"><img src={logoFor('Cornell University')} alt=""/><div><strong>Cornell University</strong><small>ML teaching · research · Data Strategy · May 2027</small></div></div></div><div><span className="section-marker">PREVIOUSLY</span><div className="about-quick-logos"><span><img src={logoFor('Microsoft')} alt=""/>Microsoft</span><span><img src={logoFor('Simulacrum')} alt=""/>Simulacrum</span><span><img src={logoFor('BRAC bKash')} alt=""/>bKash</span></div></div></div>
     </section>
 
@@ -284,7 +292,7 @@ export default function PortfolioContent() {
       </article> })}</div>
     </div></section>
 
-    <section className="experience-section portfolio-width" id="experience"><div className="section-heading"><div><span className="section-marker">WORK HISTORY</span><h2>Experience<span>.</span></h2></div></div><div className="role-list">{roles.map((role, index) => <details className="role-item" id={`role-${index}`} key={role.organization + role.title}><summary><span className="role-org"><img src={logoFor(role.organization)} alt="" loading="lazy"/>{role.organization}</span><span className="role-title">{role.title}</span><time>{role.date}</time><ChevronDown size={17}/></summary><p>{role.detail}</p></details>)}</div><details className="more-experience"><summary>Earlier product and campus work <span>+</span></summary><div><p><strong>JobLink / Co-Founder and Full-Stack Engineer.</strong> Built a Gmail-connected job tracker with Flask, React, PostgreSQL, and NLP.</p><p><strong>Cornell / Student Developer.</strong> Built conference, housing, and event systems.</p><p><strong>Cornell Fintech Club, Event Services, and International Student Association.</strong> Contributed to software and campus events.</p></div></details></section>
+    <section className="experience-section" id="experience"><div className="portfolio-width more-grid experience-layout"><div><span className="section-marker">WORK HISTORY</span><h2>Experience<span>.</span></h2></div><div className="more-items experience-items">{roles.map((role, index) => <article id={`role-${index}`} key={role.organization + role.title}><time>{role.date}</time><div><h3><img src={logoFor(role.organization)} alt="" loading="lazy"/>{role.organization}</h3><p className="experience-role-title">{role.title}</p><p>{role.detail}</p></div></article>)}<article><time>EARLIER WORK</time><div><h3>Product &amp; campus work</h3><p>Co-founded JobLink, a Gmail-connected job tracker built with Flask, React, PostgreSQL, and NLP. Built conference, housing, and event systems at Cornell and contributed to Fintech Club, Event Services, and the International Student Association.</p></div></article></div></div></section>
 
     <section className="more-section" id="more"><div className="portfolio-width more-grid"><div><span className="section-marker">CORNELL & BEYOND</span><h2>Research &amp; leadership<span>.</span></h2></div><div className="more-items"><article><span>LEADERSHIP</span><h3>Cornell Data Strategy</h3><p>As VP of Technology, I lead 25+ developers across three pods. I standardized code review, CI/CD, and DevOps practices and helped cut pipeline latency 40%.</p></article><article><span>PUBLICATION</span><h3>TempusBench</h3><p>Co-authored a benchmark for time-series foundation models, accepted to the NeurIPS 2025 BERT2S workshop.</p></article><article><span>INTERESTS</span><h3>Outside work</h3><p>Chess, poker, films, and bowling. <em>12 Angry Men</em> is a favorite.</p></article></div></div></section>
 

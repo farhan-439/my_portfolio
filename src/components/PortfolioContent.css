@@ -51,6 +51,7 @@
 .contact-split{display:grid;grid-template-columns:1fr 1fr;gap:5%;align-items:center;padding-bottom:30px}
 .contact-robot{height:310px;overflow:hidden;border:1px solid #535458;background:#202124;border-radius:16px;position:relative}
 .contact-robot spline-viewer{display:block;width:100%;height:100%;transform:translateY(80px) scale(1.8);transform-origin:99% 50%}
+.contact-robot.is-prewarming spline-viewer{position:fixed!important;top:80px;left:0;width:min(480px,90vw)!important;height:310px!important;transform:none!important;opacity:.001;pointer-events:none;z-index:-1}
 .contact-split .contact-grid{grid-template-columns:1fr;padding:24px 0 0;gap:18px}
 .contact-heading .section-marker{color:#e4a2a5}
 .contact-heading h2{font-size:clamp(34px,3.5vw,46px);line-height:1.1;margin:12px 0 15px}
@@ -90,6 +91,15 @@
 .project-tile-description{font-size:12px;line-height:1.45;color:#5a5b5e;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 .project-tile-win{font-size:10px;color:var(--red);font-weight:700;margin-top:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .experience-section{padding-block:60px 68px}
+.experience-layout{grid-template-columns:minmax(180px,.28fr) minmax(0,1fr);gap:4%}
+.experience-items article{grid-template-columns:118px minmax(0,1fr);gap:18px;padding:20px 0;scroll-margin-top:90px}
+.experience-items article time{color:var(--red);font-size:10px;letter-spacing:.1em;font-weight:750;padding-top:5px;white-space:nowrap}
+.experience-items article>div{min-width:0}
+.experience-items article h3{display:flex;align-items:center;gap:11px;font-size:20px;margin:0 0 3px}
+.experience-items article h3 img{width:35px;height:35px;border-radius:50%;object-fit:contain;background:#fff;border:1px solid #dedbd4;padding:5px;flex:none}
+.experience-items article>div p{grid-column:auto;max-width:68ch;margin:5px 0 0}
+.experience-items article>div .experience-role-title{font-size:12px;font-weight:650;color:#343537;margin-top:0}
+@media(max-width:760px){.experience-layout{grid-template-columns:1fr;gap:20px}.experience-items article{grid-template-columns:1fr;gap:8px}.experience-items article time{padding-top:0}}
 .role-item{border-bottom:1px solid var(--line);scroll-margin-top:100px}
 .role-item summary{list-style:none;display:grid;grid-template-columns:1.05fr 1.4fr auto 18px;align-items:center;gap:20px;min-height:66px;padding:14px 0;cursor:pointer}
 .role-item summary::-webkit-details-marker{display:none}
