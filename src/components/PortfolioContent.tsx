@@ -177,8 +177,6 @@ function YouTubePreview({ id, name }: { id: string; name: string }) {
 }
 
 function ContactRobot() {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches);
   useEffect(() => {
     const media = window.matchMedia('(max-width: 760px)');
@@ -186,17 +184,10 @@ function ContactRobot() {
     media.addEventListener('change', update);
     return () => media.removeEventListener('change', update);
   }, []);
-  useEffect(() => {
-    const frame = frameRef.current;
-    if (!frame) return;
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.01 });
-    observer.observe(frame);
-    return () => observer.disconnect();
-  }, [isMobile]);
   if (isMobile) return null;
-  return <div className={`contact-robot ${inView ? 'is-in-view' : 'is-prewarming'}`} ref={frameRef} aria-label="Interactive robot">{(
+  return <div className="contact-robot" aria-label="Interactive robot">{(
     // @ts-expect-error Spline viewer is a custom element.
-    <spline-viewer url="https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode" style={{ width: '100%', height: '100%' }}/>
+    <spline-viewer loading="eager" url="https://prod.spline.design/WIl33gpqqNooodtF/scene.splinecode" style={{ width: '100%', height: '100%' }}/>
   )}</div>;
 }
 

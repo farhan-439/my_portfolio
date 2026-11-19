@@ -50,9 +50,8 @@
 .contact-section{background:#242529;color:#f6f5f2;padding-top:69px}
 .contact-split{display:grid;grid-template-columns:1fr 1fr;gap:5%;align-items:center;padding-bottom:30px}
 .contact-robot{height:310px;overflow:hidden;border:1px solid #535458;background:#202124;border-radius:16px;position:relative}
-.contact-robot spline-viewer{display:block;width:100%;height:100%;transform:translateY(80px) scale(1.92);transform-origin:99% 50%}
-.contact-robot::after{content:"";position:absolute;inset:0;background:rgba(23,27,30,.24);pointer-events:none}
-.contact-robot.is-prewarming spline-viewer{position:fixed!important;top:80px;left:0;width:min(480px,90vw)!important;height:310px!important;transform:none!important;opacity:.001;pointer-events:none;z-index:-1}
+.contact-robot spline-viewer{display:block;width:100%;height:100%;transform:translateY(80px) scale(1.86);transform-origin:99% 50%}
+.contact-robot::after{content:"";position:absolute;inset:0;background:rgba(23,27,30,.22);pointer-events:none}
 .contact-split .contact-grid{grid-template-columns:1fr;padding:24px 0 0;gap:18px}
 .contact-heading h2{font-size:clamp(34px,3.5vw,46px);line-height:1.1;margin:12px 0 15px}
 .contact-heading h2 span{color:#f1afb2}
