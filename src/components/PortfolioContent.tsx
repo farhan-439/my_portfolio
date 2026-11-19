@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, Copy, Github, Linkedin, Mail, Search, X } from 'lucide-react';
 import joblinkDemo from '../assets/demo1-preview.mp4';
 import avianDemo from '../assets/demo2.mp4';
@@ -193,7 +193,6 @@ function ContactRobot() {
 }
 
 export default function PortfolioContent() {
-  const [message, setMessage] = useState('');
   const [copied, setCopied] = useState(false);
   const [activeProject, setActiveProject] = useState<number | null>(null);
   const [category, setCategory] = useState<(typeof categories)[number]>('All');
@@ -258,11 +257,6 @@ export default function PortfolioContent() {
     }
     if (item.kind === 'section' && item.id) document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
   };
-  const openMail = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    window.location.href = `mailto:fm454@cornell.edu?subject=${encodeURIComponent('Hello from your portfolio')}&body=${encodeURIComponent(message)}`;
-  };
-
   const copyEmail = async () => {
     await navigator.clipboard.writeText('fm454@cornell.edu');
     setCopied(true);
@@ -298,7 +292,7 @@ export default function PortfolioContent() {
 
     <section className="recognition-section portfolio-width" id="awards"><div className="section-heading"><div><span className="section-marker">RECOGNITION</span><h2>Hackathons &amp; competitions<span>.</span></h2></div></div><div className="recognition-list"><a href="#project-medstick"><span>1ST PLACE · 2026</span><strong>Claude Hackathon</strong><p>MedStick · offline clinical guidance with local retrieval and safety checks.</p></a><a href="#project-avianalert"><span>1ST PLACE · 2025</span><strong>Cornell Digital Agriculture Hackathon</strong><p>AvianAlert · poultry disease detection from audio and images.</p></a><a href="https://hackathon.cornell.edu/qatar" target="_blank" rel="noopener noreferrer"><span>SELECTED · QATAR 2025</span><strong>Precision Health AI Hackathon</strong><p>Built a postpartum depression screening prototype with medical students in Doha.</p></a><a href="#project-rock-paper-scissors-ml"><span>6TH OF 94 TEAMS</span><strong>Machine learning competition</strong><p>Rock–Paper–Scissors image matching with a Siamese ResNet.</p></a><div><span>2× BRONZE</span><strong>International Economics Olympiad</strong><p>Represented Bangladesh in 2021 and 2022.</p></div></div></section>
 
-    <section className="contact-section" id="contact"><div className="portfolio-width"><div className="contact-split"><div><div className="contact-heading"><span className="section-marker">CONTACT</span><h2>Contact<span>.</span></h2><p>Email me about engineering, research, or collaboration.</p></div><div className="contact-grid"><div className="social-links"><a href="mailto:fm454@cornell.edu"><Mail size={17}/> Email</a><button type="button" onClick={() => { void copyEmail(); }}>{copied ? <Check size={17}/> : <Copy size={17}/>} {copied ? 'Copied' : 'Copy email'}</button><a href="https://www.linkedin.com/in/farhanmashrur/" target="_blank" rel="noopener noreferrer"><Linkedin size={17}/> LinkedIn</a><a href="https://github.com/farhan-439" target="_blank" rel="noopener noreferrer"><Github size={17}/> GitHub</a></div><form onSubmit={openMail}><label htmlFor="portfolio-message">OR WRITE A NOTE</label><textarea id="portfolio-message" placeholder="Tell me what you're working on..." value={message} onChange={event => setMessage(event.target.value)} required/><button type="submit">OPEN EMAIL DRAFT <ArrowUpRight size={17}/></button></form></div></div><ContactRobot/></div><footer><span>© {new Date().getFullYear()} Farhan Mashrur</span><a href="#top">Back to top ↑</a></footer></div></section>
+    <section className="contact-section" id="contact"><div className="portfolio-width"><div className="contact-split"><div><div className="contact-heading"><h2>Contact<span>.</span></h2><p>Email me about engineering, research, or collaboration.</p></div><div className="contact-grid"><div className="social-links"><a href="mailto:fm454@cornell.edu"><Mail size={17}/> Email</a><button type="button" onClick={() => { void copyEmail(); }}>{copied ? <Check size={17}/> : <Copy size={17}/>} {copied ? 'Copied' : 'Copy email'}</button><a href="https://www.linkedin.com/in/farhanmashrur/" target="_blank" rel="noopener noreferrer"><Linkedin size={17}/> LinkedIn</a><a href="https://github.com/farhan-439" target="_blank" rel="noopener noreferrer"><Github size={17}/> GitHub</a></div></div></div><ContactRobot/></div><footer><span>© {new Date().getFullYear()} Farhan Mashrur</span><a href="#top">Back to top ↑</a></footer></div></section>
 
     {isPastHero && <div className={`site-search ${searchOpen ? 'is-open' : ''}`} ref={searchContainerRef}>
       {searchOpen && <div className="site-search-results" id="site-search-results" aria-live="polite">{terms.length ? matches.length ? <><div className="search-results-label">{matches.length} {matches.length === 1 ? 'RESULT' : 'RESULTS'} FOR “{searchQuery.trim()}”</div>{matches.map((item, index) => <button type="button" className={activeResult === index ? 'is-active' : ''} key={`${item.kind}-${item.index ?? item.id}-${index}`} onMouseEnter={() => setActiveResult(index)} onClick={() => openSearchItem(item)}><span className="result-kind">{item.kind}</span><span className="result-copy"><strong>{item.title}</strong><small>{item.detail}</small></span><ArrowUpRight size={16}/></button>)}</> : <p className="search-empty">No matches. Try a project, company, skill, or award.</p> : <div className="search-suggestions"><span>QUICK SEARCH</span>{['Hackathon', 'Microsoft', 'PyTorch', 'Cornell'].map(term => <button key={term} type="button" onClick={() => { setSearchQuery(term); setActiveResult(0); searchRef.current?.focus(); }}>{term}</button>)}</div>}</div>}
