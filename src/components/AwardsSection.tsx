@@ -82,22 +82,6 @@ const awardsData: Award[] = [
     ]
   },
   {
-    title: "Selected for Startup Accelerator",
-    organization: "Beta University",
-    year: "2025",
-    placement: "Accepted",
-    achievement: "Startup Program",
-    description: "Co-founded JobLink startup selected for competitive accelerator program among hundreds of applicants, focusing on AI-powered job tracking solutions",
-    category: "Startup",
-    orgLink: "https://www.betauniversity.org",
-    links: [
-      {
-        url: "https://joblink.one",
-        label: "JobLink"
-      }
-    ]
-  },
-  {
     title: "Valedictorian",
     organization: "High School",
     year: "2023",

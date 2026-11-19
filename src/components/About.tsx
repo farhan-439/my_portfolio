@@ -22,7 +22,7 @@ const About: React.FC = () => {
               
               <p>
                 I co-founded <a href="https://joblink.one" className="text-blue-400 hover:text-blue-300 transition-colors underline">JobLink</a> this February - an AI job tracker that parses Gmail automatically using NLP.
-                Over 100 students have told me in person how much the automated tracking helps them, and it's been accepted by <a href="https://www.betauniversity.org" className="underline text-blue-400 hover:text-blue-300 transition-colors">Beta University</a>.
+                It brings application updates and reminders into one place.
               </p>
               
               <p>

@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
     { label: 'Projects', href: '#projects' },
     { label: 'Experience', href: '#experience' },
     { label: 'More', href: '#more' },
-    { label: 'Awards', href: '#awards' },
+    { label: 'Competitions', href: '#awards' },
     { label: 'Contact', href: '#contact' },
   ];
 

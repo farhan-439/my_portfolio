@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import Navbar from './components/Navbar';
 import PortfolioContent from './components/PortfolioContent';
+import { Github, Linkedin } from 'lucide-react';
 import './robot-intro.css';
 
 const DesktopHero = lazy(() => import('./components/DesktopHero'));
@@ -19,7 +20,6 @@ const App: React.FC = () => {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
   const [sceneReady, setSceneReady] = useState(false);
   const [introRevealing, setIntroRevealing] = useState(false);
-  const [introDissolving, setIntroDissolving] = useState(false);
   const [introVisible, setIntroVisible] = useState(true);
   const introStarted = useRef(performance.now());
 
@@ -38,11 +38,6 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const fallback = window.setTimeout(() => setIntroRevealing(true), 7000);
-    return () => window.clearTimeout(fallback);
-  }, []);
-
-  useEffect(() => {
     if (!sceneReady) return;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const remaining = Math.max(0, (reducedMotion ? 0 : 950) - (performance.now() - introStarted.current));
@@ -52,16 +47,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (!introRevealing) return;
-    const remaining = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 540;
-    const timer = window.setTimeout(() => setIntroDissolving(true), remaining);
+    const timer = window.setTimeout(() => setIntroVisible(false), 360);
     return () => window.clearTimeout(timer);
   }, [introRevealing]);
-
-  useEffect(() => {
-    if (!introDissolving) return;
-    const timer = window.setTimeout(() => setIntroVisible(false), 260);
-    return () => window.clearTimeout(timer);
-  }, [introDissolving]);
 
   return (
     <div className="bg-white text-black dark:bg-black dark:text-white scroll-smooth">
@@ -69,7 +57,7 @@ const App: React.FC = () => {
         <Suspense fallback={<div className="min-h-screen bg-black" />}>
           {isMobile ? <MobileHero onSceneReady={revealRobot} /> : <DesktopHero onSceneReady={revealRobot} />}
         </Suspense>
-        {introVisible && <div className={`robot-intro ${introRevealing ? 'is-revealing' : ''} ${introDissolving ? 'is-dissolving' : ''}`} aria-live="polite">
+        {introVisible && <div className={`robot-intro ${introRevealing ? 'is-revealing' : ''}`} aria-live="polite">
           <div className="robot-intro-head"><span>FARHAN MASHRUR</span><span>PORTFOLIO / 2027</span></div>
           <div className="robot-intro-center"><span className="robot-intro-kicker">CORNELL UNIVERSITY · MAY 2027</span><svg className="robot-dot-face" viewBox="0 0 240 255" aria-hidden="true">{faceDots.map((dot, index) => {
             const eye = (dot.row === 5 || dot.row === 6) && ((dot.x >= 72 && dot.x <= 104) || (dot.x >= 136 && dot.x <= 168));
@@ -81,6 +69,7 @@ const App: React.FC = () => {
       </section>
       <Navbar />
       <PortfolioContent />
+      <nav className="fixed-socials" aria-label="Social profiles"><a href="https://www.linkedin.com/in/farhanmashrur/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Linkedin size={19}/></a><a href="https://github.com/farhan-439" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Github size={19}/></a></nav>
     </div>
   );
 };
