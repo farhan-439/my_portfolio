@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import Navbar from './components/Navbar';
 import PortfolioContent from './components/PortfolioContent';
-import { Github, Linkedin } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import './robot-intro.css';
 
 const DesktopHero = lazy(() => import('./components/DesktopHero'));
@@ -69,7 +69,7 @@ const App: React.FC = () => {
       </section>
       <Navbar />
       <PortfolioContent />
-      <nav className="fixed-socials" aria-label="Social profiles"><a href="https://www.linkedin.com/in/farhanmashrur/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Linkedin size={19}/></a><a href="https://github.com/farhan-439" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Github size={19}/></a></nav>
+      <nav className="fixed-socials" aria-label="Social profiles"><a href="https://www.linkedin.com/in/farhanmashrur/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedin size={19}/></a><a href="https://github.com/farhan-439" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><FaGithub size={19}/></a></nav>
     </div>
   );
 };
